@@ -8,10 +8,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Shopping" />
+        <module name="FabricChainCode" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Shopping" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

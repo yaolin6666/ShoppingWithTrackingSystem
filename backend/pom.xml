@@ -120,6 +120,13 @@
             <artifactId>alipay-easysdk</artifactId>
             <version>2.2.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.qcloud/cos_api -->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <version>5.6.205</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
