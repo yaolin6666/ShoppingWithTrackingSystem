@@ -10,14 +10,7 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * <p>
- *
- * </p>
- *
- * @author 111
- * @since 2021-06-30
- */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Collection implements Serializable {

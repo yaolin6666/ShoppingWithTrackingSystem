@@ -12,14 +12,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
-/**
- * <p>
- *
- * </p>
- *
- * @author 111
- * @since 2021-06-30
- */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Refund implements Serializable {
@@ -84,15 +77,9 @@ public class Refund implements Serializable {
 
     private String refundImg;
 
-    /**
-     * 创建时间
-     */
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
-    /**
-     * 修改时间
-     */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 

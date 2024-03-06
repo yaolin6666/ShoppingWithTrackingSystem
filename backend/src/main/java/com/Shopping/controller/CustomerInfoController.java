@@ -18,14 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * <p>
- * 用户信息表 前端控制器
- * </p>
- *
- * @author 我自己
- * @since 2021-10-27
- */
+
 @RestController
 @RequestMapping("/customerInfo")
 public class CustomerInfoController {

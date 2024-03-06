@@ -12,14 +12,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
-/**
- * <p>
- *
- * </p>
- *
- * @author 111
- * @since 2021-06-30
- */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Assess implements Serializable {

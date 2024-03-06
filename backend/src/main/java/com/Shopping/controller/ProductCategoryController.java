@@ -16,14 +16,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
-/**
- * <p>
- * 分类信息表 前端控制器
- * </p>
- *
- * @author 我自己
- * @since 2021-11-15
- */
+
 @RestController
 @RequestMapping("/productCategory")
 public class ProductCategoryController {

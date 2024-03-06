@@ -14,14 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * <p>
- * 评论 前端控制器
- * </p>
- *
- * @author 我自己
- * @since 2021-11-13
- */
+
 @RestController
 @RequestMapping("/comment")
 public class CommentController {

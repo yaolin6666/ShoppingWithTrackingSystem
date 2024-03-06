@@ -10,14 +10,7 @@ import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author 111
- * @since 2021-06-30
- */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Good implements Serializable {

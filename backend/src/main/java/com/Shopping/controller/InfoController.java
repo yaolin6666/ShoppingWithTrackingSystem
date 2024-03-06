@@ -15,14 +15,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
-/**
- * <p>
- *  前端控制器
- * </p>
- *
- * @author 111
- * @since 2021-06-30
- */
+
 @RestController
 @RequestMapping("/info")
 public class InfoController {

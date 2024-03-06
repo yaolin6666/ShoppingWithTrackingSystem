@@ -11,14 +11,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * 评论
- * </p>
- *
- * @author 我自己
- * @since 2021-11-13
- */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="Comment对象", description="评论")

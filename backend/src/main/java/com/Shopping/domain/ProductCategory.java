@@ -9,14 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * 分类信息表
- * </p>
- *
- * @author 我自己
- * @since 2021-11-15
- */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="ProductCategory对象", description="分类信息表")

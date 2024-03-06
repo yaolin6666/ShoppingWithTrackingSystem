@@ -12,14 +12,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * <p>
- * 分类信息表 服务实现类
- * </p>
- *
- * @author 我自己
- * @since 2021-11-15
- */
+
 @Service
 public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMapper, ProductCategory> implements ProductCategorySerivce {
     @Resource

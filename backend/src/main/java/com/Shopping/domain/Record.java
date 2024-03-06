@@ -11,14 +11,7 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * <p>
- *
- * </p>
- *
- * @author 我自己
- * @since 2021-11-19
- */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="Brand对象", description="")

@@ -15,14 +15,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * <p>
- * 用户信息表
- * </p>
- *
- * @author 我自己
- * @since 2021-10-27
- */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="CustomerInfo对象", description="用户信息表")
