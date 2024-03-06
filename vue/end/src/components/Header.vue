@@ -4,13 +4,13 @@
     </div>
     <div style="flex: 1;"></div>
     <i class="el-icon-message-solid" style="color: white;margin:13px 30px;font-size: 30px"  @click="open"/>
-    <div style="width: 100px;margin-right: 50px">
+    <div style="width: 200px;margin-right: 5px">
 
       <el-dropdown trigger="click">
-            <span class="el-dropdown-link">
-              <el-avatar style="width: 45px;height: 45px;margin: 2px 5px" :src="avatars"/>
-              <div style="color: white;margin-top: 20px;float: right;font-size: 18px">{{name}}</div>
-            </span>
+        <span class="el-dropdown-link">
+          <el-avatar style="width: 45px;height: 45px;margin: 2px 5px;float:left" :src="avatars"/>
+          <div style="color: white;margin-top: 20px;float: right;font-size: 12px">{{name}}</div>
+        </span>
         <template #dropdown>
           <el-dropdown-menu >
             <div @click="onSubmitss"><el-dropdown-item @click="$router.push('/login')">退出系统</el-dropdown-item></div>
@@ -42,7 +42,6 @@ export default {
     this.avatars=JSON.parse(sessionStorage.getItem('userInfo')).avatar
     this.name=JSON.parse(sessionStorage.getItem('userInfo')).customerName
     this.username=JSON.parse(sessionStorage.getItem('userInfo')).username
-
   },
   methods:{
 

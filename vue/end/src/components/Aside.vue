@@ -23,7 +23,7 @@
         <el-menu-item-group>
           <el-menu-item index="/user">用户管理</el-menu-item>
           <el-menu-item index="/userinfo">用户信息管理</el-menu-item>
-          <el-menu-item index="/address">地址管理</el-menu-item>
+          <el-menu-item index="/userAssign">审核申请</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
       <el-sub-menu index="2">
@@ -33,11 +33,8 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/product">商品信息管理</el-menu-item>
-          <el-menu-item index="/category">商品分类管理</el-menu-item>
-          <el-menu-item index="/collections">收藏商品管理</el-menu-item>
-          <el-menu-item index="/wantbuyinfor">购物车管理</el-menu-item>
+          <el-menu-item index="/origin">商品货源管理</el-menu-item>
           <el-menu-item index="/notice">商品描述管理</el-menu-item>
-          <el-menu-item index="/footprints">足迹管理</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
       <el-sub-menu index="3">
@@ -47,7 +44,6 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/useraddr">等待发货管理</el-menu-item>
-          <el-menu-item index="/userwallet">发货中管理</el-menu-item>
           <el-menu-item index="/collection">确认发货管理</el-menu-item>
           <el-menu-item index="/refund">退款管理</el-menu-item>
           <el-menu-item index="/order">等待评价</el-menu-item>

@@ -18,7 +18,7 @@ mybatis-plus:
 shiro-redis:
   enable: true
   redis-manager:
-    host: 127.0.0.1:6379
+    host: 192.168.42.131:6379
 markerhub:
   jwt:
     #加密的盐

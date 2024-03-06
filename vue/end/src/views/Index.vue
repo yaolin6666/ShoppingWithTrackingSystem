@@ -33,8 +33,8 @@
       </el-row>
     </div>
   <div style="width: 100%;height: 500px;display: flex">
-    <div ref="chart2" style="width: 600px;height: 500px;margin-left: 50px"></div>
-    <div ref="chart1" style="width: 650px;height: 500px;"></div>
+<!--    <div ref="chart2" style="width: 600px;height: 500px;margin-left: 50px"></div>-->
+    <div ref="chart1" style="width: 800px;margin-left: 10%;height: 500px;"></div>
   </div>
 </div>
 </template>

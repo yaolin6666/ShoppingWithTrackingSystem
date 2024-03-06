@@ -16,9 +16,6 @@
     </template>
     <el-button slot="append" icon="el-icon-search"  @click="sreach"></el-button>
   </el-autocomplete>
-
-
-      <div class="rr"><Tag v-for="(item, index) in promotionTags" :key="item.name" closable  @on-close="closeTags(index)"><span @click="selectTags(item.name)">{{item.name}}</span></Tag></div>
     </div>
     <slot></slot>
   </div>
@@ -30,60 +27,56 @@ export default {
   name: 'Search',
   data () {
     return {
-      admin:[],
+      admin: [],
       searchs: '',
-       currentPage: 1,
+      currentPage: 1,
       pageSize: 101,
       total: 0,
 
       promotionTags: [
-       {name:'手机'},
-       {name:'电脑'},
-       {name:'相机'},
-       {name:'耳机'},
-       {name:'智能'},
-       {name:'办公本'},
-       {name:'4G手机'},
-       {name:'游戏本'},
-       {name:'鼠标 '}
+        {name: '手机'},
+        {name: '电脑'},
+        {name: '相机'},
+        {name: '耳机'},
+        {name: '智能'},
+        {name: '办公本'},
+        {name: '4G手机'},
+        {name: '游戏本'},
+        {name: '鼠标 '}
 
-        ],
-         keywords: "",
+      ],
+      keywords: '',
       list: [
         {
-          name: "张三"
+          name: '张三'
         },
         {
-          name: "李四"
+          name: '李四'
         }
       ]
     };
   },
   methods: {
 
-
-
-
-    lode() {
-
+    lode () {
+      // eslint-disable-next-line no-undef
       axios
-        .get("http://localhost:8888/info/page", {
+        .get('http://localhost:8888/info/page', {
           params: {
             pageNum: this.currentPage,
             pageSize: this.pageSize,
-            search: this.search,
-          },
+            search: this.search
+          }
         })
         .then((res) => {
           console.log(res);
           this.admin = res.data.data.records;
-           this.list1 = res.data.data.records;
+          this.list1 = res.data.data.records;
           this.total = res.data.data.total;
         });
-
     },
 
-      querySearchAsync(queryString, cb) {
+    querySearchAsync (queryString, cb) {
       let result = this.admin.filter(item => {
         if (item.productName.indexOf(queryString) > -1) {
           return true;
@@ -93,31 +86,29 @@ export default {
       cb(result);
     },
 
-    handleSelect(item) {
-      this.searchs=item.productName
+    handleSelect (item) {
+      this.searchs = item.productName;
       console.log(item.productName);
     },
-
 
     closeTags (index) {
       this.promotionTags.splice(index, 1);
     },
     selectTags (name) {
       this.$router.push({path: '/merchant', query: { sreachData: name }});
-
     },
     sreach () {
-      if(!this.searchs){
-        location.reload()
-      }else{
-      this.$router.push({path: '/merchant', query: { sreachData: this.searchs }});
+      if (!this.searchs) {
+        location.reload();
+      } else {
+        this.$router.push({path: '/merchant', query: { sreachData: this.searchs }});
       }
     }
   },
-  created(){
+  created () {
     this.lode();
   },
-  components:{
+  components: {
 
   }
 };
@@ -134,8 +125,6 @@ export default {
 .container .el-autocomplete{
   width: 700px;
   margin-left: 605px;
-
-
 
 }
 .sreach {

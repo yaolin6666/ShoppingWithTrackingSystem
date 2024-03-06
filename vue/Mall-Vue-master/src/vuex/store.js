@@ -8,7 +8,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 
-
   state: {
     isLoading: false, // 是否展示loading动画
     orderBy: 'sale', // 根据什么字段排序

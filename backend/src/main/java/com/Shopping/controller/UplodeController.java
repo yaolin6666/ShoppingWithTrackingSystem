@@ -5,6 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 
 import com.Shopping.common.lang.Result;
+import com.Shopping.util.TencentCOSUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,22 +19,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/files")
 public class UplodeController {
-    @Value("${server.port}")
-    private String port;
-
-    private static final String ip = "http://localhost";
-
     @PostMapping("/uplode")
     public Result<?> uplode(MultipartFile file) throws IOException {
-        String originalFilename = file.getOriginalFilename();//获取源文件名称
-        //定义文件唯一标识（前缀）
-        String uuid = IdUtil.fastSimpleUUID();
-        String rootFilePath = System.getProperty("user.dir") + "/src/main/resources/files/" + uuid + "_" + originalFilename;//获取上传路径
-        FileUtil.writeBytes(file.getBytes(),rootFilePath);//把文件写入上传路径
-        return Result.success(ip + ":" + port + "/files/" + uuid);//返回url
 
+        String url=TencentCOSUtil.upLoadFile(file);
+        return Result.success(url);
     }
-
     @GetMapping("/{uuid}")
     public void getFiles(HttpServletResponse response, @PathVariable String uuid){
         OutputStream os;//新建输出流对象

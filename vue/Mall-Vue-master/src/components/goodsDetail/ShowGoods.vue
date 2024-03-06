@@ -16,14 +16,6 @@
         <div class="item-detail-img-row">
           <div
             class="item-detail-img-smalls">
-            <!-- <div
-              class="item-detail-img-small"
-              v-for="(item, index) in goodsInfo.goodsImg"
-              :key="index"
-              @mouseover="showBigImg(index)"
-            >
-              <img :src="item" alt="" />
-            </div> -->
           </div>
         </div>
       </div>
@@ -34,70 +26,14 @@
             {{ admin.productName }}
           </p>
         </div>
-        <div class="item-detail-tag">
-          <p>
-            <span
-            >【满69-20元】</span
-            >
-            <span
-            >【关注产品★送钢化膜】</span
-            >
-            <span
-            >【BIT配次日达】</span
-            >
-
-          </p>
-        </div>
         <div class="item-detail-price-row">
           <div class="item-price-left">
             <div class="item-price-row">
               <p>
-                <span class="item-price-title">B I T 价</span>
+                <span class="item-price-title">价格</span>
                 <span class="item-price">￥{{ admin.productPrice}}</span>
               </p>
             </div>
-            <div class="item-price-row">
-              <p>
-                <span class="item-price-title">优 惠 价</span>
-                <span
-                  class="item-price-full-cut"
-
-
-                >满148减10</span
-                >
-                <span
-                  class="item-price-full-cut"
-
-
-                >满218减20</span
-                >
-                <span
-                  class="item-price-full-cut"
-
-
-                >满288减30</span
-                >
-
-              </p>
-            </div>
-            <div class="item-price-row">
-              <p>
-                <span class="item-price-title"
-                >促&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销</span
-                >
-                <span
-                  class="item-price-full-cut"
-
-                >跨店满减</span
-                >
-                <span
-                  class="item-price-full-cut"
-
-                >多买优惠</span
-                >
-              </p>
-            </div>
-
           </div>
           <div class="item-price-right">
             <div class="item-remarks-sum">
@@ -134,27 +70,9 @@
                              :max="admin.productMnum"></el-input-number>
           </sapn>
         </p>
-        <!-- 白条分期 -->
-        <!-- <div class="item-select">
-          <div class="item-select-title">
-            <p>白条分期</p>
-          </div>
-          <div class="item-select-row">
-            <div
-              class="item-select-class"
-              v-for="(item, index) in hirePurchase"
-              :key="index"
-            >
-              <Tooltip :content="item.tooltip" placement="top-start">
-                <span>{{ item.type }}</span>
-              </Tooltip>
-            </div>
-          </div>
-        </div> -->
         <br/>
         <div class="add-buy-car-box">
           <div class="add-buy-car">
-            <!-- <InputNumber :min="1" v-model="count" size="large"></InputNumber> -->
             <Button type="error" size="large" @click="onSubmit('fruitRules')"
             >加入购物车
             </Button
@@ -166,21 +84,6 @@
             </span>
           </div>
         </div>
-        <!-- <div v-theme:column="'narrow'" class="ss">
-          <h1>sdas</h1>
-          <input v-model="search" placeholder="请输入内容" />
-          <div
-            v-for="blog in filteredBlogs"
-            :data="blogs"
-            :key="blog"
-            border
-            style="width: 100%"
-            class="sss"
-          >
-          <h1>{{blog.title}}</h1>
-            <article>{{ blog.body }}</article>
-          </div>
-        </div> -->
         <el-popover
           placement="top"
           width="1000"
@@ -255,7 +158,6 @@
 
         </el-popover>
 
-
       </div>
     </div>
   </div>
@@ -263,155 +165,154 @@
 
 <script>
 
-  import store from '@/store/index';
-  import {mapState, mapActions} from 'vuex';
+import store from '@/store/index';
+import {mapState} from 'vuex';
 
-  export default {
-    name: 'ShowGoods',
-    data () {
-      return {
-        inject: ['reload'],
-        total: 0,
-        blogs: [],
-        admin: [],
-        price: 0,
-        admins: [],
-        count: 1,
-        selectBoxIndex: 0,
-        imgIndex: 0,
-        search: '',
-        id: this.$route.params.id,
-        ids: this.$store.state.userInfo.id,
+export default {
+  name: 'ShowGoods',
+  data () {
+    return {
+      inject: ['reload'],
+      total: 0,
+      blogs: [],
+      admin: [],
+      price: 0,
+      admins: [],
+      count: 1,
+      selectBoxIndex: 0,
+      imgIndex: 0,
+      search: '',
+      id: this.$route.params.id,
+      ids: this.$store.state.userInfo.id
 
-      };
-    },
-    computed: {
-      ...mapState(['userInfo', 'shoppingCart']),
-      filteredBlogs: function () {
-        return this.blogs.filter((blog) => {
-          return blog.title.match(this.search);
+    };
+  },
+  computed: {
+    ...mapState(['userInfo', 'shoppingCart']),
+    filteredBlogs: function () {
+      return this.blogs.filter((blog) => {
+        return blog.title.match(this.search);
+      });
+    }
+
+  },
+  methods: {
+    lode () {
+      // eslint-disable-next-line no-undef
+      axios
+        .get('http://localhost:8888/comment/find/' + this.id, {})
+        .then((res) => {
+          console.log(res);
+          this.admins = res.data.data.records;
+          this.total = res.data.data.total;
         });
-      },
-
     },
-    methods: {
 
-      lode () {
-        axios
-          .get('http://localhost:8888/comment/find/' + this.id, {})
-          .then((res) => {
-            console.log(res);
-            this.admins = res.data.data.records;
-            this.total = res.data.data.total;
-          });
-      },
-
-      handleChange (value) {
-        console.log(value);
-      },
-
-      onSubmit (formName) {
-        this.admin.customerId = this.ids;
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            let _this = this;
-            axios
-              .post('http://localhost:8888/shopping/add', this.admin)
-              .then(function (response) {
-                if (response.data) {
-                  _this.$alert('添加成功！', '加入购物车', {
-                    confirmButtonText: '确定',
-                    callback: (action) => {
-                      //跳转到/table
-
-                      location.reload();
-
-                    },
-
-                  });
-
-                }
-              });
-          }
-        });
-      },
-
-      onSubmits (formName) {
-        this.admin.customerId = this.ids;
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            let _this = this;
-            axios
-              .post('http://localhost:8888/collection/add', this.admin)
-              .then(function (response) {
-                if (response.data) {
-                  _this.$alert('收藏成功！', '收藏商品', {
-                    confirmButtonText: '确定',
-                    callback: (action) => {
-                      //跳转到/table
-                      location.reload();
-                    },
-                  });
-                }
-              });
-          }
-        });
-      },
-
-      select (index1, index2) {
-        this.selectBoxIndex = index1 * 3 + index2;
-        this.price = this.goodsInfo.setMeal[index1][index2].price;
-      },
-      showBigImg (index) {
-        this.imgIndex = index;
-      },
-      addShoppingCartBtn () {
-        const index1 = parseInt(this.selectBoxIndex / 3);
-        const index2 = this.selectBoxIndex % 3;
-        const date = new Date();
-        const goodsId = date.getTime();
-        const data = {
-          goods_id: goodsId,
-          title: this.goodsInfo.title,
-          count: this.count,
-          package: this.goodsInfo.setMeal[index1][index2],
-        };
-        this.addShoppingCart(data);
-        this.$router.push('/shoppingCart');
-      },
+    handleChange (value) {
+      console.log(value);
     },
-    mounted () {
-      const father = this;
-      setTimeout(() => {
-        father.price = father.goodsInfo.setMeal[0][0].price || 0;
-      }, 300);
-    },
-    created () {
-      console.log(this.ids);
-      this.lode();
-      const _this = this;
-      this.$axios
-        .get('http://jsonplaceholder.typicode.com/posts')
-        .then(function (resp) {
-          _this.blogs = resp.data.slice(0, 10);
 
-          console.log(resp);
-        });
+    onSubmit (formName) {
+      this.admin.customerId = this.ids;
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let _this = this;
+          // eslint-disable-next-line no-undef
+          axios
+            .post('http://localhost:8888/shopping/add', this.admin)
+            .then(function (response) {
+              if (response.data) {
+                _this.$alert('添加成功！', '加入购物车', {
+                  confirmButtonText: '确定',
+                  callback: (action) => {
+                    // 跳转到/table
 
-      this.$axios.get('http://localhost:8888/info/find/' + this.id).then(function (resp) {
-        _this.admin = resp.data;
+                    location.reload();
+                  }
 
-        console.log(resp);
+                });
+              }
+            });
+        }
       });
     },
 
-    store,
+    onSubmits (formName) {
+      this.admin.customerId = this.ids;
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let _this = this;
+          // eslint-disable-next-line no-undef
+          axios
+            .post('http://localhost:8888/collection/add', this.admin)
+            .then(function (response) {
+              if (response.data) {
+                _this.$alert('收藏成功！', '收藏商品', {
+                  confirmButtonText: '确定',
+                  callback: (action) => {
+                    // 跳转到/table
+                    location.reload();
+                  }
+                });
+              }
+            });
+        }
+      });
+    },
 
-  };
+    select (index1, index2) {
+      this.selectBoxIndex = index1 * 3 + index2;
+      this.price = this.goodsInfo.setMeal[index1][index2].price;
+    },
+    showBigImg (index) {
+      this.imgIndex = index;
+    },
+    addShoppingCartBtn () {
+      const index1 = parseInt(this.selectBoxIndex / 3);
+      const index2 = this.selectBoxIndex % 3;
+      const date = new Date();
+      const goodsId = date.getTime();
+      const data = {
+        goods_id: goodsId,
+        title: this.goodsInfo.title,
+        count: this.count,
+        package: this.goodsInfo.setMeal[index1][index2]
+      };
+      this.addShoppingCart(data);
+      this.$router.push('/shoppingCart');
+    }
+  },
+  mounted () {
+    const father = this;
+    setTimeout(() => {
+      father.price = father.goodsInfo.setMeal[0][0].price || 0;
+    }, 300);
+  },
+  created () {
+    console.log(this.ids);
+    this.lode();
+    const _this = this;
+    this.$axios
+      .get('http://jsonplaceholder.typicode.com/posts')
+      .then(function (resp) {
+        _this.blogs = resp.data.slice(0, 10);
+
+        console.log(resp);
+      });
+
+    this.$axios.get('http://localhost:8888/info/find/' + this.id).then(function (resp) {
+      _this.admin = resp.data;
+
+      console.log(resp);
+    });
+  },
+
+  store
+
+};
 </script>
 
 <style scoped>
-  /******************商品图片及购买详情开始******************/
   .item-detail-show {
     width: 80%;
     margin: 15px auto;

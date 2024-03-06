@@ -4,13 +4,9 @@
  <Search></Search>
     <GoodsListNav></GoodsListNav>
 <!-- 管理员管理 -->
-  <div class="userindex">
+    <div class="userindex">
     <el-backtop  :bottom="10" :right="0">
-  <div
-      class="rt"
-    >
-      返回顶部
-    </div>
+    <div class="rt">返回顶部</div>
  </el-backtop>
 
     <!-- 搜索条件 -->
@@ -25,19 +21,12 @@
           class="userindex-queryInfo-li"
           v-model="search"
           clearable
-
-
-
           size="small"
           placeholder="请输入商品名称"
         ></el-input>
       </el-col>
-
         <el-col :xs="6" :sm="4" :md="3" :lg="2" :xl="2">
-        <el-button  class="userindex-queryInfo-li" size="small" @click="lode()"
-          >搜 索</el-button
-        >
-
+        <el-button  class="userindex-queryInfo-li" size="small" @click="lode()">搜 索</el-button>
       </el-col>
       <div class="ss" >
       <el-popconfirm title="确认删除吗?" @confirm="deleteBatch" >
@@ -109,7 +98,6 @@
               >
               </el-button>
 
-
               <el-button
                 type="danger"
 
@@ -145,97 +133,82 @@
 
 <script>
 import store from '@/store/index';
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 import Search from '@/components/Search';
 import GoodsListNav from '@/components/nav/GoodsListNav';
+import axios from '../plugins/axios';
 export default {
-  name:"Notice",
+  name: 'Notice',
 
-  created() {
-    this.lode()
-    console.log(this.idss)
-    // const _this = this;
-    // axios.get("http://localhost:8888/shopping/findAll").then(function (resp) {
-    //   _this.notice = resp.data;
-    //   console.log(resp);
-    //   //   alert(resp);
-    //   _this.tableData = resp.data.content;
-    //   _this.pageSize = resp.data.size;
-    //   _this.total = resp.data.totalElements;
-    // });
+  created () {
+    this.lode();
+    console.log(this.idss);
   },
 
   methods: {
-    onSubmitss(admin) {
-      admin.customerId=this.idss
-      this.product=admin;
+    onSubmitss (admin) {
+      admin.customerId = this.idss;
+      this.product = admin;
+      axios
+        .post('http://localhost:8888/img/add', this.product)
+        .then(function (response) {
+          console.log(this.product);
+        });
+    },
 
-
-          let _this = this;
-          axios
-            .post("http://localhost:8888/img/add", this.product)
-            .then(function (response) {
-              console.log(this.product)
-            });
-
-      },
-
-lode() {
-      axios.get("http://localhost:8888/shopping/finds/"+ this.idss, {
+    lode () {
+      axios.get('http://localhost:8888/shopping/finds/' + this.idss, {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          search: this.search,
+          search: this.search
         }
       }).then(res => {
         console.log(res);
-        this.notice = res.data.data.records
-        this.total = res.data.data.total
-      })
-
+        this.notice = res.data.data.records;
+        this.total = res.data.data.total;
+      });
     },
-handleSizeChange(pageSize) {//改变每页的个数触发
-      this.pageSize = pageSize
-      this.lode()
-
+    handleSizeChange (pageSize) { // 改变每页的个数触发
+      this.pageSize = pageSize;
+      this.lode();
     },
-    handleCurrentChange(pageNum) {//改变当前页码触发
-      this.currentPage = pageNum
-      this.lode()
-
+    handleCurrentChange (pageNum) { // 改变当前页码触发
+      this.currentPage = pageNum;
+      this.lode();
     },
- handleSelectionChange(val) {
-      this.ids = val.map(v => v.orderDetailId)
-      this.po = val.map(v => v)
-      console.log(this.po)
+    handleSelectionChange (val) {
+      this.ids = val.map(v => v.orderDetailId);
+      this.po = val.map(v => v);
+      console.log(this.po);
     },
-    //添加
-    add(row) {
+    // 添加
+    add (row) {
       this.$router.push('/order?orderDetailId=' + row.orderDetailId);
     },
-      //修改
-    edit(row) {
-      this.$router.push('/goodsDetail/'+row.productId)
+    // 修改
+    edit (row) {
+      this.$router.push('/goodsDetail/' + row.productId);
     },
-    //删除
-    del(row) {
+    // 删除
+    del (row) {
       let _this = this;
-      this.$confirm("是否确定要删除" , {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('是否确定要删除', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
           axios
-            .delete("http://localhost:8888/shopping/delete/" + row.orderDetailId)
+            .delete('http://localhost:8888/shopping/delete/' + row.orderDetailId)
             .then(function (response) {
               if (response.data) {
-                _this.$alert("删除成功!", "删除数据", {
-                  confirmButtonText: "确定",
+                _this.$alert('删除成功!', '删除数据', {
+                  confirmButtonText: '确定',
                   callback: (action) => {
-                    //跳转到 /table
+                    // 跳转到 /table
                     location.reload();
-                  },
+                  }
                 });
               }
             });
@@ -243,77 +216,56 @@ handleSizeChange(pageSize) {//改变每页的个数触发
         .catch(() => {});
     },
 
-
-     deleteBatch(){
-       let _this = this;
-      if (!this.ids.length){
-         _this.$alert("请先进行选择商品删除!", {
-                  confirmButtonText: "确定",
-                  callback: (action) => {
-                    //跳转到 /table
-                    location.reload();
-                  },
-                });
-        return
+    deleteBatch () {
+      let _this = this;
+      if (!this.ids.length) {
+        _this.$alert('请先进行选择商品删除!', {
+          confirmButtonText: '确定',
+          callback: (action) => {
+            // 跳转到 /table
+            location.reload();
+          }
+        });
+        return;
       }
 
-      axios.post("/shopping/deleteBatch",this.ids).then(function (response) {
-              if (response.data) {
-                _this.$alert("删除成功!", "删除数据", {
-                  confirmButtonText: "确定",
-                  callback: (action) => {
-                    //跳转到 /table
-                    location.reload();
-                  },
-                });
-              }
-            });
+      axios.post('/shopping/deleteBatch', this.ids).then(function (response) {
+        if (response.data) {
+          _this.$alert('删除成功!', '删除数据', {
+            confirmButtonText: '确定',
+            callback: (action) => {
+              // 跳转到 /table
+              location.reload();
+            }
+          });
+        }
+      });
     },
-    hh(){
-       this.$router.push({path: '/hh', query: { sps: this.po }});
+    hh () {
+      this.$router.push({path: '/hh', query: { sps: this.po }});
     }
-    // page(currentPage){
-    //         const _this=this;
-    //         axios.get('http://localhost:8181/stock/findAll/'+(currentPage-1)+'/3').then(function (resp) {
-    //             _this.tableData=resp.data.content;
-    //             _this.pageSize=resp.data.size;
-    //             _this.total=resp.data.totalElements;
-    //         })
-    //     }
-    // page(currentPage) {
-    //   switch (currentPage) {
-    //     case 1:
-    //       this.tableData = [
-    //         {
-    //           id: goodId,
-    //           name: good_name,
-    //         },
-    //       ];
-    //   }
-    // },
   },
-components: {
+  components: {
     Search,
     GoodsListNav,
-    store,
+    store
 
   },
-  computed:{
-    ...mapState(['userInfo', 'shoppingCart']),
+  computed: {
+    ...mapState(['userInfo', 'shoppingCart'])
 
   },
-  data() {
+  data () {
     return {
-      idss:this.$store.state.userInfo.id,
-      po:[],
-      product:[],
+      idss: this.$store.state.userInfo.id,
+      po: [],
+      product: [],
       queryInfo: {
-        name: "",
-        type: "",
+        name: '',
+        type: ''
 
       },
-       search: '',
-     currentPage: 1,
+      currentPage: 1,
       pageSize: 12,
       total: 0,
       tableData: [],
@@ -323,10 +275,10 @@ components: {
       form: {
 
       },
-      formLabelWidth: "120px",
-      search:""
+      formLabelWidth: '120px',
+      search: ''
     };
-  },
+  }
 };
 </script>
 
@@ -337,7 +289,6 @@ components: {
   min-height: 100%;
   padding: 30px;
   /* box-sizing: border-box; */
-
 
 }
 /* 搜索 */
@@ -355,7 +306,6 @@ margin-top: 20px;
   color: aliceblue;
   font-size: 15px;
   background:  rgb(255, 102, 0);
-
 
 }
 /* 列表 */

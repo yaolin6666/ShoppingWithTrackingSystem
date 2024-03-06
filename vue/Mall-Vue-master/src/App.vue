@@ -13,31 +13,30 @@ import Header from '@/components/header/Header';
 import Footer from '@/components/footer/Footer';
 export default {
   name: 'App',
-  provide(){
-    return{
-        reload: this.reload
-    }
+  provide () {
+    return {
+      reload: this.reload
+    };
   },
   data () {
     return {
-      isReload:true,
-      excludeRoutes: ['HomeIndex', 'MyAddress', 'AddAddress', 'MyOrder', 'MyShoppingCart','Orders','Login','SignUp'],
-       excludeRoutess: ['Login','SignUp']
-
+      isReload: true,
+      excludeRoutes: ['HomeIndex', 'MyAddress', 'AddAddress', 'MyOrder', 'MyShoppingCart', 'Orders', 'Login', 'SignUp'],
+      excludeRoutess: ['Login', 'SignUp']
 
     };
   },
-  methods:{
-        reload(){
-        this.isRouterAlive = false;
-        this.$nextTick(function () {
-          this.isReload = true
-        });
+  methods: {
+    reload () {
+      this.isRouterAlive = false;
+      this.$nextTick(function () {
+        this.isReload = true;
+      });
     }
   },
   components: {
     Header,
-    Footer,
+    Footer
 
   }
 };
