@@ -10,10 +10,7 @@
             <DropdownMenu slot="list">
               <div class="city">
 
-
   <baidu-map class="bm-view" :center="center" :zoom="zoom" @ready="handler"></baidu-map>
-
-
 
               </div>
             </DropdownMenu>
@@ -27,32 +24,37 @@
         <li v-show="!!username">
           <Dropdown>
             <div class="username-p">
-               <li class="first" v-show="!admin.customerName">
-          <span>请设置昵称</span>
-        </li>
-        <li class="first" v-show="!admin.avatar">
-          <span>请设置头像</span>
-        </li>
-               <p class="username"><span  style="font-size:18px;">{{admin.customerName}} </span></p>
-               <span ><img :src="admin.avatar" width="40px" height="40px" style="border-radius: 50px; box-shadow: 0 4px 8px rgba(0, 0, 0, .22), 0 0 12px rgba(0, 0, 0, .14);"></span>
+              <li class="first" v-show="!admin.customerName">
+                <span>请设置昵称</span>
+              </li>
+              <li class="first" v-show="!admin.avatar">
+                <span>请设置头像</span>
+              </li>
+              <p class="username">
+                <span style="font-size:18px;">{{admin.customerName}}</span>
+              </p>
+              <span>
+                <img :src="admin.avatar" width="40px" height="40px" style="border-radius: 50px; box-shadow: 0 4px 8px rgba(0, 0, 0, .22), 0 0 12px rgba(0, 0, 0, .14);">
+              </span>
             </div>
             <DropdownMenu slot="list">
-                <div class="my-page">
-                  <div class="my-info" @click="myInfo">
-                    <Icon type="home"></Icon>
-                    <p>我的主页</p>
-                  </div>
+              <div class="my-page">
+                <div class="my-info" @click="myInfo">
+                  <Icon type="home"></Icon>
+                  <p>我的主页</p>
+                </div>
 
-                  <div class="sign-out" @click="signOutFun">
-                    <div @click="onSubmitss">
+                <div class="sign-out" @click="signOutFun">
+                  <div @click="onSubmitss">
                     <Icon type="log-out" ></Icon>
                     <p>退出登录</p>
                   </div>
-                  </div>
                 </div>
+              </div>
             </DropdownMenu>
           </Dropdown>
         </li>
+        <li><router-link to="/Index">网站导航</router-link></li>
         <li>
           <Dropdown  placement="bottom-start">
             <a href="javascript:void(0)">
@@ -114,9 +116,9 @@
             </DropdownMenu>
           </Dropdown>
         </li>
-        <li><router-link to="/Index">网站导航</router-link></li>
+        <li><router-link to="/orders">我的订单</router-link></li>
+        <li><router-link to="/orders">社群交流</router-link></li>
         <li><router-link to="/freeback">意见反馈</router-link></li>
-         <li><router-link to="/add">我要卖商品</router-link></li>
          <li><router-link to="/myfootprint">我的足迹</router-link></li>
     <li>
         <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3364469827&site=qq&menu=yes" >联系客服</a>
@@ -135,33 +137,33 @@ import { mapState, mapActions } from 'vuex';
 export default {
   name: 'M-Header',
   created () {
-     const _this = this;
+    const _this = this;
 
     this.$axios
-      .get("http://localhost:8888/customerInfo/find/" + this.id)
+      .get('http://localhost:8888/customerInfo/find/' + this.id)
       .then(function (resp) {
         _this.admin = resp.data;
 
         console.log(resp);
       });
 
-   this.lode()
+    this.lode();
     this.isLogin();
   },
   data () {
     return {
-      recordNr:"退出前台",
+      recordNr: '退出前台',
       center: {lng: 0, lat: 0},
       zoom: 3,
-      product:[],
-      admin:[],
-      ruleForm:{},
-       username:this.$store.state.userInfo.username,
-       customerName:this.$store.state.userInfo.customerName,
-      id:this.$store.state.userInfo.id,
-      avatar:this.$store.state.userInfo.avatar,
-       search: '',
-     currentPage: 1,
+      product: [],
+      admin: [],
+      ruleForm: {},
+      username: this.$store.state.userInfo.username,
+      customerName: this.$store.state.userInfo.customerName,
+      id: this.$store.state.userInfo.id,
+      avatar: this.$store.state.userInfo.avatar,
+      search: '',
+      currentPage: 1,
       pageSize: 5,
       total: 0,
       city: '珠海',
@@ -171,73 +173,66 @@ export default {
         ['江西', '四川', '海南', '贵州', '云南'],
         ['西藏', '陕西', '甘肃', '青海', '珠海']
       ],
-      notice:[]
+      notice: []
     };
   },
   computed: {
     ...mapState(['userInfo', 'shoppingCart'])
   },
   methods: {
-    onSubmitss() {
-      this.ruleForm.username=this.username
+    onSubmitss () {
+      this.ruleForm.username = this.username;
 
-this.ruleForm.recordNr=this.recordNr
+      this.ruleForm.recordNr = this.recordNr;
 
-
-          let _this = this;
-          axios
-            .post("http://localhost:8888/record/add", this.ruleForm)
-
-        },
-
-
-     handler ({BMap, map}) {
-      console.log(BMap, map)
-      this.center.lng = 108.196015
-      this.center.lat = 22.837699
-      this.zoom = 35
-    },
-    onSubmits(admin) {
-       admin.customerId=this.id
-      this.product=admin;
-
-
-          let _this = this;
-          axios
-            .post("http://localhost:8888/img/add", this.product)
-            .then(function (response) {
-              console.log(this.product)
-            });
-
-      },
-
-    ju(){
-
-         if (location.href.indexOf("#") == -1) {
-                location.href = location.href + "#";
-                location.reload();
-            }
-
-  },
-
-    goodsDelete(orderDetailId) {
       let _this = this;
-      this.$confirm("是否确定要删除", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      axios
+        .post('http://localhost:8888/record/add', this.ruleForm);
+    },
+
+    handler ({BMap, map}) {
+      console.log(BMap, map);
+      this.center.lng = 108.196015;
+      this.center.lat = 22.837699;
+      this.zoom = 35;
+    },
+    onSubmits (admin) {
+      admin.customerId = this.id;
+      this.product = admin;
+
+      let _this = this;
+      axios
+        .post('http://localhost:8888/img/add', this.product)
+        .then(function (response) {
+          console.log(this.product);
+        });
+    },
+
+    ju () {
+      if (location.href.indexOf('#') == -1) {
+        location.href = location.href + '#';
+        location.reload();
+      }
+    },
+
+    goodsDelete (orderDetailId) {
+      let _this = this;
+      this.$confirm('是否确定要删除', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
           axios
-            .delete("http://localhost:8888/shopping/delete/" + orderDetailId)
+            .delete('http://localhost:8888/shopping/delete/' + orderDetailId)
             .then(function (response) {
               if (response.data) {
-                _this.$alert("删除成功!", "删除数据", {
-                  confirmButtonText: "确定",
+                _this.$alert('删除成功!', '删除数据', {
+                  confirmButtonText: '确定',
                   callback: (action) => {
-                    //跳转到 /table
+                    // 跳转到 /table
                     location.reload();
-                  },
+                  }
                 });
               }
             });
@@ -245,31 +240,27 @@ this.ruleForm.recordNr=this.recordNr
         .catch(() => {});
     },
 
-
-    lode() {
-      axios.get("http://localhost:8888/shopping/finds/" +this.id , {
+    lode () {
+      axios.get('http://localhost:8888/shopping/finds/' + this.id, {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          search: this.search,
+          search: this.search
         }
       }).then(res => {
         console.log(res);
-        this.notice = res.data.data.records
-        this.total = res.data.data.total
-      })
-
+        this.notice = res.data.data.records;
+        this.total = res.data.data.total;
+      });
     },
 
-    handleSizeChange(pageSize) {//改变每页的个数触发
-      this.pageSize = pageSize
-      this.lode()
-
+    handleSizeChange (pageSize) { // 改变每页的个数触发
+      this.pageSize = pageSize;
+      this.lode();
     },
-    handleCurrentChange(pageNum) {//改变当前页码触发
-      this.currentPage = pageNum
-      this.lode()
-
+    handleCurrentChange (pageNum) { // 改变当前页码触发
+      this.currentPage = pageNum;
+      this.lode();
     },
 
     ...mapActions(['signOut', 'isLogin']),
@@ -280,7 +271,7 @@ this.ruleForm.recordNr=this.recordNr
       this.$router.push('/notice');
     },
     myInfo () {
-      this.$router.push('/home/myOrder/'+this.id);
+      this.$router.push('/home/myOrder/' + this.id);
     },
     signOutFun () {
       this.signOut();
@@ -289,7 +280,6 @@ this.ruleForm.recordNr=this.recordNr
   },
   store
 };
-
 
 </script>
 

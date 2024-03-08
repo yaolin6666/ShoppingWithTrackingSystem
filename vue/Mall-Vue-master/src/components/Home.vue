@@ -11,28 +11,10 @@
             <p>{{admin.customerName}}</p>
           </div>
 
-            <router-link v-bind:to="'/home/myOrder/'+this.id"><MenuItem ><Icon type="clipboard"></Icon>  我的主页</MenuItem></router-link>
-
-          <Submenu name="1">
-            <template slot="title">
-                <Icon type="location"></Icon>
-                <span>收货地址</span>
-            </template>
-            <MenuItem name="myAddress">我的收货地址</MenuItem>
-
-
-          </Submenu>
-
-          <Submenu name="3">
-            <template slot="title">
-                <Icon type="ios-cart"></Icon>
-                <span>收藏</span>
-            </template>
-            <MenuItem name="myShoppingCart">我的收藏</MenuItem>
-          </Submenu>
-
-
-
+            <router-link v-bind:to="'/home/myOrder/'+this.id"><MenuItem ><Icon type="clipboard"></Icon>我的主页</MenuItem></router-link>
+          <router-link v-bind:to="'/home/myaddress'"><MenuItem><Icon type="location"></Icon>我的收货地址</MenuItem></router-link>
+          <router-link v-bind:to="'/orders'"><MenuItem><Icon type="clipboard"></Icon>我的订单</MenuItem></router-link>
+          <router-link v-bind:to="'/home/myShoppingCart'"><MenuItem><Icon type="ios-cart"></Icon>我的收藏</MenuItem></router-link>
         </Menu>
       </Sider>
       <Layout class="layout">
@@ -55,33 +37,30 @@ export default {
   name: 'Home',
   data () {
     return {
-      admin:[],
-       username:this.$store.state.userInfo.username,
-       customerName:this.$store.state.userInfo.customerName,
-      id:this.$store.state.userInfo.id,
-      avatar:this.$store.state.userInfo.avatar,
+      admin: [],
+      username: this.$store.state.userInfo.username,
+      customerName: this.$store.state.userInfo.customerName,
+      id: this.$store.state.userInfo.id,
+      avatar: this.$store.state.userInfo.avatar,
       activeTitle: '我的主页',
       bar: {
         'myAddress': '我的收货地址',
-
         'myOrder': '我的订单',
-        'myShoppingCart': '我的收藏',
+        'myShoppingCart': '我的收藏'
 
       }
     };
   },
-   created () {
-     const _this = this;
+  created () {
+    const _this = this;
 
     this.$axios
-      .get("http://localhost:8888/customerInfo/find/" + this.id)
+      .get('http://localhost:8888/customerInfo/find/' + this.id)
       .then(function (resp) {
         _this.admin = resp.data;
 
         console.log(resp);
       });
-
-
   },
   methods: {
 

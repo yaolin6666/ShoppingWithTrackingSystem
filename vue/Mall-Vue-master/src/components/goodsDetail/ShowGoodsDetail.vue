@@ -120,10 +120,6 @@
                 <div class="remarks-title">
                   <span>商品评价</span>
                 </div>
-                <!-- <el-input placeholder="请输入内容" v-model="search"  class="input-with-select">
-
-    <el-button slot="append" icon="el-icon-search" @click="lode()"></el-button>
-      </el-input> -->
                 <div class="remarks-analyse-box">
                   <div class="remarks-analyse-goods" v-show="!totalSumAll">
                     <i-circle :percent="totalSumAll" stroke-color="#e4393c">

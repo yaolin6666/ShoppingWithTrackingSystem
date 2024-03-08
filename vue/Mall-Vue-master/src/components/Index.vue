@@ -328,7 +328,7 @@ export default {
 }
 .ff {
   width: 100%;
-  height: 3500px;
+  height: 1500px;
   margin: 0 auto;
 }
 
@@ -338,7 +338,6 @@ export default {
   margin-top: 40px;
   margin-left: 80px;
   float: left;
-  /* border: 1px solid #d1cdcd; */
   box-shadow: 0 4px 8px rgba(0, 0, 0, .22), 0 0 12px rgba(0, 0, 0, .14)
 }
 

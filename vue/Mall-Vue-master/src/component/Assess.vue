@@ -33,73 +33,6 @@
     <!-- 检索结果 -->
     <el-row :gutter="20" class="userindex-list" :search="search">
       <el-col :span="24">
-        <!-- <el-table
-
-      border
-      stripe="true"
-      :row-style="tableRowStyle"
-      :header-cell-style="tableHeaderColor"
-
-         :data="user.filter(data => !search || data.productName.toLowerCase().includes(search.toLowerCase()))"  size="small" style="width: 100%">
-           <el-table-column type="index" prop="orderId" label="管理员ID" width="80">
-          </el-table-column>
-           <el-table-column
-                    prop="good_id"
-                    label="商品id"
-                    width="180"></el-table-column>
-          <el-table-column prop="productName" label="商品名称" width="150" >
-          </el-table-column>
-          <el-table-column prop="productColor" label="颜色" width="100">
-          </el-table-column>
-          <el-table-column prop="productPrice" label="价格" width="150">
-          </el-table-column>
-          <el-table-column prop="productNum" label="数量" width="100">
-          </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" width="200">
-          </el-table-column>
-           <el-table-column prop="productImage" label="商品图片" width="200">
-         <template slot-scope="scope">
-          <el-image style="width: 200px; height: 150px" :src="scope.row.adminImage" :preview-src-list="[scope.row.adminImage]">
-            <div slot="error" class="image-slot">
-              <i class="el-icon-picture-outline"></i>
-            </div>
-          </el-image>
-        </template>
-      </el-table-column>
-      <el-table-column prop="paymentMethod" label="付款方式" width="200">
-          </el-table-column>
-           <el-table-column prop="shippingCompName" label="快递公司" width="200">
-          </el-table-column>
-          <el-table-column prop="productMessage" label="留言" width="100">
-          </el-table-column>
-           <el-table-column prop="address" label="地址" width="100">
-          </el-table-column>
-           <el-table-column prop="shippingUser" label="收货人" width="100">
-          </el-table-column>
-
-          <el-table-column fixed="right" label="操作" width="150" align="center">
-            <template slot-scope="scope">
-              <el-button
-                type="primary"
-                icon="el-icon-edit"
-                circle
-                size="small"
-                @click="edit(scope.row)"
-              >
-              </el-button>
-
-              <el-button
-                type="danger"
-                icon="el-icon-delete"
-                circle
-                size="small"
-                @click="del(scope.row)"
-              >
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table> -->
-
 <table style="margin-top:20px;" align="center"  >
 <div class="bb">
   <div class="ff">
@@ -188,7 +121,6 @@
   </div>
 </el-dialog>
 
-
       </el-col>
     </el-row>
 
@@ -208,138 +140,120 @@
 
 <script>
 import store from '@/store/index';
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 export default {
-   name:"Assess",
+  name: 'Assess',
 
   methods: {
-    ju(){
-       const _this = this;
+    ju () {
+      const _this = this;
 
-    this.$axios
-      .get("http://localhost:8888/customerInfo/find/" + this.id)
-      .then(function (resp) {
-        _this.admind = resp.data;
+      this.$axios
+        .get('http://localhost:8888/customerInfo/find/' + this.id)
+        .then(function (resp) {
+          _this.admind = resp.data;
 
-        console.log(resp);
-      });
+          console.log(resp);
+        });
     },
 
-
-    onSubmits(admin) {
-      admin.customerId=this.id
-      this.product=admin;
-
-
-          let _this = this;
-          axios
-            .post("http://localhost:8888/img/add", this.product)
-            .then(function (response) {
-              console.log(this.product)
-            });
-
-      },
-
-    filesUplodeSeccess(res){
-      console.log(res)
-      this.admins.commentPic = res.data
-
+    onSubmits (admin) {
+      admin.customerId = this.id;
+      this.product = admin;
+      // eslint-disable-next-line no-undef
+      axios
+        .post('http://localhost:8888/img/add', this.product)
+        .then(function (response) {
+          console.log(this.product);
+        });
     },
 
+    filesUplodeSeccess (res) {
+      console.log(res);
+      this.admins.commentPic = res.data;
+    },
 
-
-    lode() {
-
-      axios.get("http://localhost:8888/assess/finds/" +this.id, {
+    lode () {
+      // eslint-disable-next-line no-undef
+      axios.get('http://localhost:8888/assess/finds/' + this.id, {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          search: this.search,
+          search: this.search
         }
       }).then(res => {
         console.log(res);
-        this.user = res.data.data.records
-        this.total = res.data.data.total
-      })
-
-    },
-
-
-    //设置表格行的样式
-      tableRowStyle({row,rowIndex}){
-        return 'background-color:pink;font-size:15px;'
-      },
-      //设置表头行的样式
-      tableHeaderColor({row,column,rowIndex,columnIndex}){
-        return 'background-color:lightblue;color:#fff;font-wight:500;font-size:20px;text-align:center'
-
-      },
-
-
-
-
-    //添加
-    add(assessId) {
-      const _this = this;
-
-    this.$axios
-      .get("http://localhost:8888/assess/find/" + assessId)
-      .then(function (resp) {
-        _this.admins = resp.data;
-
-        console.log(resp);
+        this.user = res.data.data.records;
+        this.total = res.data.data.total;
       });
     },
-    //修改
-    edit(row) {
-      this.$router.push("/edituser?userId=" + row.userId);
+
+    // 设置表格行的样式
+    tableRowStyle ({row, rowIndex}) {
+      return 'background-color:pink;font-size:15px;';
     },
-    //删除
-    onSubmit(formName) {
-      this.admins.avatar=this.admind.avatar
-      if(!this.admind.customerName){
-        this.admins.customerName=this.cc
-      }else{
-      this.admins.customerName=this.admind.customerName
+    // 设置表头行的样式
+    tableHeaderColor ({row, column, rowIndex, columnIndex}) {
+      return 'background-color:lightblue;color:#fff;font-wight:500;font-size:20px;text-align:center';
+    },
+
+    // 添加
+    add (assessId) {
+      const _this = this;
+
+      this.$axios
+        .get('http://localhost:8888/assess/find/' + assessId)
+        .then(function (resp) {
+          _this.admins = resp.data;
+
+          console.log(resp);
+        });
+    },
+    // 修改
+    edit (row) {
+      this.$router.push('/edituser?userId=' + row.userId);
+    },
+    // 删除
+    onSubmit (formName) {
+      this.admins.avatar = this.admind.avatar;
+      if (!this.admind.customerName) {
+        this.admins.customerName = this.cc;
+      } else {
+        this.admins.customerName = this.admind.customerName;
       }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let _this = this;
           axios
-            .post("http://localhost:8888/comment/add", this.admins)
+            .post('http://localhost:8888/comment/add', this.admins)
             .then(function (response) {
               if (response.data) {
-                _this.$alert("评价成功！", "评价商品", {
-                  confirmButtonText: "确定",
+                _this.$alert('评价成功！', '评价商品', {
+                  confirmButtonText: '确定',
                   callback: (action) => {
-                    //跳转到/table
+                    // 跳转到/table
                     _this.$router.push('/Assess');
                     location.reload();
-                  },
+                  }
                 });
               }
             });
         }
-
       });
-
     },
 
-    goodsDelete() {
+    goodsDelete () {
       let _this = this;
 
-        this.
-          axios
-            .delete("http://localhost:8888/assess/delete/" + this.admins.assessId)
-            .then(function (response) {
-              if (response.data) {
-
-                     _this.$router.push('/Assess');
-                    //跳转到 /table
-
-
-              }
-            })
+      this
+        .axios
+        .delete('http://localhost:8888/assess/delete/' + this.admins.assessId)
+        .then(function (response) {
+          if (response.data) {
+            _this.$router.push('/Assess');
+            // 跳转到 /table
+          }
+        })
 
         .catch(() => {});
     },
@@ -363,39 +277,36 @@ export default {
     //       ];
     //   }
     // },
-    handleSizeChange(pageSize) {//改变每页的个数触发
-      this.pageSize = pageSize
-      this.lode()
-
+    handleSizeChange (pageSize) { // 改变每页的个数触发
+      this.pageSize = pageSize;
+      this.lode();
     },
-    handleCurrentChange(pageNum) {//改变当前页码触发
-      this.currentPage = pageNum
-      this.lode()
-
-    },
+    handleCurrentChange (pageNum) { // 改变当前页码触发
+      this.currentPage = pageNum;
+      this.lode();
+    }
   },
-  computed:{
-     ...mapState(['userInfo', 'shoppingCart']),
+  computed: {
+    ...mapState(['userInfo', 'shoppingCart']),
 
-      filteredBlogs:function(){
-        return this.user.filter((user) => {
-          return user.productName.match(this.search);
-        })
-      }
+    filteredBlogs: function () {
+      return this.user.filter((user) => {
+        return user.productName.match(this.search);
+      });
+    }
   },
-  created() {
-
-      const _this = this;
+  created () {
+    const _this = this;
 
     this.$axios
-      .get("http://localhost:8888/customerInfo/find/" + this.id)
+      .get('http://localhost:8888/customerInfo/find/' + this.id)
       .then(function (resp) {
         _this.adminss = resp.data;
 
         console.log(resp);
       });
-     this.ju()
-    this.lode()
+    this.ju();
+    this.lode();
     // const _this = this;
     // axios.get("http://localhost:8888/master/findAll").then(function (resp) {
     //   _this.user = resp.data;
@@ -406,28 +317,27 @@ export default {
     //   _this.total = resp.data.totalElements;
     // });
   },
-  data() {
+  data () {
     return {
-      cc:"匿名用户",
-      customerName:this.$store.state.userInfo.customerName,
-product:[],
-      id:this.$store.state.userInfo.id,
-       avatar:this.$store.state.userInfo.avatar,
-       admind:[],
-search: '',
-admins:[
-],
+      cc: '匿名用户',
+      customerName: this.$store.state.userInfo.customerName,
+      product: [],
+      id: this.$store.state.userInfo.id,
+      avatar: this.$store.state.userInfo.avatar,
+      admind: [],
+      search: '',
+      admins: [
+      ],
 
-
- dialogTableVisible: false,
-        dialogFormVisible: false,
-        dialogTableVisibles: false,
-        dialogFormVisibles: false,
-        adminss:{},
-     currentPage: 1,
+      dialogTableVisible: false,
+      dialogFormVisible: false,
+      dialogTableVisibles: false,
+      dialogFormVisibles: false,
+      adminss: {},
+      currentPage: 1,
       pageSize: 7,
       total: 0,
-      search:"",
+      search: '',
       // queryInfo: {
       //   // name: "",
       //   // type: "",
@@ -437,12 +347,12 @@ admins:[
       options: [
         {
           label: 1,
-          value: "安心蔬菜",
+          value: '安心蔬菜'
         },
         {
           label: 2,
-          value: "新鲜牛奶",
-        },
+          value: '新鲜牛奶'
+        }
       ],
       tableData: [],
       user: [],
@@ -457,14 +367,14 @@ admins:[
         // resource: "",
         // desc: "",
       },
-      formLabelWidth: "120px",
+      formLabelWidth: '120px'
     };
   },
   // mounted(){
   //   this.admins.avatar=this.avatar
   //   console.log(this.admins.avatar)
   // },
-store,
+  store
 };
 </script>
 
@@ -522,7 +432,6 @@ td {
   width: 100px;
 }
 .sk{
-
 
   width: 1057px;
   height: 40px;

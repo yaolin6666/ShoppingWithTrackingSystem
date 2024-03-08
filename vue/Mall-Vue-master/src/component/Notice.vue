@@ -13,21 +13,6 @@
     <div class="qss">
 
     <el-row :gutter="20" class="userindex-queryInfo">
-      <!-- 商品名称搜索 --><span style="float:left;margin-left: 58px;">
-      </span>
-      <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4">
-
-        <el-input
-          class="userindex-queryInfo-li"
-          v-model="search"
-          clearable
-          size="small"
-          placeholder="请输入商品名称"
-        ></el-input>
-      </el-col>
-        <el-col :xs="6" :sm="4" :md="3" :lg="2" :xl="2">
-        <el-button  class="userindex-queryInfo-li" size="small" @click="lode()">搜 索</el-button>
-      </el-col>
       <div class="ss" >
       <el-popconfirm title="确认删除吗?" @confirm="deleteBatch" >
         <template #reference>
@@ -35,12 +20,8 @@
         </template>
       </el-popconfirm>
     </div>
-      <!-- 添加按钮 -->
-<!-- <el-button @click="hh"></el-button> -->
     </el-row>
     </div>
-
-    <!-- 检索结果 -->
     <el-row :gutter="170" class="userindex-list"  >
       <el-col :span="24"  >
         <el-table  :data="notice"   style="width: 100%;" @selection-change="handleSelectionChange">
@@ -50,13 +31,6 @@
 
       width="55">
     </el-table-column>
-          <!-- <el-table-column type="index" prop="adminId" label="管理员ID" width="80" >
-          </el-table-column> -->
-          <!-- <el-table-column
-                    prop="good_id"
-                    label="商品id"
-                    width="180"> -->
-
           <el-table-column prop="productImage" label="商品图片" width="300">
          <template slot-scope="scope">
           <el-image style="width: 200px; height: 150px" :src="scope.row.productImage" :preview-src-list="[scope.row.productImage]">
@@ -76,8 +50,6 @@
           </el-table-column>
           <el-table-column prop="createTime" label="创建时间" width="200">
           </el-table-column>
-          <!-- <el-table-column prop="updateTime" label="最后修改时间" width="200">
-          </el-table-column> -->
           <el-table-column fixed="right" label="操作" width="200" align="center">
             <template slot-scope="scope">
               <el-button
@@ -136,7 +108,6 @@ import store from '@/store/index';
 import { mapState } from 'vuex';
 import Search from '@/components/Search';
 import GoodsListNav from '@/components/nav/GoodsListNav';
-import axios from '../plugins/axios';
 export default {
   name: 'Notice',
 
@@ -149,6 +120,7 @@ export default {
     onSubmitss (admin) {
       admin.customerId = this.idss;
       this.product = admin;
+      // eslint-disable-next-line no-undef
       axios
         .post('http://localhost:8888/img/add', this.product)
         .then(function (response) {
@@ -157,6 +129,7 @@ export default {
     },
 
     lode () {
+      // eslint-disable-next-line no-undef
       axios.get('http://localhost:8888/shopping/finds/' + this.idss, {
         params: {
           pageNum: this.currentPage,
@@ -199,6 +172,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
+          // eslint-disable-next-line no-undef
           axios
             .delete('http://localhost:8888/shopping/delete/' + row.orderDetailId)
             .then(function (response) {
@@ -229,12 +203,12 @@ export default {
         return;
       }
 
+      // eslint-disable-next-line no-undef
       axios.post('/shopping/deleteBatch', this.ids).then(function (response) {
         if (response.data) {
           _this.$alert('删除成功!', '删除数据', {
             confirmButtonText: '确定',
             callback: (action) => {
-              // 跳转到 /table
               location.reload();
             }
           });
@@ -288,8 +262,6 @@ export default {
 
   min-height: 100%;
   padding: 30px;
-  /* box-sizing: border-box; */
-
 }
 /* 搜索 */
 .userindex-queryInfo {
@@ -297,18 +269,7 @@ export default {
 margin-top: 20px;
   margin-bottom: 40px;
 }
-.userindex-queryInfo-li {
-  border: 3px solid rgb(255, 102, 0);
-  margin-top: 22px;
-  margin-left: 684px;
-  width: 100%;
-  height: auto;
-  color: aliceblue;
-  font-size: 15px;
-  background:  rgb(255, 102, 0);
 
-}
-/* 列表 */
 .userindex-list {
 
   width: 100%;
@@ -316,15 +277,11 @@ margin-top: 20px;
   margin-bottom: 20px;
 
 }
-/* 分页 */
 .userindex-page-box {
   width: 100%;
   height: auto;
   display: flex;
   justify-content: center;
-}
-.el-table-column{
-  margin-top: 50px;
 }
 
 .esd{

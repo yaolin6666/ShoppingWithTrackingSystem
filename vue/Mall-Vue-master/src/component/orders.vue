@@ -34,73 +34,6 @@
     <!-- 检索结果 -->
     <el-row :gutter="20" class="userindex-list" :search="search">
       <el-col :span="24">
-        <!-- <el-table
-
-      border
-      stripe="true"
-      :row-style="tableRowStyle"
-      :header-cell-style="tableHeaderColor"
-
-         :data="user.filter(data => !search || data.productName.toLowerCase().includes(search.toLowerCase()))"  size="small" style="width: 100%">
-           <el-table-column type="index" prop="orderId" label="管理员ID" width="80">
-          </el-table-column>
-           <el-table-column
-                    prop="good_id"
-                    label="商品id"
-                    width="180"></el-table-column>
-          <el-table-column prop="productName" label="商品名称" width="150" >
-          </el-table-column>
-          <el-table-column prop="productColor" label="颜色" width="100">
-          </el-table-column>
-          <el-table-column prop="productPrice" label="价格" width="150">
-          </el-table-column>
-          <el-table-column prop="productNum" label="数量" width="100">
-          </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" width="200">
-          </el-table-column>
-           <el-table-column prop="productImage" label="商品图片" width="200">
-         <template slot-scope="scope">
-          <el-image style="width: 200px; height: 150px" :src="scope.row.adminImage" :preview-src-list="[scope.row.adminImage]">
-            <div slot="error" class="image-slot">
-              <i class="el-icon-picture-outline"></i>
-            </div>
-          </el-image>
-        </template>
-      </el-table-column>
-      <el-table-column prop="paymentMethod" label="付款方式" width="200">
-          </el-table-column>
-           <el-table-column prop="shippingCompName" label="快递公司" width="200">
-          </el-table-column>
-          <el-table-column prop="productMessage" label="留言" width="100">
-          </el-table-column>
-           <el-table-column prop="address" label="地址" width="100">
-          </el-table-column>
-           <el-table-column prop="shippingUser" label="收货人" width="100">
-          </el-table-column>
-
-          <el-table-column fixed="right" label="操作" width="150" align="center">
-            <template slot-scope="scope">
-              <el-button
-                type="primary"
-                icon="el-icon-edit"
-                circle
-                size="small"
-                @click="edit(scope.row)"
-              >
-              </el-button>
-
-              <el-button
-                type="danger"
-                icon="el-icon-delete"
-                circle
-                size="small"
-                @click="del(scope.row)"
-              >
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table> -->
-
 <table style="margin-top:20px;" align="center"  >
 <div class="bb">
   <div class="ff">
@@ -151,7 +84,6 @@
               </div>
 </table>
 
-
       </el-col>
     </el-row>
 
@@ -171,179 +103,121 @@
 
 <script>
 import store from '@/store/index';
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 export default {
-  name:"orders",
+  name: 'orders',
   methods: {
 
-onSubmits(admin) {
-      admin.customerId=this.id
-      this.product=admin;
+    onSubmits (admin) {
+      admin.customerId = this.id;
+      this.product = admin;
+      // eslint-disable-next-line no-undef
+      axios
+        .post('http://localhost:8888/img/add', this.product)
+        .then(function (response) {
+          console.log(this.product);
+        });
+    },
 
-
-          let _this = this;
-          axios
-            .post("http://localhost:8888/img/add", this.product)
-            .then(function (response) {
-              console.log(this.product)
-            });
-
-      },
-
-    lode() {
-      axios.get("http://localhost:8888/master/finds/" +this.id, {
+    lode () {
+      // eslint-disable-next-line no-undef
+      axios.get('http://localhost:8888/master/finds/' + this.id, {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          search: this.search,
+          search: this.search
         }
       }).then(res => {
         console.log(res);
-        this.user = res.data.data.records
-        this.total = res.data.data.total
-      })
-
+        this.user = res.data.data.records;
+        this.total = res.data.data.total;
+      });
     },
 
-
-    //设置表格行的样式
-      tableRowStyle({row,rowIndex}){
-        return 'background-color:pink;font-size:15px;'
-      },
-      //设置表头行的样式
-      tableHeaderColor({row,column,rowIndex,columnIndex}){
-        return 'background-color:lightblue;color:#fff;font-wight:500;font-size:20px;text-align:center'
-
-      },
-
-
-
-
-    //添加
-    add() {
-      this.$router.push("/adduser");
+    tableRowStyle ({row, rowIndex}) {
+      return 'background-color:pink;font-size:15px;';
     },
-    //修改
-    edit(row) {
-      this.$router.push("/edituser?userId=" + row.userId);
+    tableHeaderColor ({row, column, rowIndex, columnIndex}) {
+      return 'background-color:lightblue;color:#fff;font-wight:500;font-size:20px;text-align:center';
     },
-    //删除
-    userDelete(row) {
+    add () {
+      this.$router.push('/adduser');
+    },
+    edit (row) {
+      this.$router.push('/edituser?userId=' + row.userId);
+    },
+    userDelete (row) {
       let _this = this;
-      this.$confirm("是否确定要删除" + " " + row.userName + "?", "删除数据", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('是否确定要删除' + ' ' + row.userName + '?', '删除数据', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
+          // eslint-disable-next-line no-undef
           axios
-            .delete("http://localhost:8888/userinfo/delete/" + row.userId)
+            .delete('http://localhost:8888/userinfo/delete/' + row.userId)
             .then(function (response) {
               if (response.data) {
-                _this.$alert(row.userName + "删除成功!", "删除数据", {
-                  confirmButtonText: "确定",
+                _this.$alert(row.userName + '删除成功!', '删除数据', {
+                  confirmButtonText: '确定',
                   callback: (action) => {
-                    //跳转到 /table
+                    // 跳转到 /table
                     location.reload();
-                  },
+                  }
                 });
               }
             });
         })
         .catch(() => {});
     },
-    // page(currentPage){
-    //         const _this=this;
-    //         axios.get('http://localhost:8888/userinfo/findAll/'+(currentPage-1)+'/3').then(function (resp) {
-    //             _this.tableData=resp.data.content;
-    //             _this.pageSize=resp.data.size;
-    //             _this.total=resp.data.totalElements;
-    //         })
-    //     }
-    // page(currentPage) {
-    //   switch (currentPage) {
-    //     case 1:
-    //       this.tableData = [
-    //         {
-    //           id: goodId,
-    //           name: good_name,
-    //         },
-    //       ];
-    //   }
-    // },
-    handleSizeChange(pageSize) {//改变每页的个数触发
-      this.pageSize = pageSize
-      this.lode()
-
+    handleSizeChange (pageSize) { // 改变每页的个数触发
+      this.pageSize = pageSize;
+      this.lode();
     },
-    handleCurrentChange(pageNum) {//改变当前页码触发
-      this.currentPage = pageNum
-      this.lode()
-
-    },
+    handleCurrentChange (pageNum) { // 改变当前页码触发
+      this.currentPage = pageNum;
+      this.lode();
+    }
   },
-  computed:{
-      ...mapState(['userInfo', 'shoppingCart']),
-      filteredBlogs:function(){
-        return this.user.filter((user) => {
-          return user.productName.match(this.search);
-        })
-      }
+  computed: {
+    ...mapState(['userInfo', 'shoppingCart']),
+    filteredBlogs: function () {
+      return this.user.filter((user) => {
+        return user.productName.match(this.search);
+      });
+    }
   },
-  created() {
-    this.lode()
-    // const _this = this;
-    // axios.get("http://localhost:8888/master/findAll").then(function (resp) {
-    //   _this.user = resp.data;
-    //   console.log(resp);
-    //   //   alert(resp);
-    //   _this.tableData = resp.data.content;
-    //   _this.pageSize = resp.data.size;
-    //   _this.total = resp.data.totalElements;
-    // });
+  created () {
+    this.lode();
   },
-  data() {
+  data () {
     return {
-      product:[],
-      id:this.$store.state.userInfo.id,
-search: '',
-     currentPage: 1,
+      product: [],
+      id: this.$store.state.userInfo.id,
+      currentPage: 1,
       pageSize: 7,
       total: 0,
-      search:"",
-      // queryInfo: {
-      //   // name: "",
-      //   // type: "",
-      //   // page: 1,
-      //   // pageSize: 10,
-      // },
+      search: '',
       options: [
         {
           label: 1,
-          value: "安心蔬菜",
+          value: '安心蔬菜'
         },
         {
           label: 2,
-          value: "新鲜牛奶",
-        },
+          value: '新鲜牛奶'
+        }
       ],
       tableData: [],
       user: [],
       dialogFormVisible: false,
       form: {
-        // name: "",
-        // region: "",
-        // date1: "",
-        // date2: "",
-        // delivery: false,
-        // type: [],
-        // resource: "",
-        // desc: "",
       },
-      formLabelWidth: "120px",
+      formLabelWidth: '120px'
     };
   },
-store
+  store
 };
 </script>
 
@@ -366,16 +240,14 @@ store
   margin-left: 975px;
   width: 100%;
   height: auto;
-   /* border: 3px solid rgb(255, 102, 0); */
-
 }
-/* 列表 */
+
 .userindex-list {
   width: 100%;
   height: auto;
   margin-bottom: 20px;
 }
-/* 分页 */
+
 .userindex-page-box {
   width: 100%;
   height: auto;
@@ -400,7 +272,6 @@ td {
 }
 .sk{
 
-
   width: 1057px;
   height: 40px;
   background:rgb(206, 232, 245);
@@ -417,9 +288,7 @@ td {
 .ff{
   padding-top: 11px;
 }
-.sa{
-  width: 50px;
-}
+
 .vs{
   margin-bottom: 20px;
   border-radius: 5px;

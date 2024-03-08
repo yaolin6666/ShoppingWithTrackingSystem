@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import axios from '../plugins/axios';
 
 export default {
   name: 'hh',
@@ -49,6 +48,7 @@ export default {
   methods: {
 
     onSubmitss () {
+      // eslint-disable-next-line no-undef
       axios
         .post('http://localhost:8888/master/add', this.lo)
         .then(function (response) {
@@ -63,6 +63,7 @@ export default {
       index === 1 ? (this.panel1 = false) : (this.panel2 = false);
     },
     lodes () {
+      // eslint-disable-next-line no-undef
       axios
         .get('http://localhost:8888/productCategory/list', {
 
@@ -74,6 +75,7 @@ export default {
     },
 
     lodess () {
+      // eslint-disable-next-line no-undef
       axios
         .get('http://localhost:8888/productCategory/list', {
 
@@ -89,44 +91,12 @@ export default {
 </script>
 
 <style  scoped>
- .transition-box {
-    margin-bottom: 10px;
-    width: 200px;
-    height: 100px;
-    border-radius: 4px;
-    background-image: url('../assets/sx.png');
-    text-align: center;
-    color: #fff;
-    padding: 40px 20px;
-    box-sizing: border-box;
-    margin-right: 20px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-.detail-item-panel ul {
+ .detail-item-panel ul {
   list-style: none;
 }
 .detail-item-panel li {
   line-height: 38px;
   margin-left: 40px;
 }
-.detail-item-title {
-  padding-right: 6px;
-  font-weight: bold;
-  font-size: 12px;
-  cursor: pointer;
-  color: #555555;
-}
-.detail-item-title:hover {
-  color: #d9534f;
-}
-.ss{
-  background: red;
-  width: 200px;
-  height: 100px;
-  background-image: url('../assets/q6.png');
 
-}
 </style>

@@ -20,8 +20,7 @@ import java.util.List;
 @RequestMapping("/files")
 public class UplodeController {
     @PostMapping("/uplode")
-    public Result<?> uplode(MultipartFile file) throws IOException {
-
+    public Result<?> uplode(MultipartFile file) {
         String url=TencentCOSUtil.upLoadFile(file);
         return Result.success(url);
     }

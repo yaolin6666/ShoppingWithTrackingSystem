@@ -9,9 +9,9 @@ import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 
 @Contract(
-        name = "ArgInfo",
+        name = "DeliverInfo",
         info = @Info(
-                title = "ArgInfo contract",
+                title = "DeliverInfo contract",
                 description = "The hyperlegendary asset transfer",
                 version = "0.0.1-SNAPSHOT",
                 license = @License(
@@ -22,7 +22,7 @@ import org.hyperledger.fabric.shim.ChaincodeStub;
                         name = "Adrian Transfer",
                         url = "https://hyperledger.example.com")))
 @Default
-public class ArgInfoContract implements ContractInterface {
+public class DeliverInfoContract implements ContractInterface {
     @Transaction
     public void initLedger(final Context ctx){
         ChaincodeStub stub= ctx.getStub();
@@ -35,53 +35,52 @@ public class ArgInfoContract implements ContractInterface {
      * key 使用uuid生成
      */
     @Transaction
-    public ArgInfo queryArgInfo(final Context ctx,final String key){
+    public OrderInfo queryOrderInfo(final Context ctx,final String key){
         ChaincodeStub stub= ctx.getStub();
-        String argInfoState=stub.getStringState(key);
-        if(StringUtils.isBlank(argInfoState)){
-            String errorMessage=String.format("ArgInfo %s does not exist",key);
+        String orderInfoState=stub.getStringState(key);
+        if(StringUtils.isBlank(orderInfoState)){
+            String errorMessage=String.format("DeliverInfo %s does not exist",key);
             throw new ChaincodeException(errorMessage);
         }
 
-        return JSON.parseObject(argInfoState, ArgInfo.class);
+        return JSON.parseObject(orderInfoState, OrderInfo.class);
     }
 
     @Transaction
-    public ArgInfo createArgInfo(final Context ctx,final String key,String argId,String argInfo,String extraArgInfo){
+    public OrderInfo createOrderInfo(final Context ctx,final String key,String orderId,String orderInfo){
         ChaincodeStub stub= ctx.getStub();
-        String argInfoState=stub.getStringState(key);
-        if(StringUtils.isNotBlank(argInfoState)){
-            String errorMessage=String.format("ArgInfo %s already exists",key);
+        String deliverInfoState=stub.getStringState(key);
+        if(StringUtils.isNotBlank(deliverInfoState)){
+            String errorMessage=String.format("DeliverInfo %s already exists",key);
             throw new ChaincodeException(errorMessage);
         }
-        ArgInfo input=new ArgInfo().setArgInfoID(key).setArgId(argId).setArgInfo(argInfo).setExtraArgInfo(extraArgInfo);
+        OrderInfo input=new OrderInfo().setOrderInfoId(key).setOrderId(orderId).setOrderInfo(orderInfo);
         stub.putStringState(key,JSON.toJSONString(input));
         return input;
     }
 
     @Transaction
-    public ArgInfo updateArgInfo(final Context ctx,final String key,String argId,String argInfo,String extraArgInfo){
+    public OrderInfo updateOrderInfo(final Context ctx,final String key,String orderId,String orderInfo){
         ChaincodeStub stub= ctx.getStub();
-        String argInfoState=stub.getStringState(key);
-        if(StringUtils.isBlank(argInfoState)){
-            String errorMessage=String.format("ArgInfo %s does not exist",key);
+        String deliverInfoState=stub.getStringState(key);
+        if(StringUtils.isBlank(deliverInfoState)){
+            String errorMessage=String.format("DeliverInfo %s does not exist",key);
             throw new ChaincodeException(errorMessage);
         }
-        ArgInfo input=new ArgInfo().setArgInfoID(key).setArgId(argId).setArgInfo(argInfo).setExtraArgInfo(extraArgInfo);
+        OrderInfo input=new OrderInfo().setOrderInfoId(key).setOrderId(orderId).setOrderInfo(orderInfo);
         stub.putStringState(key,JSON.toJSONString(input));
         return input;
     }
 
     @Transaction
-    public ArgInfo deleteArgInfo(final Context ctx,final String key){
+    public OrderInfo deleteOrderInfo(final Context ctx,final String key){
         ChaincodeStub stub= ctx.getStub();
-        String argInfoState=stub.getStringState(key);
-        if(StringUtils.isBlank(argInfoState)){
-            String errorMessage=String.format("ArgInfo %s does not exist",key);
+        String orderInfoState=stub.getStringState(key);
+        if(StringUtils.isBlank(orderInfoState)){
+            String errorMessage=String.format("DeliverInfo %s does not exist",key);
             throw new ChaincodeException(errorMessage);
         }
         stub.delState(key);
-
-        return JSON.parseObject(argInfoState, ArgInfo.class);
+        return JSON.parseObject(orderInfoState, OrderInfo.class);
     }
 }

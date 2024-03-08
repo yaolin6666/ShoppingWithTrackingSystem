@@ -9,7 +9,6 @@
    <span>
   <el-steps :active="active" finish-status="success"  >
 
-
   <el-step title="拍下商品"></el-step>
   <el-step title="付款到支付宝"></el-step>
   <el-step title="确认收货"></el-step>
@@ -47,8 +46,6 @@
     <el-radio-button :label="item.goodPhone" style="margin-left: 8px;"></el-radio-button>
 </el-radio-group>
      </div>
-
-
 
 </div>
  <div class="hh">
@@ -103,7 +100,6 @@
 
      </div>
 
-
 <div class="tt1">
  <div class="tt"
 
@@ -118,7 +114,6 @@
 </div>
 
 <div class="tableTitle">
-
 
 </div>
 <div class="gu"><h3>确认订单信息</h3></div>
@@ -168,7 +163,6 @@
   <span style="font-size:16px;font-weight:bold;width:20px;margin-left: 128px;" class="font-weight-black"  v-rainbow  >{{notice.productNum * notice.productPrice}}.00</span>
   <!-- </div> --></div>
   </div>
-
 
   <div class="lj1"></div>
   <div class="p1"><span>赠送随机礼物满1件送1件礼物 </span><span class="rr">无其他赠品可换</span></div>
@@ -247,7 +241,6 @@
 </div >
 <div class="fm1" style="word-wrap:break-word;word-break:break-all;width:300px;">
 
-
 <span style="font-size:14px;font-weight:bold;margin-left: 83px;">寄送至:</span>
 <span style="word-wrap:break-word;word-break:break-all;width:250px;">{{notice.address}}</span>
 
@@ -319,7 +312,6 @@
     >
       <el-input v-model="notice.productId">{{notice.productId}}</el-input>
     </el-form-item>
-
 
     <el-form-item
       label="商品名称"
@@ -460,104 +452,101 @@
 
 <script>
 import store from '@/store/index';
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 export default {
-  name: "Promptly",
-   created() {
-     console.log(this.ids)
+  name: 'Promptly',
+  created () {
+    console.log(this.ids);
 
-       const  _this = this
+    const _this = this;
     this.$axios.get('http://localhost:8888/good/finds/' + this.ids).then(function (resp) {
-        _this.admin = resp.data.data.records
+      _this.admin = resp.data.data.records;
 
-        console.log(resp);
-      })
+      console.log(resp);
+    });
 
-
-
-
-            axios.get('http://localhost:8888/info/find/'+ this.id).then(function (response) {
-                _this.notice = response.data
-            })
-        },
-        computed:{
-           ...mapState(['userInfo', 'shoppingCart']),
-        },
-  data() {
+    // eslint-disable-next-line no-undef
+    axios.get('http://localhost:8888/info/find/' + this.id).then(function (response) {
+      _this.notice = response.data;
+    });
+  },
+  computed: {
+    ...mapState(['userInfo', 'shoppingCart'])
+  },
+  data () {
     return {
-      ids:this.$store.state.userInfo.id,
+      ids: this.$store.state.userInfo.id,
       show: false,
-      shows:true,
-       product:[],
-        active: 0,
+      shows: true,
+      product: [],
+      active: 0,
 
-       dialogTableVisibles: false,
-        dialogFormVisibles: false,
-      gender:'',
+      dialogTableVisibles: false,
+      dialogFormVisibles: false,
+      gender: '',
       notice: {
-        name: "",
-        sale: "",
-        icon: "",
+        name: '',
+        sale: '',
+        icon: ''
       },
-      id:this.$route.params.id,
-      color:this.$route.params.color,
-      good:{},
-      admin:[],
-        rules: {
-          goodName: [
-            { required: true, message: "收货人地址为空", trigger: "blur" },
-          ],
-          goodDescribe: [
-            { required: true, message: "收货人名称为空", trigger: "blur" },
-          ],
-          goodPhone: [
-            { required: true, message: "收货人电话不能为空", trigger: "blur" },
-          ],
+      id: this.$route.params.id,
+      color: this.$route.params.color,
+      good: {},
+      admin: [],
+      rules: {
+        goodName: [
+          { required: true, message: '收货人地址为空', trigger: 'blur' }
+        ],
+        goodDescribe: [
+          { required: true, message: '收货人名称为空', trigger: 'blur' }
+        ],
+        goodPhone: [
+          { required: true, message: '收货人电话不能为空', trigger: 'blur' }
+        ]
 
-        },
+      },
 
-        dialogTableVisible: false,
-        dialogFormVisible: false,
+      dialogTableVisible: false,
+      dialogFormVisible: false
     };
   },
-   methods: {
- next() {
-        if (this.active++ > 2) this.active = 0;
-      },
-onSubmitss(admin) {
-      admin.customerId=this.ids
-      this.product=admin;
-
-
-          let _this = this;
-          axios
-            .post("http://localhost:8888/img/add", this.product)
-            .then(function (response) {
-              console.log(this.product)
-            });
-
-      },
-      buy(productId) {
-        axios.get("http://localhost:8888/master/buy/" + productId).then(res => {
-          // 请求成功跳转沙箱支付的页面
-          window.open(res.data.data)
-        })
-      },
-     onSubmits(formName) {
-       this.good.customerId=this.ids
+  methods: {
+    next () {
+      if (this.active++ > 2) this.active = 0;
+    },
+    onSubmitss (admin) {
+      admin.customerId = this.ids;
+      this.product = admin;
+      // eslint-disable-next-line no-undef
+      axios
+        .post('http://localhost:8888/img/add', this.product)
+        .then(function (response) {
+          console.log(this.product);
+        });
+    },
+    buy (productId) {
+      // eslint-disable-next-line no-undef
+      axios.get('http://localhost:8888/master/buy/' + productId).then(res => {
+        // 请求成功跳转沙箱支付的页面
+        window.open(res.data.data);
+      });
+    },
+    onSubmits (formName) {
+      this.good.customerId = this.ids;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let _this = this;
+          // eslint-disable-next-line no-undef
           axios
-            .post("http://localhost:8888/good/add", this.good)
+            .post('http://localhost:8888/good/add', this.good)
             .then(function (response) {
               if (response.data) {
-                _this.$alert(_this.good.goodName+ "添加成功！", "添加收货地址", {
-                  confirmButtonText: "确定",
+                _this.$alert(_this.good.goodName + '添加成功！', '添加收货地址', {
+                  confirmButtonText: '确定',
                   callback: (action) => {
-                    //跳转到/table
+                    // 跳转到/table
                     location.reload();
-                  },
+                  }
                 });
               }
             });
@@ -565,29 +554,29 @@ onSubmitss(admin) {
       });
     },
 
-    onSubmit() {
-      this.notice.customerId=this.ids
+    onSubmit () {
+      this.notice.customerId = this.ids;
 
-        let _this = this;
-        axios
-          .post("http://localhost:8888/master/add", this.notice)
-          .then(function (response) {
-            if (response.data) {
-              _this.$alert("请等待商家发货！", "购买商品", {
-                confirmButtonText: "确定",
-                callback: (action) => {
-                  //跳转到/table
-                  _this.$router.push('/payDone');
-                },
-              });
-            }
+      let _this = this;
+      // eslint-disable-next-line no-undef
+      axios
+        .post('http://localhost:8888/master/add', this.notice)
+        .then(function (response) {
+          if (response.data) {
+            _this.$alert('请等待商家发货！', '购买商品', {
+              confirmButtonText: '确定',
+              callback: (action) => {
+                // 跳转到/table
+                _this.$router.push('/payDone');
+              }
+            });
+          }
+        });
+    },
 
-          });
-      },
-
-   decreases(notice){
-     notice.shippingMoney="60";
-   },
+    decreases (notice) {
+      notice.shippingMoney = '60';
+    }
 
   },
   store
@@ -610,8 +599,6 @@ onSubmitss(admin) {
     position:absolute;left:10%;width:500px;margin-left:-75px;
 }
 
-
-
 .ss{
 
   height: 100%;
@@ -620,9 +607,7 @@ onSubmitss(admin) {
   width: 1300px;
   margin-left: 200px;
 
-
 }
-
 
 .mm{
   margin-top: 500px;
@@ -659,7 +644,6 @@ onSubmitss(admin) {
 
 .tt{
 
-
   margin-top: 350px;
 }
 .vv{
@@ -672,7 +656,6 @@ onSubmitss(admin) {
    width: 150px;
    border:  1px solid #fa0202;
    margin-left: 310px;
-
 
 }
 .ff{
@@ -695,7 +678,6 @@ onSubmitss(admin) {
 
   margin-left: 250px;
    margin-top: 50px;
-
 
 }
 .vv1 .qq{
@@ -734,9 +716,6 @@ onSubmitss(admin) {
 }
 .vv2 span{
 
-
-
-
   float: left;
   margin-left: 120px;
   font-size: 13px;
@@ -746,7 +725,6 @@ onSubmitss(admin) {
   margin-top: 58px;
   width: 430px;
   margin-left: 310px;
-
 
 }
 .cc{
@@ -761,7 +739,6 @@ onSubmitss(admin) {
   margin-left: 310px;
   background: #a2e0f0;
 
-
 }
 .p1{
   width: 600px;
@@ -775,19 +752,12 @@ onSubmitss(admin) {
 .rr{
   color: #969494;
 }
-.q1{
-  color: #fa0202;
-}
 
-.t1{
-  font-size: 15;
-}
 .m1{
   float: left;
 }
 .m2{
   margin-top: 16px;
-
 
 }
 .m2 span{
@@ -808,10 +778,7 @@ margin-right: 205px;
  float: right;
  margin-right: 104px;
 }
-.g9{
-   margin-top: 35px;
-  margin-right: 45px;
-}
+
 .pan1{
   margin-top: 18px;
 }
@@ -846,9 +813,6 @@ margin-right: 205px;
   background: #73ddf8;
   width: 1300px;
   margin-left: 310px;
-}
-.jiaf{
-   border:  1px solid #ffff;
 }
 
 .fuu{
@@ -888,35 +852,11 @@ padding-right: 55px;
   width: 80%;
   min-width: 1000px;
 }
-.pay-box {
-  height: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.pay-demo {
-  width: 50%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 .pay-demo img{
   height: 80%;
 }
-.pay-qr-scan {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.pay-tips {
-  width: 50%;
-  text-align: center;
-  font-size: 14px;
-  line-height: 30px;
-}
+
 .pay-tips a {
   color: #999999;
 }
@@ -932,6 +872,5 @@ padding-right: 55px;
   margin-left: 297px;
 
 }
-
 
 </style>

@@ -12,13 +12,11 @@ import org.hyperledger.fabric.contract.annotation.Property;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class ArgInfo {
+public class OrderInfo {
     @Property
-    private String argInfoID;
+    private String OrderInfoId;
     @Property
-    private String argId;
+    private String orderId;
     @Property
-    private String argInfo;
-    @Property
-    private String extraArgInfo;
+    private String orderInfo;
 }
