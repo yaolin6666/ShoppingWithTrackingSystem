@@ -9,9 +9,9 @@ import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 
 @Contract(
-        name = "OrderInfo",
+        name = "DeliverInfo",
         info = @Info(
-                title = "OrderInfo contract",
+                title = "DeliverInfo contract",
                 description = "The hyperlegendary asset transfer",
                 version = "0.0.1-SNAPSHOT",
                 license = @License(
