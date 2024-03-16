@@ -265,15 +265,15 @@
 </template>
 
 <script>
-import ShowProductWarranty from "@/components/goodsDetail/ShowProductWarranty";
-import store from "@/vuex/store";
-import { mapState } from "vuex";
+import ShowProductWarranty from '@/components/goodsDetail/ShowProductWarranty';
+import store from '@/vuex/store';
+import { mapState } from 'vuex';
 export default {
-  name: "ShowGoodsDetail",
-  data() {
+  name: 'ShowGoodsDetail',
+  data () {
     return {
       adminss: [],
-      search: "",
+      search: '',
       currentPage: 1,
 
       pageSize: 12,
@@ -282,9 +282,9 @@ export default {
       admin: [],
       admins: [],
       srcList: [],
-      tagsColor: ["blue", "green", "red", "yellow"],
+      tagsColor: ['blue', 'green', 'red', 'yellow'],
 
-      tog: [{ name: "ni" }, { name: "hh" }],
+      tog: [{ name: 'ni' }, { name: 'hh' }]
     };
   },
   computed: {
@@ -307,7 +307,7 @@ export default {
         return admins.customerName.match(this.search);
       });
     },
-    totalSumAll() {
+    totalSumAll () {
       let totalSumAll = 0;
 
       this.admins.map((item) => {
@@ -317,89 +317,94 @@ export default {
       totalSumAll = Math.floor((totalSumAll / (this.admins.length * 5)) * 100);
       return totalSumAll;
     },
-    totalSumAlls() {
+    totalSumAlls () {
       let totalSumAlls = 0;
 
       this.admins.map((item) => {
-        if (2 > item.commentPf) {
+        if (item.commentPf < 2) {
           totalSumAlls++;
         } else {
+          // eslint-disable-next-line no-unused-expressions,eqeqeq
           totalSumAlls == 0;
         }
       });
       return totalSumAlls;
     },
 
-    totalSumAllss() {
+    totalSumAllss () {
       let totalSumAllss = 0;
 
       this.admins.map((item) => {
-        if (4 > item.commentPf && item.commentPf >= 2) {
+        if (item.commentPf < 4 && item.commentPf >= 2) {
           totalSumAllss++;
         } else {
+          // eslint-disable-next-line no-unused-expressions,eqeqeq
           totalSumAllss == 0;
         }
       });
       return totalSumAllss;
     },
 
-    totalSumAllsss() {
+    totalSumAllsss () {
       let totalSumAllsss = 0;
 
       this.admins.map((item) => {
-        if (6 > item.commentPf && item.commentPf >= 4) {
+        if (item.commentPf < 6 && item.commentPf >= 4) {
           totalSumAllsss++;
         } else {
+          // eslint-disable-next-line eqeqeq,no-unused-expressions
           totalSumAllsss == 0;
         }
       });
       return totalSumAllsss;
     },
 
-    ...mapState(["goodsInfo"]),
+    ...mapState(['goodsInfo'])
   },
   methods: {
-    ki(name) {
+    ki (name) {
       console.log(name);
       this.search = name;
     },
 
-    jh() {
+    jh () {
       location.reload();
     },
 
-    lodes() {
-      axios.get("http://localhost:8888/info/page").then((res) => {
+    lodes () {
+      // eslint-disable-next-line no-undef
+      axios.get('http://localhost:8888/info/page').then((res) => {
         console.log(res);
         this.adminss = res.data.data.records;
       });
     },
 
-    handleSizeChange(pageSize) {
-      //改变每页的个数触发
+    handleSizeChange (pageSize) {
+      // 改变每页的个数触发
       this.pageSize = pageSize;
       this.lode();
     },
-    handleCurrentChange(pageNum) {
-      //改变当前页码触发
+    handleCurrentChange (pageNum) {
+      // 改变当前页码触发
       this.currentPage = pageNum;
       this.lode();
     },
-    lode() {
+    lode () {
+      // eslint-disable-next-line no-undef
       axios
-        .get("http://localhost:8888/comment/find/" + this.id, {
+        .get('http://localhost:8888/comment/find/' + this.id, {
           params: {
             pageNum: this.currentPage,
             pageSize: this.pageSize,
-            search: this.search,
-          },
+            search: this.search
+          }
         })
         .then((res) => {
           console.log(res);
           this.admins = res.data.data.records;
           this.total = res.data.data.total;
         });
-    },
+    }
 
     //   vbs() {
     //          this.srcList = this.admins;
@@ -412,7 +417,7 @@ export default {
     //   this.$refs.itemIntroDetail.style.height = heightCss + "px";
     // },
   },
-  created() {
+  created () {
     // let sum = 0;
     // this.admins.forEach((item) => {
     //    //遍历prodAllPrice这个字段，并累加
@@ -425,7 +430,7 @@ export default {
     const _this = this;
 
     this.$axios
-      .get("http://localhost:8888/info/find/" + this.id)
+      .get('http://localhost:8888/info/find/' + this.id)
       .then(function (resp) {
         _this.admin = resp.data;
 
@@ -439,7 +444,7 @@ export default {
     //   console.log(resp);
     // });
   },
-  updated() {
+  updated () {
     this.$nextTick(() => {
       setTimeout(this.changeHeight, 100);
       setTimeout(this.changeHeight, 1000);
@@ -454,9 +459,9 @@ export default {
     });
   },
   components: {
-    ShowProductWarranty,
+    ShowProductWarranty
   },
-  store,
+  store
 };
 </script>
 
@@ -552,7 +557,6 @@ export default {
   width: 100%;
 }
 /* .item-intro-img img {
-
 
 } */
 /************* 商品参数 *************/

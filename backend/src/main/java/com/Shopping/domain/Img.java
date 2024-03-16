@@ -16,16 +16,9 @@ import java.util.Date;
 public class Img implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 管理员ID
-     */
-      @TableId(value = "img_id", type = IdType.AUTO)
+    @TableId(value = "img_id", type = IdType.AUTO)
     private Integer imgId;
 
-    /**
-     * 管理员名称
-     */
     private Integer productId;
 
     private String productName;

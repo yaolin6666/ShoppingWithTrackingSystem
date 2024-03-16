@@ -1,26 +1,6 @@
 <template>
   <div class="shop-nav-box">
     <div class="shop-nav-container">
-      <ul>
-        <li>
-         <router-link to=""><span>热卖</span></router-link>
-        </li>
-        <li >
-          <router-link to="/goodsList/1"><span>手机</span></router-link>
-        </li>
-        <li >
-          <router-link to="/goodsList/4"><span>电脑配件</span></router-link>
-        </li>
-        <li >
-          <router-link to="/goodsList/9"><span>电子教育</span></router-link>
-        </li>
-        <li >
-          <router-link to="/goodsList/11"><span>网络产品</span></router-link>
-        </li>
-        <li >
-          <router-link to="/goodsList/10"><span>游戏设备</span></router-link>
-        </li>
-      </ul>
     </div>
   </div>
 </template>

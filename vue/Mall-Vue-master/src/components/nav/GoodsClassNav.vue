@@ -7,20 +7,6 @@
  */
 <template>
   <div class="item-class-show" >
-    <Row class="item-class-group"   >
-      <i-col class="item-class-name" span="3">品牌 : </i-col>
-      <i-col class="item-class-select" span="21"  >
-
-        <span  v-for="(item,index) in admin" :key="index" @click="ju">
-           <router-link v-bind:to='`/goodsList/${id}/${item.brandId}`' >
-          <span >{{ item.brandName }}</span>
-
-          </router-link>
-          </span>
-
-
-      </i-col>
-    </Row>
 
     <div v-show="list.length<0">
 
@@ -30,16 +16,13 @@
       <i-col class="item-class-name" span="3">分类 :  </i-col>
       <i-col class="item-class-select" span="21">
 
-
       <span v-for="(item,index) in list" :key="index" @click="jus">
-
 
           <router-link v-bind:to='`/goodsList/${item.categoryId}`' class="ghg" >
              <span>{{item.categoryName}}</span>
           </router-link>
 
       </span>
-
 
       </i-col>
     </Row>
@@ -54,74 +37,67 @@ export default {
   data () {
     return {
       id: this.$route.params.id,
-      admin:[],
-      list:[],
+      admin: [],
+      list: [],
 
       tagsInfo: [
         {
-          tagName: '品牌',
+          tagName: '品牌'
 
         },
         {
-          tagName: '分类',
-          },
+          tagName: '分类'
+        }
 
       ]
     };
-
-
   },
 
- created(){
-
-   this.lodes(),
-   this.gt()
+  created () {
+    // eslint-disable-next-line no-unused-expressions,no-sequences
+    this.lodes(),
+    this.gt();
     const _this = this;
 
     this.$axios
-      .get("http://localhost:8888/brand/"+this.id)
+      .get('http://localhost:8888/brand/' + this.id)
       .then(function (resp) {
         _this.admin = resp.data.data;
         console.log(resp);
       });
-
   },
-  methods:{
-  ju(){
+  methods: {
+    ju () {
+      // eslint-disable-next-line eqeqeq
+      if (location.href.indexOf('#') == -1) {
+        location.href = location.href + '#';
+        location.reload();
+      }
+    },
+    jus () {
+      // eslint-disable-next-line eqeqeq
+      if (location.href.indexOf('#') == -1) {
+        location.href = location.href + '#';
+        location.reload();
+      }
+    },
 
-         if (location.href.indexOf("#") == -1) {
-                location.href = location.href + "#";
-                location.reload();
-            }
-
-  },
-  jus(){
-         if (location.href.indexOf("#") == -1) {
-                location.href = location.href + "#";
-                location.reload();
-            }
-  },
-
-
-    lodes() {
+    lodes () {
+      // eslint-disable-next-line no-undef
       axios
-        .get("http://localhost:8888/productCategory/parent/"+this.id , {
+        .get('http://localhost:8888/productCategory/parent/' + this.id, {
 
         })
         .then((res) => {
           console.log(res);
 
           this.list = res.data.data;
-
-
         });
-
     },
 
+    gt () {
 
- gt(){
-
- }
+    }
   //   gt(){
   //     const _this = this;
   //      this.$axios
@@ -133,9 +109,9 @@ export default {
   //     });
   //   }
   },
-  mounted(){
+  mounted () {
   }
-}
+};
 </script>
 
 <style scoped>

@@ -18,5 +18,7 @@ public class OrderInfo {
     @Property
     private String orderId;
     @Property
+    private String ArgId;
+    @Property
     private String orderInfo;
 }

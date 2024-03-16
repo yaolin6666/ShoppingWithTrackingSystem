@@ -18,6 +18,8 @@ public class DeliverInfo {
     @Property
     private String deliverId;
     @Property
+    private String orderId;
+    @Property
     private String deliverInfo;
     @Property
     private String extraDeliverInfo;

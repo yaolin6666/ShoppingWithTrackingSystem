@@ -22,7 +22,7 @@
       <div class="item-detail-right" :data="admin">
         <div class="item-detail-title">
           <p>
-            <span class="item-detail-express" style="word-wrap:break-word;word-break:break-all;width:600px;">校园配送</span>
+            <span class="item-detail-express" style="word-wrap:break-word;word-break:break-all;width:600px;">随时配送</span>
             {{ admin.productName }}
           </p>
         </div>

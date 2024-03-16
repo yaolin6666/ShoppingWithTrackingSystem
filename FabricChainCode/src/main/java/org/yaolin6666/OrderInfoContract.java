@@ -9,9 +9,9 @@ import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 
 @Contract(
-        name = "OrderInfo",
+        name = "DeliverInfo",
         info = @Info(
-                title = "OrderInfo contract",
+                title = "DeliverInfo contract",
                 description = "The hyperlegendary asset transfer",
                 version = "0.0.1-SNAPSHOT",
                 license = @License(
@@ -27,15 +27,15 @@ public class OrderInfoContract implements ContractInterface {
     public void initLedger(final Context ctx){
         ChaincodeStub stub= ctx.getStub();
         for(int i= 0;i<10;i++){
-            OrderInfo orderInfo=new OrderInfo().setOrderInfoId(Integer.toString(i));
-            stub.putStringState(orderInfo.getOrderInfoId(), JSON.toJSONString(orderInfo));
+            ArgInfo argInfo=new ArgInfo().setArgInfoID(Integer.toString(i));
+            stub.putStringState(argInfo.getArgInfoID(),JSON.toJSONString(argInfo));
         }
     }
     /**
      * key 使用uuid生成
      */
     @Transaction
-    public DeliverInfo queryOrderInfo(final Context ctx,final String key){
+    public OrderInfo queryOrderInfo(final Context ctx,final String key){
         ChaincodeStub stub= ctx.getStub();
         String orderInfoState=stub.getStringState(key);
         if(StringUtils.isBlank(orderInfoState)){
@@ -43,44 +43,44 @@ public class OrderInfoContract implements ContractInterface {
             throw new ChaincodeException(errorMessage);
         }
 
-        return JSON.parseObject(orderInfoState, DeliverInfo.class);
+        return JSON.parseObject(orderInfoState, OrderInfo.class);
     }
 
     @Transaction
-    public DeliverInfo createDeliverInfo(final Context ctx,final String key,String deliverId,String deliverInfo,String extraDeliverInfo){
+    public OrderInfo createOrderInfo(final Context ctx,final String key,String orderId,String argId,String orderInfo){
         ChaincodeStub stub= ctx.getStub();
         String deliverInfoState=stub.getStringState(key);
         if(StringUtils.isNotBlank(deliverInfoState)){
             String errorMessage=String.format("DeliverInfo %s already exists",key);
             throw new ChaincodeException(errorMessage);
         }
-        DeliverInfo input=new DeliverInfo().setDeliverInfoId(key).setDeliverId(deliverId).setDeliverInfo(deliverInfo).setExtraDeliverInfo(extraDeliverInfo);
+        OrderInfo input=new OrderInfo().setOrderInfoId(key).setOrderId(orderId).setArgId(argId).setOrderInfo(orderInfo);
         stub.putStringState(key,JSON.toJSONString(input));
         return input;
     }
 
     @Transaction
-    public DeliverInfo updateDeliverInfo(final Context ctx,final String key,String deliverId,String deliverInfo,String extraDeliverInfo){
+    public OrderInfo updateOrderInfo(final Context ctx,final String key,String orderId,String argId,String orderInfo){
         ChaincodeStub stub= ctx.getStub();
         String deliverInfoState=stub.getStringState(key);
         if(StringUtils.isBlank(deliverInfoState)){
             String errorMessage=String.format("DeliverInfo %s does not exist",key);
             throw new ChaincodeException(errorMessage);
         }
-        DeliverInfo input=new DeliverInfo().setDeliverInfoId(key).setDeliverId(deliverId).setDeliverInfo(deliverInfo).setExtraDeliverInfo(extraDeliverInfo);
+        OrderInfo input=new OrderInfo().setOrderInfoId(key).setOrderId(orderId).setArgId(argId).setOrderInfo(orderInfo);
         stub.putStringState(key,JSON.toJSONString(input));
         return input;
     }
 
     @Transaction
-    public DeliverInfo deleteDeliverInfo(final Context ctx,final String key){
+    public OrderInfo deleteOrderInfo(final Context ctx,final String key){
         ChaincodeStub stub= ctx.getStub();
-        String deliverInfoState=stub.getStringState(key);
-        if(StringUtils.isBlank(deliverInfoState)){
+        String orderInfoState=stub.getStringState(key);
+        if(StringUtils.isBlank(orderInfoState)){
             String errorMessage=String.format("DeliverInfo %s does not exist",key);
             throw new ChaincodeException(errorMessage);
         }
         stub.delState(key);
-        return JSON.parseObject(deliverInfoState, DeliverInfo.class);
+        return JSON.parseObject(orderInfoState, OrderInfo.class);
     }
 }

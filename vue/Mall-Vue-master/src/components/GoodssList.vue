@@ -9,11 +9,6 @@
     </div>
  </el-backtop>
     <el-input placeholder="请输入内容" v-model="search" class="input-with-select">
-    <!-- <el-select v-model="search" slot="prepend" placeholder="请选择">
-      <el-option label="餐厅名" :value="1"></el-option>
-      <el-option label="订单号" value="2"></el-option>
-      <el-option label="用户电话" value="3"></el-option>
-    </el-select> -->
     <el-button slot="append" icon="el-icon-search"></el-button>
   </el-input>
     </div>
@@ -39,7 +34,6 @@
             <span>广告</span>
           </div>
           <div v-show="admin.length<0"></div>
-
 
           <div class="item-as" v-for="(item,index) in admind.slice(10,20)" :key="index" @click="onSubmits(item)" >
             <router-link v-bind:to="'/goodsDetail/'+item.productId">
@@ -75,27 +69,17 @@
         class="li"
         @click="Onclicks"
           >筛 选</el-button></div>
-            <!-- 价格排序 -->
             <div class="box_top">
        <el-button class="el-icon-top" @click="index1s">价格升序</el-button>
       <el-button class="el-icon-bottom"  @click="indexs">价格降序</el-button>
           </div>
             <div v-for="admin in filteredBlogs" :key="admin"  border class="ss"  style="width: 100%" @click="onSubmits(admin)">
-    <!-- <router-link v-bind:to="'/blog/'+admin.productId"> -->
      <router-link v-bind:to="'/goodsDetail/'+admin.productId">
    <div class="sss">
-    <v-card
-        class="mx-auto"
-        max-width="344"
-
-      >
-
+    <v-card class="mx-auto" max-width="344">
          <div class="ee">
          <img :src="admin.productImage" width="300" height="250" />
-         <router-link v-bind:to="'/goodsList/'+admin.twoCategoryId"><div class="more"><span class="kkw1">找 相 似</span></div></router-link>
       </div>
-
-
         <v-card-text>
           <p class="swq" style="font-size:23px;font-weight:bold;margin-left:7px;margin-top:4px;">
             ￥{{admin.productPrice}}.00
@@ -115,7 +99,6 @@
 
         </v-card-title>
 
-
       </v-card>
       <div class="gt"><img src="@/assets/ym.png" ><img src="@/assets/cf.png" height="19"><div class="qf"><span>{{admin.productHome}}</span></div> </div>
 <div class="rt"><router-link v-bind:to="'/promptly/'+admin.productId">
@@ -129,7 +112,6 @@
 </router-link>
   </div>
   </div>
-
 
  <div v-show="admins.length>0">
    <div class="ghh"><div class="jjs"><el-input class="jjs" v-model="price1" placeholder="￥">
@@ -146,7 +128,6 @@
       <el-button class="el-icon-bottom"  @click="index">价格降序</el-button>
           </div>
             <div v-for="admins in admins"  :key="admins" border class="ss"  style="width: 100%" @click="onSubmits(admins)">
-    <!-- <router-link v-bind:to="'/blog/'+admin.productId"> -->
      <router-link v-bind:to="'/goodsDetail/'+admins.productId">
    <div class="sss">
     <v-card
@@ -157,9 +138,7 @@
 
          <div class="ee">
          <img :src="admins.productImage" width="300" height="250" />
-         <router-link v-bind:to="'/goodsList/'+admins.twoCategoryId"><div class="more"><span class="kkw1">找 相 似</span></div></router-link>
       </div>
-
 
         <v-card-text>
           <p class="swq" style="font-size:23px;font-weight:bold;margin-left:7px;margin-top:4px;">
@@ -180,7 +159,6 @@
 
         </v-card-title>
 
-
       </v-card>
       <div class="gt"><img src="@/assets/ym.png" ><img src="@/assets/cf.png" height="19"><div class="qf"><span>{{admins.productHome}}</span></div> </div>
 <div class="rt"><router-link v-bind:to="'/promptly/'+admins.productId">
@@ -195,13 +173,7 @@
   </div>
   </div>
 
-
-
-
-
-
 <div class="fy">
-
 
 <el-row :gutter="20" class="userindex-list">
       <el-col :span="24" class="userindex-page-box">
@@ -225,7 +197,9 @@
 import Search from '@/components/Search';
 import GoodsListNavs from '@/components/nav/GoodsListNavs';
 import GoodsClassNav from '@/components/nav/GoodsClassNav';
+// eslint-disable-next-line no-unused-vars
 import store from '@/store/index';
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapActions } from 'vuex';
 export default {
   name: 'GoodsList',
@@ -235,23 +209,23 @@ export default {
   },
   data () {
     return {
-      product:[],
-      admins:[],
-      admind:[],
-      price1:"",
-      price2:"",
-         list1:[],
-         list2:[],
-       sort: true, //排序
-      inject:['reload'],
+      product: [],
+      admins: [],
+      admind: [],
+      price1: '',
+      price2: '',
+      list1: [],
+      list2: [],
+      sort: true, // 排序
+      inject: ['reload'],
       id: this.$route.params.id,
       ids: this.$route.params.ids,
-      search: "",
+      search: '',
       currentPage: 1,
       pageSize: 16,
-idss:this.$store.state.userInfo.id,
+      idss: this.$store.state.userInfo.id,
       total: 0,
-      totals:0,
+      totals: 0,
       admin: [],
       searchItem: '',
       isAction: [ true, false, false ],
@@ -265,57 +239,55 @@ idss:this.$store.state.userInfo.id,
   },
   computed: {
     ...mapState(['userInfo', 'shoppingCart']),
-     filteredBlogs: function () {
+    filteredBlogs: function () {
       return this.admin.filter((admin) => {
         return admin.productName.match(this.search);
       });
-    },
-
+    }
 
   },
   methods: {
 
-onSubmits(admin) {
-  admin.customerId=this.idss
-      this.product=admin;
+    onSubmits (admin) {
+      admin.customerId = this.idss;
+      this.product = admin;
 
+      // eslint-disable-next-line no-unused-vars
+      let _this = this;
+      // eslint-disable-next-line no-undef
+      axios
+        .post('http://localhost:8888/img/add', this.product)
+        .then(function (response) {
+          console.log(this.product);
+        });
+    },
 
-          let _this = this;
-          axios
-            .post("http://localhost:8888/img/add", this.product)
-            .then(function (response) {
-              console.log(this.product)
-            });
-
-      },
-
-Onclick() {
+    Onclick () {
       this.admins = [];
-        if(!this.price1 && !this.price2){
-        location.reload()
-      }else{
-      this.list2.forEach((ele) => {
-        if (this.price1 <= ele.productPrice && ele.productPrice <= this.price2) {
-          this.admins.push(ele);
-        }
-      });
+      if (!this.price1 && !this.price2) {
+        location.reload();
+      } else {
+        this.list2.forEach((ele) => {
+          if (this.price1 <= ele.productPrice && ele.productPrice <= this.price2) {
+            this.admins.push(ele);
+          }
+        });
       }
     },
-    index() {
-      //排序
+    index () {
+      // 排序
       this.sort = !this.sort;
       if (this.sort) {
         this.admins.sort((a, b) => {
           return a.productPrice - b.productPrice;
         });
-      }
-      else {
+      } else {
         this.admins.sort((a, b) => {
           return a.productPrice - b.productPrice;
         });
       }
     },
-    index1() {
+    index1 () {
       this.sort = !this.sort;
       if (this.sort) {
         this.admins.sort((a, b) => {
@@ -327,33 +299,32 @@ Onclick() {
         });
       }
     },
-    Onclicks() {
+    Onclicks () {
       this.admin = [];
-        if(!this.price1 && !this.price2){
-        location.reload()
-      }else{
-      this.list1.forEach((ele) => {
-        if (this.price1 <= ele.productPrice && ele.productPrice <= this.price2) {
-          this.admin.push(ele);
-        }
-      });
+      if (!this.price1 && !this.price2) {
+        location.reload();
+      } else {
+        this.list1.forEach((ele) => {
+          if (this.price1 <= ele.productPrice && ele.productPrice <= this.price2) {
+            this.admin.push(ele);
+          }
+        });
       }
     },
-    indexs() {
-      //排序
+    indexs () {
+      // 排序
       this.sort = !this.sort;
       if (this.sort) {
         this.admin.sort((a, b) => {
           return a.productPrice - b.productPrice;
         });
-      }
-      else {
+      } else {
         this.admin.sort((a, b) => {
           return a.productPrice - b.productPrice;
         });
       }
     },
-    index1s() {
+    index1s () {
       this.sort = !this.sort;
       if (this.sort) {
         this.admin.sort((a, b) => {
@@ -366,55 +337,46 @@ Onclick() {
       }
     },
 
-
-
- handleSizeChange(pageSize) {
-      //改变每页的个数触发
+    handleSizeChange (pageSize) {
+      // 改变每页的个数触发
       this.pageSize = pageSize;
       this.lode();
     },
-    handleCurrentChange(pageNum) {
-      //改变当前页码触发
+    handleCurrentChange (pageNum) {
+      // 改变当前页码触发
       this.currentPage = pageNum;
       this.lode();
     },
 
-
-
-
-
-
-
-     lode() {
-
+    lode () {
+      // eslint-disable-next-line no-undef
       axios
-        .get("http://localhost:8888/info/"+this.id+"/"+this.ids,
-        {
-          params: {
-            pageNum: this.currentPage,
-            pageSize: this.pageSize,
-            search: this.search,
-          },
-        })
-
+        .get('http://localhost:8888/info/' + this.id + '/' + this.ids,
+          {
+            params: {
+              pageNum: this.currentPage,
+              pageSize: this.pageSize,
+              search: this.search
+            }
+          })
 
         .then((res) => {
           console.log(res);
           this.admin = res.data.data.records;
-         this.list1 = res.data.data.records;
+          this.list1 = res.data.data.records;
           this.total = res.data.data.total;
         });
-
     },
 
-    loded() {
+    loded () {
+      // eslint-disable-next-line no-undef
       axios
-        .get("http://localhost:8888/info/page",{
-           params: {
+        .get('http://localhost:8888/info/page', {
+          params: {
 
-            pageSize: this.pageSize,
+            pageSize: this.pageSize
 
-          },
+          }
         }
 
         )
@@ -425,26 +387,24 @@ Onclick() {
         });
     },
 
-    lodes() {
-
+    lodes () {
+      // eslint-disable-next-line no-undef
       axios
-        .get("http://localhost:8888/info/find/"+this.id+"/"+this.ids,
-        {
-          params: {
-            pageNum: this.currentPage,
-            pageSize: this.pageSize,
-            search: this.search,
-          },
-        })
+        .get('http://localhost:8888/info/find/' + this.id + '/' + this.ids,
+          {
+            params: {
+              pageNum: this.currentPage,
+              pageSize: this.pageSize,
+              search: this.search
+            }
+          })
 
         .then((res) => {
           console.log(res);
           this.admins = res.data.data.records;
-           this.list2 = res.data.data.records;
-           this.total = res.data.data.total;
-
+          this.list2 = res.data.data.records;
+          this.total = res.data.data.total;
         });
-
     },
 
     orderBy (data, index) {
@@ -463,27 +423,23 @@ Onclick() {
     //   this.admins=this.admins
     // }
 
-
-// if
-//     (this.lode()==null){
-//       this.lodes();
-//     }else{
-//       this.lode();
-//     }
-
+    // if
+    //     (this.lode()==null){
+    //       this.lodes();
+    //     }else{
+    //       this.lode();
+    //     }
 
     if
-    (this.lodes()==null){
+    (this.lodes() == null) {
       this.lode();
-    }else{
+    } else {
       this.lodes();
     }
 
-this.loded();
-
+    this.loded();
   },
   mounted () {
-
     this.searchItem = this.$route.query.sreachData;
   },
   components: {
@@ -491,7 +447,7 @@ this.loded();
     Search,
     GoodsListNavs,
     GoodsClassNav
-  },
+  }
 
 };
 </script>
@@ -716,9 +672,7 @@ this.loded();
   opacity: 0.8;
   transition: 0.3s;
 
-
 }
-
 
 .kkw1{
   font-size: 15px;
@@ -765,7 +719,6 @@ this.loded();
 }
 .item-as-intro:hover{
   color: #ee7546;
-
 
 }
 .el-icon-top{

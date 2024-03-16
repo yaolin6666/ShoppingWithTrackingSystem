@@ -54,7 +54,6 @@
     <v-card class="mx-auto" max-width="344">
       <div class="ee" >
          <img :src="admin.productImage" width="300" height="250"/>
-         <router-link v-bind:to="'/goodsList/'+admin.twoCategoryId"><div class="more"><span class="kkw1">找 相 似</span></div></router-link>
       </div>
 
         <v-card-text>

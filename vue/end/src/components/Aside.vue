@@ -23,7 +23,7 @@
         <el-menu-item-group>
           <el-menu-item index="/user">用户管理</el-menu-item>
           <el-menu-item index="/userinfo">用户信息管理</el-menu-item>
-          <el-menu-item index="/userAssign">审核申请</el-menu-item>
+          <el-menu-item index="/userAssign">商家审核管理</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
       <el-sub-menu index="2">

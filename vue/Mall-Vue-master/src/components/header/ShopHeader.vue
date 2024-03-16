@@ -51,18 +51,14 @@ export default {
     return {
       shopIntro: {
         shopName: '网上商城系统',
-        slogen: '淘淘乐',
-
+        slogen: '尽享优惠、安全'
       }
-
-
     };
   }
 };
 </script>
 
 <style scoped>
-/* 店铺介绍 */
 .shop-box {
   width: 100%;
   height: 120px;

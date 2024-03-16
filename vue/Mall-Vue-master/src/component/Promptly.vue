@@ -258,7 +258,6 @@
       <el-radio>
         <img @click="shows = !shows;show = !show;buy(notice.productId)" src="@/assets/zfb.png" width="150px" height="70px" />
       </el-radio>
-
     </div>
 
     </div>

@@ -33,7 +33,7 @@ public class AliPayConfig {
     private Config getOptions() {
         Config config = new Config();
         config.protocol = "https";
-        config.gatewayHost = "openapi.alipaydev.com";
+        config.gatewayHost = "openapi-sandbox.dl.alipaydev.com";
         config.signType = "RSA2";
         return config;
     }

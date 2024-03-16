@@ -5,7 +5,7 @@
         <ul>
           <li>我的购物车</li>
           <li><router-link to="/Index">首页</router-link></li>
-          <li><router-link to="/goodsList">全部商品分类</router-link></li>
+          <li><router-link to="/goodsList">全部商品</router-link></li>
           <li><router-link to="/orders">我的订单</router-link></li>
           <li><router-link to="/home/myShoppingCart">我的收藏</router-link></li>
           <li><router-link to="/home/myAddress">我的收货地址</router-link></li>

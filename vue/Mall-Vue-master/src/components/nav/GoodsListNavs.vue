@@ -3,7 +3,7 @@
     <div class="search-nav">
       <div class="search-nav-container">
         <ul>
-          <li>全部商品分类</li>
+          <li>全部商品</li>
           <li><router-link to="/Index">首页</router-link></li>
           <li><router-link to="/notice">我的购物车</router-link></li>
           <li><router-link to="/orders">我的订单</router-link></li>
