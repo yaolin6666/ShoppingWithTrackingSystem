@@ -69,9 +69,12 @@ public class RefundController {
     @GetMapping("/page")
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search) {
+                              @RequestParam(defaultValue = "") String search,
+                              @RequestParam(defaultValue = "0") Integer shopId) {
         new Page<>(pageNum, pageSize);
-        Page<Refund> refundPage = refundMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Refund>lambdaQuery().like(Refund::getProductName, search));
+        Page<Refund> refundPage = refundMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Refund>lambdaQuery()
+                .like(Refund::getProductName, search)
+                .eq(Refund::getShopCustomerId,shopId));
         LambdaQueryWrapper<Refund> query = Wrappers.<Refund>lambdaQuery().orderByDesc(Refund::getRefundId);
         if (StrUtil.isNotBlank(search)) {
             query.like(Refund::getProductName, search);

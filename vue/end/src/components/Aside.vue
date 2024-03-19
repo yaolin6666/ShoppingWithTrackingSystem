@@ -21,7 +21,7 @@
           <span >用户管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/user">用户管理</el-menu-item>
+<!--          <el-menu-item index="/user">用户管理</el-menu-item>-->
           <el-menu-item index="/userinfo">用户信息管理</el-menu-item>
           <el-menu-item index="/userAssign">商家审核管理</el-menu-item>
         </el-menu-item-group>
@@ -33,8 +33,8 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/product">商品信息管理</el-menu-item>
+          <el-menu-item index="/team">团购优惠管理</el-menu-item>
           <el-menu-item index="/origin">商品货源管理</el-menu-item>
-          <el-menu-item index="/notice">商品描述管理</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
       <el-sub-menu index="3">
@@ -44,9 +44,8 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/useraddr">等待发货管理</el-menu-item>
-          <el-menu-item index="/collection">确认发货管理</el-menu-item>
+          <el-menu-item index="/collection">已发货列表</el-menu-item>
           <el-menu-item index="/refund">退款管理</el-menu-item>
-          <el-menu-item index="/order">等待评价</el-menu-item>
           <el-menu-item index="/comment">评价管理</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>

@@ -35,7 +35,7 @@ public class CustomerInfo implements Serializable {
     @NotBlank(message = "密码不能为空")
     private String password;
 
-    @ApiModelProperty(value = "用户身份，0顾客，1管理员")
+    @ApiModelProperty(value = "用户身份，0顾客，1管理员,2未通过商家,3通过商家")
     private Integer role;
 
     @ApiModelProperty(value = "用户昵称")

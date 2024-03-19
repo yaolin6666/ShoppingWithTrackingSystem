@@ -141,8 +141,8 @@
     <div class="fj"></div>
     <div class="wan">
       <el-radio-group v-model="notice.paymentMethod" size="medium">
-        <el-radio label="朋友代付"></el-radio>
         <el-radio label="匿名付款"></el-radio>
+        <el-radio label="朋友代付"></el-radio>
         <el-radio label="花呗分期"></el-radio>
       </el-radio-group>
     </div>
@@ -261,21 +261,14 @@
           </el-form-item>
           <el-form-item label="付款方式" prop="paymentMethod">
             <el-radio-group v-model="notice.paymentMethod" size="medium">
-              <el-radio label="朋友代付"></el-radio>
               <el-radio label="匿名付款"></el-radio>
+              <el-radio label="朋友代付"></el-radio>
               <el-radio label="花呗分期"></el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="商品总数量" prop="productMnum">
             <el-input v-model="notice.productMnum">{{notice.productMnum}}</el-input>
           </el-form-item>
-<!--          <el-form-item label="快递公司" prop="shippingCompName">-->
-<!--            <el-radio-group v-model="notice.shippingCompName" size="medium">-->
-<!--              <el-radio-button border label="天天快递" v-model="gender"></el-radio-button>-->
-<!--              <el-radio-button border label="顺丰快递" v-model="gender"></el-radio-button>-->
-<!--              <el-radio-button border label="申通快递" v-model="gender"></el-radio-button>-->
-<!--            </el-radio-group>-->
-<!--          </el-form-item>-->
           <el-form-item label="快递费用" prop="shippingMoney">
             <el-input v-model="notice.shippingMoney"></el-input>
           </el-form-item>
@@ -318,7 +311,6 @@ export default {
 
       console.log(resp);
     });
-
     let orderDetailId = this.$route.query.orderDetailId;
 
     // eslint-disable-next-line no-undef
@@ -327,6 +319,11 @@ export default {
     });
   },
   updated () {
+    const _this = this;
+    // eslint-disable-next-line no-undef
+    axios.get('http://localhost:8888/info/find/' + this.notice.productId).then(function (response) {
+      _this.goodInfo = response.data;
+    });
     for (let i = 0; i < this.addressList.length; i++) {
       // eslint-disable-next-line eqeqeq
       if (this.addressList[i].goodId == this.addressId) {
@@ -343,15 +340,19 @@ export default {
       shows: true,
       product: [],
       active: 0,
+
       dialogTableVisibles: false,
       dialogFormVisibles: false,
       gender: '',
       addressId: '',
+      shopCustomerId: '',
+      goodInfo: {},
       notice: {
         name: '',
         sale: '',
-        icon: ''
-
+        icon: '',
+        status: '',
+        shopCustomerId: ''
       },
       good: {},
       addressList: [],
@@ -393,6 +394,7 @@ export default {
 
     onSubmits (formName) {
       this.good.customerId = this.ids;
+      this.good.status = 100;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let _this = this;
@@ -444,6 +446,9 @@ export default {
     },
 
     onSubmit () {
+      this.notice.shopCustomerId = this.goodInfo.customerId;
+      this.notice.customerId = this.ids;
+      this.notice.status = 100;
       let _this = this;
       for (let i = 0; i < this.addressList.length; i++) {
         // eslint-disable-next-line eqeqeq

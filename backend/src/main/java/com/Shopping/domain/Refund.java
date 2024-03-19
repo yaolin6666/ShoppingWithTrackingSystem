@@ -76,6 +76,11 @@ public class Refund implements Serializable {
     private String refundZt;
 
     private String refundImg;
+    private Integer discount;
+
+    @TableField(value = "shop_id")
+    private Integer shopCustomerId;
+
 
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;

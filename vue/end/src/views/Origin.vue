@@ -102,12 +102,12 @@
           </el-table-column>
           <el-table-column prop="productErm" label="商家二维码" width="120">
              <template #default="scope">
-          <el-image style="width: 100px; height: 100px" :src="scope.row.productErm" :preview-src-list="[scope.row.productErm]">
-            <div solt="error" class="image-slot">
-              <i class="el-icon-picture-outline"></i>
-            </div>
-          </el-image>
-        </template>
+              <el-image style="width: 100px; height: 100px" :src="scope.row.productErm" :preview-src-list="[scope.row.productErm]">
+                <div solt="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+            </template>
           </el-table-column>
           <el-table-column prop="createTime" label="创建时间" width="120">
           </el-table-column>

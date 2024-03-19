@@ -5,14 +5,10 @@
         <ul>
           <li>我的购物车</li>
           <li><router-link to="/Index">首页</router-link></li>
-          <li><router-link to="/goodsList">全部商品</router-link></li>
+          <li><router-link to="/merchant">全部商品</router-link></li>
           <li><router-link to="/orders">我的订单</router-link></li>
           <li><router-link to="/home/myShoppingCart">我的收藏</router-link></li>
           <li><router-link to="/home/myAddress">我的收货地址</router-link></li>
-          <!-- <li><router-link to="/"></router-link></li> -->
-          <!-- <li><router-link to="/">闪购</router-link></li>
-          <li><router-link to="/">拍卖</router-link></li>
-          <li><router-link to="/">金融</router-link></li> -->
         </ul>
       </div>
     </div>
@@ -37,9 +33,6 @@ export default {
   height: 64px;
   margin: 0px auto;
 }
-.search-nav-container-90{
-  width: 90%;
-}
 .search-nav-container ul{
   margin: 0px;
   padding-left: 0px;
@@ -51,7 +44,6 @@ export default {
   line-height: 64px;
   color: #C81623;
   font-size: 18px;
-  /*font-weight: bold;*/
   float: left;
 }
 .search-nav-container a{
@@ -64,7 +56,4 @@ export default {
   margin: 0px;
   color: #fff;
 }
-
-
-
 </style>

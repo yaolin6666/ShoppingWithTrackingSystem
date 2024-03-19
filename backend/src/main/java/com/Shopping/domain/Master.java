@@ -68,6 +68,19 @@ public class Master implements Serializable {
     private Integer productNum;
 
     /**
+     *   状态 100表示单独购买未发货 102表示团购成功未发货 103表示团购未达成人数订单
+     *       200表示已发货未收货
+     *       300表示已收货
+    */
+    private Integer status;
+
+    //表示优惠比率 整数数值
+    private Integer discount;
+
+    @TableField(value = "shop_id")
+    private Integer shopCustomerId;
+
+    /**
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)

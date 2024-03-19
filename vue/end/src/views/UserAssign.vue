@@ -20,6 +20,8 @@
         <template #default="scope">
           <span v-if="scope.row.role === 0">用户</span>
           <span v-if="scope.row.role === 1">管理员</span>
+          <span v-if="scope.row.role === 2">商家(待审核)</span>
+          <span v-if="scope.row.role === 3">商家</span>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间"/>

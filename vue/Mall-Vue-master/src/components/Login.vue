@@ -3,10 +3,8 @@
     <div style="float:left" class="poii1"></div>
     <div class="poii"></div>
     <div class="poo" style="width: 100%;height: 100%;overflow: hidden">
-
       <div class="po">
         <div class="poi"></div>
-
         <div class="ij" style="width: 400px;">
           <div style="text-align:center;font-size: 25px;color: #b3c0d1;margin: 14px 0">欢迎登录</div>
           <div>
@@ -45,88 +43,88 @@
   </div>
 </template>
 <script>
-  import ValidCode from '@/components/ValidCode';
+import ValidCode from '@/components/ValidCode';
 
-  export default {
-    name: 'Login',
-    components: {ValidCode},
-    data () {
+export default {
+  name: 'Login',
+  components: {ValidCode},
+  data () {
+    return {
+      recordNr: '登录前台',
+      url: {url: require('../assets/pic.gif')},
+      ruleForm: {},
+      rules: {
+        username: [
+          {required: true, message: '请输入用户名', trigger: 'blur'}
+        ],
+        password: [
+          {required: true, message: '请输入用密码', trigger: 'blur'}
+        ],
+        validCode: ''
+      }
+    };
+  },
+  created () {
+    sessionStorage.removeItem('user');
+  },
+  methods: {
 
-      return {
-        recordNr: '登录前台',
-        url: {url: require('../assets/pic.gif')},
-        ruleForm: {},
-        rules: {
-          username: [
-            {required: true, message: '请输入用户名', trigger: 'blur'},
-          ],
-          password: [
-            {required: true, message: '请输入用密码', trigger: 'blur'}
-          ],
-          validCode: '',
-        }
-      };
+    //     onSubmits(formName) {
+
+    // this.ruleForm.recordNr=this.recordNr
+
+    //       this.$refs[formName].validate((valid) => {
+    //         if (valid) {
+    //           let _this = this;
+    //           axios
+    //             .post("http://localhost:8888/record/add", this.ruleForm)
+
+    //         }
+    //       });
+    //     },
+
+    createValidCode (data) {
+      this.validCode = data;
     },
-    created () {
-      sessionStorage.removeItem('user');
-    },
-    methods: {
-
-//     onSubmits(formName) {
-
-// this.ruleForm.recordNr=this.recordNr
-
-//       this.$refs[formName].validate((valid) => {
-//         if (valid) {
-//           let _this = this;
-//           axios
-//             .post("http://localhost:8888/record/add", this.ruleForm)
-
-//         }
-//       });
-//     },
-
-      createValidCode (data) {
-        this.validCode = data;
-      },
-      submitForm () {
-        this.ruleForm.recordNr = this.recordNr;
-        this.$refs['ruleForm'].validate((valid) => {
-          if (valid) {
-            if (!this.ruleForm.validCode) {
-              this.$message.error('请填写验证码');
-              return;
-            }
-            if (this.ruleForm.validCode.toLowerCase() !== this.validCode.toLowerCase()) {
-              this.$message.error('验证码错误');
-              return;
-            }
-            // 提交逻辑
-            this.$axios.post('/logins', this.ruleForm).then((res) => {
-              if (res.data.code === 400) {
-                this.$message.error('密码错误');
-              } else {
-                axios
-                  .post('http://localhost:8888/record/add', this.ruleForm);
-                const token = res.headers['authorization'];
-                this.$store.commit('SET_TOKEN', token);
-                this.$store.commit('SET_USERINFO', res.data.data);
-                console.log(res.data.data);
-                sessionStorage.setItem('user', JSON.stringify(res.data));
-
-                this.$router.push('/Index');
-                this.$message.success('登录成功');
-                location.reload();
-              }
-            });
+    submitForm () {
+      this.ruleForm.recordNr = this.recordNr;
+      this.$refs['ruleForm'].validate((valid) => {
+        if (valid) {
+          if (!this.ruleForm.validCode) {
+            this.$message.error('请填写验证码');
+            return;
           }
-        });
-      },
-    },
-    mounted () {
+          if (this.ruleForm.validCode.toLowerCase() !== this.validCode.toLowerCase()) {
+            this.$message.error('验证码错误');
+            return;
+          }
+          // 提交逻辑
+          this.$axios.post('/logins', this.ruleForm).then((res) => {
+            if (res.data.code === 400) {
+              this.$message.error('密码错误');
+            } else {
+              // eslint-disable-next-line no-undef
+              axios
+                .post('http://localhost:8888/record/add', this.ruleForm);
+              const token = res.headers['authorization'];
+              this.$store.commit('SET_TOKEN', token);
+              this.$store.commit('SET_USERINFO', res.data.data);
+              console.log(res.data.data);
+              sessionStorage.setItem('user', JSON.stringify(res.data));
 
+              this.$router.push('/Index');
+              this.$message.success('登录成功');
+              location.reload();
+            }
+          });
+        }
+      });
     }
-  };
+  },
+  mounted () {
+
+  }
+};
 </script>
 <style scoped>
 
@@ -159,7 +157,6 @@
     border-radius: 4px;
 
     margin-bottom: 10px;
-
 
   }
 

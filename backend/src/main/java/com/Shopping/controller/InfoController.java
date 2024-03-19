@@ -93,9 +93,17 @@ public class InfoController {
     @GetMapping("/page")
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search) {
+                              @RequestParam(defaultValue = "") String search,
+                              @RequestParam(defaultValue = "0") Integer customerId) {
         new Page<>(pageNum, pageSize);
-        Page<Info> infoPage = infoMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Info>lambdaQuery().like(Info::getProductName, search));
+        Page<Info> infoPage;
+        if(customerId==0){
+        infoPage = infoMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Info>lambdaQuery().like(Info::getProductName, search));
+        }else{
+            infoPage = infoMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Info>lambdaQuery()
+                    .like(Info::getProductName, search)
+                    .eq(Info::getCustomerId,customerId));
+        }
         LambdaQueryWrapper<Info> query = Wrappers.<Info>lambdaQuery().orderByDesc(Info::getProductId);
         if (StrUtil.isNotBlank(search)) {
             query.like(Info::getProductName, search);

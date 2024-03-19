@@ -25,8 +25,6 @@
 </div>
        <tbody >
 
-
-
       <tr >
 
         <td style="border: 1px solid red;height:100px" @click="onSubmitss(admin)">
@@ -93,20 +91,12 @@
   width="400"
   trigger="click">
   <el-form ref="form" :rules="rules" :model="admin" label-width="300px" style="width: 1000px" center>
-        <!-- <el-form-item label="购物车ID" prop="orderDetailId">
-            <span v-model="wantbuy.orderDetailId" readonly></span>
-        </el-form-item>
-        <el-form-item label="商品ID" prop="productId">
-            <span v-model="wantbuy.productId"></span>
-        </el-form-item> -->
        <el-form-item
       label="商品图片"
       prop="productImage"
     >
       <img  :src="admin.productImage" width="300" height="200" />
     </el-form-item>
-
-
 
     <el-form-item
       label="商品名称"
@@ -179,8 +169,6 @@
 
     </el-form-item>
 
-
-
     <el-form-item
       label="订单备注"
       prop="productMessage"
@@ -188,13 +176,11 @@
       <el-input v-model="admin.productMessage"></el-input>
     </el-form-item>
 
-
         <el-form-item>
 
             <el-button>取消</el-button>
         </el-form-item>
     </el-form>
- <!-- <el-button slot="reference">click 激活</el-button> -->
 </el-popover>
   </div>
 </template>
@@ -211,28 +197,26 @@ export default {
     next();
   },
   created () {
- const  _this = this
+    const _this = this;
     this.$axios.get('http://localhost:8888/good/findAll').then(function (resp) {
-        _this.admins = resp.data
+      _this.admins = resp.data;
 
-        console.log(resp);
-      })
+      console.log(resp);
+    });
 
+    this.$axios.get('http://localhost:8888/receipt/find/' + this.id).then(function (resp) {
+      _this.admin = resp.data;
 
-    this.$axios.get('http://localhost:8888/receipt/find/'+this.id).then(function (resp) {
-        _this.admin = resp.data
-
-
-        console.log(resp);
-      })
+      console.log(resp);
+    });
     this.loadAddress();
   },
   data () {
     return {
-      product:[],
+      product: [],
       goodsCheckList: [],
-      admin:[],
-      id:this.$route.params.id,
+      admin: [],
+      id: this.$route.params.id,
       columns: [
         {
           type: 'selection',
@@ -296,71 +280,63 @@ export default {
     }
   },
   methods: {
-onSubmitss(admin) {
-       admin.customerId=this.ids
-      this.product=admin;
+    onSubmitss (admin) {
+      admin.customerId = this.ids;
+      this.product = admin;
 
-
-          let _this = this;
-          axios
-            .post("http://localhost:8888/img/add", this.product)
-            .then(function (response) {
-              console.log(this.product)
-            });
-
-      },
-
-del() {
+      // eslint-disable-next-line no-unused-vars
       let _this = this;
-      this.
+      // eslint-disable-next-line no-undef
+      axios
+        .post('http://localhost:8888/img/add', this.product)
+        .then(function (response) {
+          console.log(this.product);
+        });
+    },
 
-          axios
-            .delete("http://localhost:8888/receipt/delete/" + this.admin.receiptId)
-            .then(function (response) {
-              if (response.data) {
-                _this.$alert(notice.productName + "删除成功!", "删除数据", {
-                  confirmButtonText: "确定",
-                  callback: (action) => {
-                    //跳转到 /table
-                    location.reload();
-                  },
-                });
+    del () {
+      let _this = this;
+      this
+
+        .axios
+        .delete('http://localhost:8888/receipt/delete/' + this.admin.receiptId)
+        .then(function (response) {
+          if (response.data) {
+            // eslint-disable-next-line no-undef
+            _this.$alert(notice.productName + '删除成功!', '删除数据', {
+              confirmButtonText: '确定',
+              callback: (action) => {
+                // 跳转到 /table
+                location.reload();
               }
-            })
+            });
+          }
+        })
 
         .catch(() => {});
     },
 
-
-    onSubmit(formName) {
+    onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let _this = this;
+          // eslint-disable-next-line no-undef
           axios
-            .post("http://localhost:8888/assess/add", this.admin)
+            .post('http://localhost:8888/assess/add', this.admin)
             .then(function (response) {
               if (response.data) {
-                _this.$alert( "确认收货成功！", "添加数据", {
-                  confirmButtonText: "确定",
+                _this.$alert('确认收货成功！', '添加数据', {
+                  confirmButtonText: '确定',
                   callback: (action) => {
-                    //跳转到/table
+                    // 跳转到/table
                     _this.$router.push('/Assess');
-                  },
+                  }
                 });
               }
             });
         }
       });
     },
-
-
-
-
-
-
-
-
-
 
     ...mapActions(['loadAddress']),
     select (selection, row) {
@@ -378,7 +354,6 @@ del() {
     }
   },
   mounted () {
-
     setTimeout(() => {
       this.$refs.selection.selectAll(true);
     }, 500);
@@ -420,7 +395,6 @@ del() {
   justify-content: center;
   align-content: center;
   background-color: #ccc;
-
 
 }
 .address-check-name span {
@@ -473,7 +447,6 @@ del() {
   font-weight: bolder;
   color: #495060;
 
-
 }
 .money {
   font-size: 26px;
@@ -491,14 +464,8 @@ del() {
   border-radius: 5px;
   box-shadow: 0px 0px 5px #ccc;
 
-
 }
-.vs{
-  margin-bottom: 20px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 5px #ccc;
 
-}
 .ff{
   height: 50px;
   padding-top: 17px;

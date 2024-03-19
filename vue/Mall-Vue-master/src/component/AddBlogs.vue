@@ -2463,15 +2463,15 @@ export default {
         productIm: [
           {required: true, message: '商品描述图片1', trigger: 'blur'}
         ],
-        // productCg :[
-        //   { required: true, message: "商品颜色4", trigger: "blur" },
-        //   ],
-        // productCf: [
-        //   { required: true, message: "商品颜色3", trigger: "blur" },
-        //   ],
-        // productCd :[
-        //   { required: true, message: "商品颜色2", trigger: "blur" },
-        //   ],
+        productCg: [
+          { required: true, message: '商品颜色4', trigger: 'blur' }
+        ],
+        productCf: [
+          { required: true, message: '商品颜色3', trigger: 'blur' }
+        ],
+        productCd: [
+          { required: true, message: '商品颜色2', trigger: 'blur' }
+        ],
         productCs: [
           {required: true, message: '商品颜色1', trigger: 'blur'}
         ],

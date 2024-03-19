@@ -3,19 +3,13 @@
     <div style="margin: 10px 0;display: flex;">
       <el-input v-model="search" placeholder="请输入" style="width: 20%;" clearable/>
       <el-button type="primary" style="margin-left: 5px" @click="lode">查询</el-button>
-      <el-popconfirm title="确认删除吗?" @confirm="deleteBatch">
-        <template #reference>
-          <el-button type="danger">批量删除</el-button>
-        </template>
-      </el-popconfirm>
     </div>
     <!-- 检索结果 -->
     <el-row :gutter="0">
       <el-col :span="21">
         <el-table :data="admin" border stripe style="width: 100%" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50"/>
-          <el-table-column prop="orderId" label="ID" width="40">
-          </el-table-column>
+          <el-table-column prop="orderId" label="ID" width="40"></el-table-column>
           <el-table-column prop="customerId" label="用户ID"/>
           <el-table-column prop="productId" label="商品ID" width="70">
           </el-table-column>
@@ -56,18 +50,6 @@
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-button
-                  type="primary"
-                  icon="el-icon-edit"
-                  circle
-                  @click="edit(scope.row)">
-              </el-button>
-              <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  circle
-                  @click="del(scope.row)">
-              </el-button>
-              <el-button
                   type="danger"
                   circle
                   @click="send(scope.row)">
@@ -78,61 +60,6 @@
         </el-table>
       </el-col>
     </el-row>
-
-    <el-dialog v-model="dialogVisible" title="修改" width="40%">
-      <el-form :model="form" label-width="80px" center>
-        <el-form-item label="商品名称">
-          <el-input v-model="form.productName"/>
-        </el-form-item>
-        <el-form-item label="收货人">
-          <el-radio-group v-model="form.shippingUser" v-for="item in admins" :key="item.goodId">
-            <el-radio-button :label="item.goodDescribe" style="float: left"></el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="地址">
-          <el-radio-group v-model="form.address" v-for="item in admins" :key="item.goodId">
-            <el-radio-button :label="item.goodName" style="float: left"></el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="电话号码" style="width: 550px;">
-          <el-radio-group v-model="form.productPhones" v-for="item in admins" :key="item.goodId">
-            <el-radio-button :label="item.goodPhone" style="float: left"/>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="颜色">
-          <el-input v-model="form.productColor" style="width: 100px;"/>
-        </el-form-item>
-        <el-form-item label="数量">
-          <el-input v-model="form.productNum" style="width: 100px;"/>
-        </el-form-item>
-        <el-form-item label="价格">
-          <el-input v-model="form.productPrice" style="width: 100px;"/>
-        </el-form-item>
-        <el-form-item label="付款方式">
-          <el-radio-group v-model="form.paymentMethod" size="medium">
-            <el-radio label="朋友代付"></el-radio>
-            <el-radio label="匿名付款"></el-radio>
-            <el-radio label="花呗分期"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="快递公司">
-          <el-radio-group v-model="form.shippingCompName" size="medium">
-            <el-radio-button border label="天天快递"></el-radio-button>
-            <el-radio-button border label="顺丰快递"></el-radio-button>
-            <el-radio-button border label="申通快递"></el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="订单备注">
-          <el-input v-model="form.productMessage"></el-input>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-          <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="onSubmit()">确定</el-button>
-          </span>
-      </template>
-    </el-dialog>
 
     <el-dialog v-model="dialogVisible1" title="发货" width="40%">
       <el-form :model="form" label-width="80px" center>
@@ -170,7 +97,7 @@
       <template #footer>
           <span class="dialog-footer">
             <el-button @click="dialogVisible1 = false">取消</el-button>
-            <el-button type="primary" @click="add();dele()">确定</el-button>
+            <el-button type="primary" @click="add()">确定</el-button>
           </span>
       </template>
     </el-dialog>
@@ -193,6 +120,7 @@ import {ElMessage} from 'element-plus'
 
 export default {
   created() {
+    this.userId=JSON.parse(sessionStorage.getItem('userInfo')).id;
     this.lode()
   },
   methods: {
@@ -201,7 +129,8 @@ export default {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          search: this.search
+          search: this.search,
+          shopId: this.userId
         }
       }).then(res => {
         console.log(res);
@@ -352,6 +281,7 @@ export default {
       admin: [],
       form: {},
       ids: [],
+      userId: '',
     };
   },
 };
@@ -365,14 +295,13 @@ export default {
   box-sizing: border-box;
 }
 
-/* 列表 */
 .userindex-list {
   width: 100%;
   height: auto;
   margin-top: 20px;
 }
 
-/* 分页 */
+
 .userindex-page-box {
   width: 100%;
   height: auto;

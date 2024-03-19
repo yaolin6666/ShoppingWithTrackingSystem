@@ -7,7 +7,6 @@
          <el-button @click="dialogVisible = true">修 改</el-button>
        </div>
       </div>
-
        <div class="jj">
      <div class="ju1">
        <i class="el-icon-user"></i>
@@ -15,13 +14,6 @@
        <span style="margin-left: 90px;">
        {{admin.customerName}}
        </span>
-       </div>
-     <div class="ju2">
-       <i class="el-icon-edit-outline"></i>
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;签&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名
-        <span style="margin-left: 90px;">
-       {{admin.signatures}}
-        </span>
        </div>
      <div class="ju3">
        <i class="el-icon-phone-outline"></i>
@@ -39,7 +31,6 @@
       </span>
       </div>
 
-
      <div class="ju5">
        <i class="el-icon-present"></i>
        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄
@@ -54,19 +45,10 @@
        {{admin.sex}}
        </span>
        </div>
-     <!-- 用户头像:{{admin.avatar}} -->
-     <!-- <div class="ju7">
-       <i class="el-icon-money"></i>
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;余&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额
-       <span style="margin-left: 90px;">
-       {{admin.wallet}}
-       </span>
-       </div> -->
-
      </div>
     </div>
     </div>
-    <el-dialog title="收货地址"  :visible.sync="dialogVisible">
+    <el-dialog title="修改资料"  :visible.sync="dialogVisible">
   <el-form :model="admin" ref="fruitRule"
     :rules="rules">
     <el-form-item>
@@ -88,9 +70,6 @@
    <el-form-item label="用户昵称" prop="customerName">
     <el-input v-model="admin.customerName"></el-input>
   </el-form-item>
-  <!-- <el-form-item label="收货地址" prop="goodName">
-     <Distpicker v-model="goods.province"  @province="getProvince" @city="getCity" @area="getArea"></Distpicker>
-  </el-form-item> -->
   <el-form-item label="用户签名" prop="signatures">
     <el-input v-model="admin.signatures"></el-input>
   </el-form-item>
@@ -112,15 +91,10 @@
     <el-radio v-model="admin.sex" label="男">男</el-radio>
             <el-radio v-model="admin.sex" label="女">女</el-radio>
   </el-form-item>
-   <!-- <el-form-item label="用户余额" prop="wallet">
-    <el-input v-model="admin.wallet"></el-input>
-  </el-form-item> -->
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="onSubmit('fruitRule');"
-        >立即修改</el-button
-      >
+    <el-button type="primary" @click="onSubmit('fruitRule');">立即修改</el-button>
   </div>
 </el-dialog>
   </div>
@@ -130,7 +104,6 @@
 export default {
   name: 'MyOrder',
   data () {
-
     // 邮箱验证
     var checkEmail = (rule, value, callback) => {
       const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
@@ -141,79 +114,66 @@ export default {
         if (mailReg.test(value)) {
           callback();
         } else {
-          callback(new Error("请输入正确的邮箱格式"));
+          callback(new Error('请输入正确的邮箱格式'));
         }
       }, 100);
     };
     return {
-       dialogVisible: false,
-      admin:[],
-      id:this.$route.params.id,
-       rules: {
-        email: [{ validator: checkEmail, trigger: "blur" }],
-      },
+      dialogVisible: false,
+      admin: [],
+      id: this.$route.params.id,
+      rules: {
+        email: [{ validator: checkEmail, trigger: 'blur' }]
+      }
 
     };
   },
-  created(){
+  created () {
     const _this = this;
-
     this.$axios
-      .get("http://localhost:8888/customerInfo/find/" + this.id)
+      .get('http://localhost:8888/customerInfo/find/' + this.id)
       .then(function (resp) {
         _this.admin = resp.data;
-
         console.log(resp);
       });
-
   },
-   methods: {
+  methods: {
 
-filesUplodeSeccess(res){
-      console.log(res)
-      this.admin.avatar = res.data
-
+    filesUplodeSeccess (res) {
+      console.log(res);
+      this.admin.avatar = res.data;
     },
-  handleEdit() {
-
-      this.dialogVisible = true
-      this.$nextTick(() =>{
-        this.$refs['uplode'].clearFiles()
-      })
-
-
+    handleEdit () {
+      this.dialogVisible = true;
+      this.$nextTick(() => {
+        this.$refs['uplode'].clearFiles();
+      });
     },
-    onSubmit(admin) {
-                this.$refs[admin].validate((valid) => {
-                    if (valid) {
-                        let _this = this
-                        axios.put('http://localhost:8888/customerInfo/update',this.admin).then(function (response) {
-                            if(response.data){
-                                _this.$alert('修改成功！', '修改个人主页', {
-                                    confirmButtonText: '确定',
-                                    callback: action => {
-                                        //跳转到/table
-                                        location.reload();
-                                    }
-                                });
-                            }
-                        })
-                    }
-                });
-            },
+    onSubmit (admin) {
+      this.$refs[admin].validate((valid) => {
+        if (valid) {
+          let _this = this;
+          // eslint-disable-next-line no-undef
+          axios.put('http://localhost:8888/customerInfo/update', this.admin).then(function (response) {
+            if (response.data) {
+              _this.$alert('修改成功！', '修改个人主页', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  // 跳转到/table
+                  location.reload();
+                }
+              });
+            }
+          });
+        }
+      });
+    }
 
-
-    },
+  }
 };
 </script>
 
 <style scoped>
-.page-size {
-  margin: 15px 0px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
 .jj{
   padding-top: 100px;
 }
@@ -221,7 +181,6 @@ filesUplodeSeccess(res){
   margin-left: 280px;
   padding-top: 190px;
   float: left;
-
 
 }
 .ju1{
@@ -232,13 +191,7 @@ filesUplodeSeccess(res){
   margin-left: 590px;
 
 }
-.ju2{
- margin-top: 40px;
-  font-size: 17px;
-  font-weight: bold;
-  color: rgb(141, 148, 148);
-  margin-left: 590px;
-}
+
 .ju3{
   margin-top: 40px;
   font-size: 17px;
@@ -267,13 +220,7 @@ filesUplodeSeccess(res){
   color: rgb(141, 148, 148);
   margin-left: 590px;
 }
-.ju7{
-  margin-top: 40px;
-  font-size: 17px;
-  font-weight: bold;
-  color: rgb(141, 148, 148);
-  margin-left: 590px;
-}
+
 .ju8{
 
  margin-top: 60px;
@@ -296,7 +243,6 @@ padding-top: 50px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, .22), 0 0 12px rgba(0, 0, 0, .14);
   background: white;
   width: 1330px;
-
 
 }
 </style>

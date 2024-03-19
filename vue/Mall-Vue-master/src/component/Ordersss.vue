@@ -20,13 +20,10 @@
 <span style="margin-left: 131px;">数量</span>
 <span style="margin-left: 119px;">实付款</span>
 <span style="margin-left: 138px;">交易状态</span>
-<span style="margin-left: 124px;">交易操作</span>
 </div>
 </div>
 
        <tbody >
-
-
 
       <tr >
 
@@ -42,17 +39,15 @@
           <div class="l3"><span style="color:red">￥{{admin.productPrice}}</span></div>
           <div class="l4"><span>{{admin.productNum}}</span></div>
           <div class="l5"><span style="color:red">￥{{admin.productNum * admin.productPrice}}</span></div>
-
-          <div class="l7"><span>等待确认收货</span></div>
+          <div class="l7">
+            <span v-if="admin.status>=200&&admin.status<300">等待收货</span>
+            <span v-if="admin.status>=100&&admin.status<200">等待发货</span>
+          </div>
           </router-link>
         </td>
-
         </tr>
-
       </tbody>
-
      </table>
-
       <div class="address-container">
         <h3>退款/退货理由</h3>
          <el-select v-model="admin.refundNr" placeholder="请选择">
@@ -64,7 +59,6 @@
     </el-option>
   </el-select>
       </div>
-
      <div class="address-container">
         <h3>退款/退货状态</h3>
          <el-select v-model="admin.refundZt" placeholder="请选择">
@@ -76,8 +70,6 @@
     </el-option>
   </el-select>
       </div>
-
-
        <div class="address-container">
         <h3>退款/退货原因</h3>
          <el-select v-model="admin.refundSm" placeholder="请选择">
@@ -89,7 +81,6 @@
     </el-option>
   </el-select>
       </div>
-
 
 <div class="address-container">
    <div style="float:left;margin-top: 40px;font-weight: bold;font-size: 14px;">上传凭证</div>
@@ -103,7 +94,6 @@
   :on-success="filesUplodeSeccess"
   list-type="picture">
   <el-button size="small" type="primary">点击上传</el-button>
-  <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
 </el-upload>
 </div>
 </div>
@@ -137,140 +127,72 @@
   width="400"
   trigger="click">
   <el-form ref="form" :rules="rules" :model="admin" label-width="300px" style="width: 1000px" center>
-        <!-- <el-form-item label="购物车ID" prop="orderDetailId">
-            <span v-model="wantbuy.orderDetailId" readonly></span>
-        </el-form-item>
-        <el-form-item label="商品ID" prop="productId">
-            <span v-model="wantbuy.productId"></span>
-        </el-form-item> -->
-       <el-form-item
-      label="商品图片"
-      prop="productImage"
-    >
+       <el-form-item label="商品图片" prop="productImage">
       <img  :src="admin.productImage" width="300" height="200" />
     </el-form-item>
-
-
-
-    <el-form-item
-      label="商品名称"
-      prop="productName"
-    >
+    <el-form-item label="商品名称" prop="productName">
       <el-input v-model="admin.productName">{{admin.productName}}</el-input>
     </el-form-item>
-    <el-form-item
-      label="收货人"
-      prop="shippingUser"
-    >
+    <el-form-item label="收货人" prop="shippingUser">
       <el-radio-group v-model="admin.shippingUser" v-for="item in admins" :key="item.goodId" @click="toggleTab(item.goodId)">
     <el-radio-button :label="item.goodDescribe"></el-radio-button>
       </el-radio-group>
     </el-form-item>
-    <el-form-item
-      label="地址"
-      prop="address"
-    >
+    <el-form-item label="地址" prop="address">
      <el-radio-group v-model="admin.address" v-for="item in admins" :key="item.goodId" @click="toggleTab(item.goodId)">
     <el-radio-button :label="item.goodName"></el-radio-button>
 </el-radio-group>
     </el-form-item>
-<el-form-item
-      label="电话号码"
-      prop="productPhones"
-    >
+<el-form-item label="电话号码" prop="productPhones">
      <el-radio-group v-model="admin.productPhones" v-for="item in admins" :key="item.goodId" @click="toggleTab(item.goodId)">
     <el-radio-button :label="item.goodPhone"></el-radio-button>
 </el-radio-group>
     </el-form-item>
-    <el-form-item
-      label="颜色"
-      prop="productColor"
-    >
+    <el-form-item label="颜色" prop="productColor">
       <el-input v-model="admin.productColor"></el-input>
     </el-form-item>
- <el-form-item
-      label="数量"
-      prop="productNum"
-    >
+ <el-form-item label="数量" prop="productNum">
       <el-input v-model="admin.productNum"></el-input>
     </el-form-item>
-    <el-form-item
-      label="价格"
-      prop="productPrice"
-    >
+    <el-form-item label="价格" prop="productPrice">
       <el-input v-model="admin.productPrice"></el-input>
     </el-form-item>
-<el-form-item
-      label="付款方式"
-      prop="paymentMethod"
-    >
+<el-form-item label="付款方式" prop="paymentMethod">
       <el-radio-group v-model="admin.paymentMethod" size="medium">
       <el-radio  label="朋友代付"></el-radio>
       <el-radio label="匿名付款"></el-radio>
       <el-radio  label="花呗分期"></el-radio>
     </el-radio-group>
     </el-form-item>
-<el-form-item
-      label="快递公司"
-      prop="shippingCompName"
-    >
+<el-form-item label="快递公司" prop="shippingCompName">
       <el-radio-group v-model="admin.shippingCompName" size="medium">
       <el-radio-button border label="天天快递" v-model="gender"></el-radio-button>
       <el-radio-button border label="顺丰快递" v-model="gender"></el-radio-button>
       <el-radio-button border label="申通快递" v-model="gender"></el-radio-button>
-
     </el-radio-group>
-
     </el-form-item>
-
-
-
-    <el-form-item
-      label="订单备注"
-      prop="productMessage"
-    >
+    <el-form-item label="订单备注" prop="productMessage">
       <el-input v-model="admin.productMessage"></el-input>
     </el-form-item>
-    <el-form-item
-      label="退款/退货理由"
-      prop="refundNr"
-    >
+    <el-form-item label="退款/退货理由" prop="refundNr">
       <el-input v-model="admin.refundNr"></el-input>
     </el-form-item>
-    <el-form-item
-      label="退款/退货类型"
-      prop="refundLs"
-    >
+    <el-form-item label="退款/退货类型" prop="refundLs">
       <el-input v-model="admin.refundLs"></el-input>
     </el-form-item>
-     <el-form-item
-      label="退款/退货说明"
-      prop="refundSm"
-    >
+     <el-form-item label="退款/退货说明" prop="refundSm">
       <el-input v-model="admin.refundSm"></el-input>
     </el-form-item>
-     <el-form-item
-      label="退款/退货状态"
-      prop="refundJt"
-    >
+     <el-form-item label="退款/退货状态" prop="refundJt">
       <el-input v-model="admin.refundZt"></el-input>
     </el-form-item>
-
-     <el-form-item
-      label="凭证图片"
-      prop="refundImg"
-    >
+     <el-form-item label="凭证图片" prop="refundImg">
      <img :src="admin.refundImg" >
     </el-form-item>
-
-
-
         <el-form-item>
-
             <el-button>取消</el-button>
         </el-form-item>
     </el-form>
- <!-- <el-button slot="reference">click 激活</el-button> -->
 </el-popover>
   </div>
 </template>
@@ -279,6 +201,7 @@
 import Search from '@/components/Search';
 import GoodsListNav from '@/components/nav/GoodsListNav';
 import store from '@/store/index';
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapActions } from 'vuex';
 export default {
   name: 'Order',
@@ -287,75 +210,69 @@ export default {
     next();
   },
   created () {
- const  _this = this
+    const _this = this;
     this.$axios.get('http://localhost:8888/good/findAll').then(function (resp) {
-        _this.admins = resp.data
+      _this.admins = resp.data;
 
-        console.log(resp);
-      })
+      console.log(resp);
+    });
 
+    this.$axios.get('http://localhost:8888/master/find/' + this.id).then(function (resp) {
+      _this.admin = resp.data;
 
-    this.$axios.get('http://localhost:8888/master/find/'+this.id).then(function (resp) {
-        _this.admin = resp.data
-
-
-        console.log(resp);
-      })
-
+      console.log(resp);
+    });
   },
   data () {
     return {
-      ids:this.$store.state.userInfo.id,
-      product:[],
-optionsss: [{
-          valuess: '不喜欢',
-          labelss: '不喜欢'
-        }, {
-          valuess: '不想要',
-          labelss: '不想要'
-        }, {
-          valuess: '买错颜色',
-          labelss: '买错颜色'
-        }, {
-          valuess: '买错数量',
-          labelss: '买错数量'
-        }, {
-          valuess: '与图片不符',
-          labelss: '与图片不符'
-        },
-        {
-          valuess: '商品有损坏',
-          labelss: '商品有损坏'
-        },{
-          valuess: '其他',
-          labelss: '其他'
-        }
-        ],
- valuess: '',
+      ids: this.$store.state.userInfo.id,
+      product: [],
+      optionsss: [{
+        valuess: '不喜欢',
+        labelss: '不喜欢'
+      }, {
+        valuess: '不想要',
+        labelss: '不想要'
+      }, {
+        valuess: '买错数量',
+        labelss: '买错数量'
+      }, {
+        valuess: '与图片不符',
+        labelss: '与图片不符'
+      },
+      {
+        valuess: '商品有损坏',
+        labelss: '商品有损坏'
+      }, {
+        valuess: '其他',
+        labelss: '其他'
+      }
+      ],
+      valuess: '',
 
-
-
-       optionss: [{
-          values: '未收到货',
-          labels: '未收到货'
-        }, {
-          values: '已收到货',
-          labels: '已收到货'
-        }],
- values: '',
-
+      optionss: [{
+        values: '未收到货',
+        labels: '未收到货'
+      }, {
+        values: '已收到货',
+        labels: '已收到货'
+      }],
+      values: '',
 
       options: [{
-          value: '仅退款',
-          label: '仅退款'
-        }, {
-          value: '仅退货',
-          label: '仅退货'
-        }],
-        value: '',
+        value: '仅退款',
+        label: '仅退款'
+      }, {
+        value: '仅退货',
+        label: '仅退货'
+      }, {
+        value: '退款退货',
+        label: '退款退货'
+      }],
+      value: '',
       goodsCheckList: [],
-      admin:[],
-      id:this.$route.params.id,
+      admin: [],
+      id: this.$route.params.id,
       columns: [
         {
           type: 'selection',
@@ -409,7 +326,7 @@ optionsss: [{
     };
   },
   computed: {
-     ...mapState(['userInfo', 'shoppingCart']),
+    ...mapState(['userInfo', 'shoppingCart']),
     totalPrice () {
       let price = 0;
       this.goodsCheckList.forEach(item => {
@@ -419,57 +336,48 @@ optionsss: [{
     }
   },
   methods: {
-         filesUplodeSeccess(res){
-      console.log(res)
-      this.admin.refundImg = res.data
-
+    filesUplodeSeccess (res) {
+      console.log(res);
+      this.admin.refundImg = res.data;
     },
 
-onSubmitss(admin) {
-      admin.customerId=this.ids
-      this.product=admin;
+    onSubmitss (admin) {
+      admin.customerId = this.ids;
+      this.product = admin;
 
+      // eslint-disable-next-line no-unused-vars
+      let _this = this;
+      // eslint-disable-next-line no-undef
+      axios
+        .post('http://localhost:8888/img/add', this.product)
+        .then(function (response) {
+          console.log(this.product);
+        });
+    },
 
-          let _this = this;
-          axios
-            .post("http://localhost:8888/img/add", this.product)
-            .then(function (response) {
-              console.log(this.product)
-            });
-
-      },
-
-
-    onSubmit(formName) {
+    onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let _this = this;
+          // eslint-disable-next-line no-undef
           axios
-            .post("http://localhost:8888/refund/add", this.admin)
+            .post('http://localhost:8888/refund/add', this.admin)
             .then(function (response) {
               if (response.data) {
-                _this.$alert( "请等待卖家退款退货", "添加数据", {
-                  confirmButtonText: "确定",
+                _this.$alert('请等待卖家退款退货', '添加数据', {
+                  confirmButtonText: '确定',
                   callback: (action) => {
-                    //跳转到/table
+                    // 跳转到/table
                     _this.$router.push('/Refund');
-                  },
+                  }
                 });
               }
             });
         }
+        // eslint-disable-next-line no-undef
+        axios.delete('http://localhost:8888/master/delete/' + this.admin.orderId);
       });
     },
-
-
-
-
-
-
-
-
-
-
 
     select (selection, row) {
       console.log(selection);
@@ -486,7 +394,6 @@ onSubmitss(admin) {
     }
   },
   mounted () {
-
     setTimeout(() => {
       this.$refs.selection.selectAll(true);
     }, 500);
@@ -580,7 +487,6 @@ onSubmitss(admin) {
   font-weight: bolder;
   color: #495060;
 
-
 }
 .money {
   font-size: 26px;
@@ -597,7 +503,6 @@ onSubmitss(admin) {
  margin-bottom: 20px;
   border-radius: 5px;
   box-shadow: 0px 0px 5px #ccc;
-
 
 }
 .vs{

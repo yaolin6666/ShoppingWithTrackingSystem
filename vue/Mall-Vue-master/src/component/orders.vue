@@ -54,13 +54,12 @@
               </div>
               <div class="shopping-cart-list" v-show="user.length > 0">
 <tbody   v-for="user in user" :key="user" >
-
-  <div class="vs">
+<div class="vs">
  <tr >
 <div class="sk" ><div class="rr"><span style="font-weight:bold;margin-left: 44px;margin-top: 3px; ">{{user.createTime}}</span></div></div>
 </tr>
-<router-link v-bind:to="'/goodsDetail/'+user.productId">
-<tr  @click="onSubmits(user)">
+<div v-bind:to="'/goodsDetail/'+user.productId">
+<tr>
 <td align="center" class="kk" style="border: 1px solid #ffff;"><img :src="user.productImage" width="100px" height="70px"></td>
 <td   class="kk1" style="border: 1px solid #ffff;"><div style="float:left;margin-left: 12px;word-wrap:break-word;word-break:break-all; width:150px"><span >{{user.productName}}</span></div>
 <div style="float:left;margin-left: 35px;word-wrap:break-word;word-break: break-all; width:60px"><span>{{user.productColor}}</span></div>
@@ -69,7 +68,7 @@
 <td class="kk2"><p style="margin-left: 26px;font-weight:bold;color: red;">￥{{user.productPrice}}</p>
 <p style="margin-left: 20px;margin-top: 5px;">({{user.paymentMethod}})</p>
 </td>
-<td class="kk2"><p style="margin-left: 26px;">充值成功</p>
+<td class="kk2"><p style="margin-left: 26px;">付款成功</p>
 <p style="margin-left: 26px;margin-top: 5px;">订单详情</p>
 </td>
 <td class="kk2">
@@ -78,7 +77,7 @@
 
 </td>
 </tr>
-</router-link>
+</div>
 </div>
 </tbody>
               </div>

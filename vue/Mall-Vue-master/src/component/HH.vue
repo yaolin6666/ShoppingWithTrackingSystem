@@ -55,13 +55,6 @@ export default {
 
         });
     },
-
-    showDetail (index) {
-      index === 1 ? (this.panel1 = true) : (this.panel2 = true);
-    },
-    hideDetail (index) {
-      index === 1 ? (this.panel1 = false) : (this.panel2 = false);
-    },
     lodes () {
       // eslint-disable-next-line no-undef
       axios

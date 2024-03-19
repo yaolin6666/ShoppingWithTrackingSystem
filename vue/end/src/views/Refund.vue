@@ -1,7 +1,5 @@
 <template>
-  <!-- 管理员管理 -->
   <div class="userindex">
-    <!-- 搜索条件 -->
     <div style="margin: 10px 0;display: flex;">
       <el-input v-model="search" placeholder="请输入" style="width: 20%;" clearable/>
       <el-button type="primary" style="margin-left: 5px" @click="lode">查询</el-button>
@@ -11,7 +9,6 @@
         </template>
       </el-popconfirm>
     </div>
-    <!-- 检索结果 -->
     <el-row :gutter="0" class="userindex-list">
       <el-col :span="21">
         <el-table :data="admin" border stripe style="width: 100%" @selection-change="handleSelectionChange">
@@ -56,12 +53,6 @@
           <el-table-column prop="updateTime" label="最后修改时间" width="150"/>
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
-<!--              <el-button-->
-<!--                  type="danger"-->
-<!--                  icon="el-icon-delete"-->
-<!--                  circle-->
-<!--                  @click="del(scope.row)">-->
-<!--              </el-button>-->
               <el-button
                   type="primary"
                   @click="edit(scope.row)">
@@ -114,6 +105,7 @@ import {ElMessage} from 'element-plus'
 export default {
   name:"Refund",
   created() {
+    this.id=JSON.parse(sessionStorage.getItem('userInfo')).id;
     this.lode()
   },
   methods: {
@@ -122,7 +114,8 @@ export default {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          search: this.search
+          search: this.search,
+          shopId: this.id
         }
       }).then(res => {
         console.log(res);
@@ -217,14 +210,15 @@ export default {
 
   data() {
     return {
+      id: '',
       options: [
         {
-          value: '已退款/退货',
-          label: '已退款/退货',
+          value: '退款/退货',
+          label: '退款/退货',
         },
         {
-          value: '已经取消退款/退货',
-          label: '已经取消退款/退货',
+          value: '取消退款/退货',
+          label: '取消退款/退货',
         },
       ],
       value: '',
@@ -250,21 +244,11 @@ export default {
   padding: 15px;
   box-sizing: border-box;
 }
-/* 搜索 */
-.userindex-queryInfo {
-  margin-bottom: 10px;
-}
-.userindex-queryInfo-li {
-  width: 100%;
-  height: auto;
-}
-/* 列表 */
 .userindex-list {
   width: 100%;
   height: auto;
   margin-bottom: 20px;
 }
-/* 分页 */
 .userindex-page-box {
   width: 100%;
   height: auto;

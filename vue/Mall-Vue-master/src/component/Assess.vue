@@ -57,7 +57,7 @@
  <tr >
 <div class="sk" ><div class="rr"><span style="font-weight:bold;margin-left: 44px;margin-top: 3px; ">{{user.createTime}}</span></div></div>
 </tr>
-<router-link v-bind:to="'/goodsDetail/'+user.productId">
+<div v-bind:to="'/goodsDetail/'+user.productId">
 <tr  >
 <td align="center" class="kk" style="border: 1px solid #ffff;"><img :src="user.productImage" width="100px" height="70px"></td>
 <td   class="kk1" style="border: 1px solid #ffff;"><div style="float:left;margin-left: 12px;word-wrap:break-word;word-break:break-all; width:150px"><span >{{user.productName}}</span></div>
@@ -67,12 +67,12 @@
 <td class="kk2"><p style="margin-left: 26px;font-weight:bold;color: red;">￥{{user.productPrice}}</p>
 <p style="margin-left: 20px;margin-top: 5px;">({{user.paymentMethod}})</p>
 </td>
-<td class="kk2"><p style="margin-left: 26px;">充值成功</p>
+<td class="kk2"><p style="margin-left: 26px;">付款成功</p>
 <p style="margin-left: 26px;margin-top: 5px;">订单详情</p>
 </td>
 <td class="kk2"><p style="margin-left: 25px;margin-top: 27px;">等待评价</p></td>
 </tr>
-</router-link>
+</div>
 </div>
 
 <div style="float:right;margin-top:65px"><el-button style="color:red" @click="add(user.assessId);dialogFormVisible = true">评价</el-button></div>

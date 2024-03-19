@@ -9,10 +9,6 @@
           <li><router-link to="/orders">我的订单</router-link></li>
           <li><router-link to="/home/myShoppingCart">我的收藏</router-link></li>
           <li><router-link to="/home/myAddress">我的收货地址</router-link></li>
-          <!-- <li><router-link to="/"></router-link></li> -->
-          <!-- <li><router-link to="/">闪购</router-link></li>
-          <li><router-link to="/">拍卖</router-link></li>
-          <li><router-link to="/">金融</router-link></li> -->
         </ul>
       </div>
     </div>

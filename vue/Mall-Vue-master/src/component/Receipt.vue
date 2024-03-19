@@ -124,7 +124,7 @@
  <tr >
 <div class="sk" ><div class="rr"><span style="font-weight:bold;margin-left: 44px;margin-top: 3px; ">{{user.createTime}}</span></div></div>
 </tr>
-<router-link v-bind:to="'/goodsDetail/'+user.productId">
+<div v-bind:to="'/goodsDetail/'+user.productId">
 <tr  >
 <td align="center" class="kk" style="border: 1px solid #ffff;"><img :src="user.productImage" width="100px" height="70px"></td>
 <td   class="kk1" style="border: 1px solid #ffff;"><div style="float:left;margin-left: 12px;word-wrap:break-word;word-break:break-all; width:150px"><span >{{user.productName}}</span></div>
@@ -134,19 +134,18 @@
 <td class="kk2"><p style="margin-left: 26px;font-weight:bold;color: red;">￥{{user.productPrice}}</p>
 <p style="margin-left: 20px;margin-top: 5px;">({{user.paymentMethod}})</p>
 </td>
-<td class="kk2"><p style="margin-left: 26px;">充值成功</p>
+<td class="kk2">
 <p style="margin-left: 26px;margin-top: 5px;">订单详情</p>
 </td>
 <td class="kk2"><p style="margin-left: 22px;margin-top: 8px;"><router-link v-bind:to="'/orderss/'+user.receiptId"><span style="color:red">确认收货</span></router-link></p>
 <router-link v-bind:to="'/Receiptrefund/'+user.receiptId"><p style="margin-left: 22px;margin-top: 19px;color:red">退款/退货</p></router-link>
 </td>
 </tr>
-</router-link>
+</div>
 </div>
 </tbody>
               </div>
 </table>
-
 
       </el-col>
     </el-row>
@@ -167,179 +166,131 @@
 
 <script>
 import store from '@/store/index';
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapActions } from 'vuex';
 export default {
-  name:"Receipt",
+  name: 'Receipt',
   methods: {
-onSubmits(admin) {
-      admin.customerId=this.id
-      this.product=admin;
+    onSubmits (admin) {
+      admin.customerId = this.id;
+      this.product = admin;
 
+      // eslint-disable-next-line no-unused-vars
+      let _this = this;
+      // eslint-disable-next-line no-undef
+      axios
+        .post('http://localhost:8888/img/add', this.product)
+        .then(function (response) {
+          console.log(this.product);
+        });
+    },
 
-          let _this = this;
-          axios
-            .post("http://localhost:8888/img/add", this.product)
-            .then(function (response) {
-              console.log(this.product)
-            });
-
-      },
-
-
-    lode() {
-      axios.get("http://localhost:8888/receipt/finds/" +this.id, {
+    lode () {
+      // eslint-disable-next-line no-undef
+      axios.get('http://localhost:8888/receipt/finds/' + this.id, {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          search: this.search,
+          search: this.search
         }
       }).then(res => {
         console.log(res);
-        this.user = res.data.data.records
-        this.total = res.data.data.total
-      })
-
+        this.user = res.data.data.records;
+        this.total = res.data.data.total;
+      });
     },
 
-
-    //设置表格行的样式
-      tableRowStyle({row,rowIndex}){
-        return 'background-color:pink;font-size:15px;'
-      },
-      //设置表头行的样式
-      tableHeaderColor({row,column,rowIndex,columnIndex}){
-        return 'background-color:lightblue;color:#fff;font-wight:500;font-size:20px;text-align:center'
-
-      },
-
-
-
-
-    //添加
-    add() {
-      this.$router.push("/adduser");
+    // 设置表格行的样式
+    tableRowStyle ({row, rowIndex}) {
+      return 'background-color:pink;font-size:15px;';
     },
-    //修改
-    edit(row) {
-      this.$router.push("/edituser?userId=" + row.userId);
+    // 设置表头行的样式
+    tableHeaderColor ({row, column, rowIndex, columnIndex}) {
+      return 'background-color:lightblue;color:#fff;font-wight:500;font-size:20px;text-align:center';
     },
-    //删除
-    userDelete(row) {
+
+    // 添加
+    add () {
+      this.$router.push('/adduser');
+    },
+    // 修改
+    edit (row) {
+      this.$router.push('/edituser?userId=' + row.userId);
+    },
+    // 删除
+    userDelete (row) {
       let _this = this;
-      this.$confirm("是否确定要删除" + " " + row.userName + "?", "删除数据", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('是否确定要删除' + ' ' + row.userName + '?', '删除数据', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
+          // eslint-disable-next-line no-undef
           axios
-            .delete("http://localhost:8888/userinfo/delete/" + row.userId)
+            .delete('http://localhost:8888/userinfo/delete/' + row.userId)
             .then(function (response) {
               if (response.data) {
-                _this.$alert(row.userName + "删除成功!", "删除数据", {
-                  confirmButtonText: "确定",
+                _this.$alert(row.userName + '删除成功!', '删除数据', {
+                  confirmButtonText: '确定',
                   callback: (action) => {
-                    //跳转到 /table
+                    // 跳转到 /table
                     location.reload();
-                  },
+                  }
                 });
               }
             });
         })
         .catch(() => {});
     },
-    // page(currentPage){
-    //         const _this=this;
-    //         axios.get('http://localhost:8888/userinfo/findAll/'+(currentPage-1)+'/3').then(function (resp) {
-    //             _this.tableData=resp.data.content;
-    //             _this.pageSize=resp.data.size;
-    //             _this.total=resp.data.totalElements;
-    //         })
-    //     }
-    // page(currentPage) {
-    //   switch (currentPage) {
-    //     case 1:
-    //       this.tableData = [
-    //         {
-    //           id: goodId,
-    //           name: good_name,
-    //         },
-    //       ];
-    //   }
-    // },
-    handleSizeChange(pageSize) {//改变每页的个数触发
-      this.pageSize = pageSize
-      this.lode()
-
+    handleSizeChange (pageSize) { // 改变每页的个数触发
+      this.pageSize = pageSize;
+      this.lode();
     },
-    handleCurrentChange(pageNum) {//改变当前页码触发
-      this.currentPage = pageNum
-      this.lode()
-
-    },
+    handleCurrentChange (pageNum) { // 改变当前页码触发
+      this.currentPage = pageNum;
+      this.lode();
+    }
   },
-  computed:{
-       ...mapState(['userInfo', 'shoppingCart']),
-      filteredBlogs:function(){
-        return this.user.filter((user) => {
-          return user.productName.match(this.search);
-        })
-      }
+  computed: {
+    ...mapState(['userInfo', 'shoppingCart']),
+    filteredBlogs: function () {
+      return this.user.filter((user) => {
+        return user.productName.match(this.search);
+      });
+    }
   },
-  created() {
-    this.lode()
-    // const _this = this;
-    // axios.get("http://localhost:8888/master/findAll").then(function (resp) {
-    //   _this.user = resp.data;
-    //   console.log(resp);
-    //   //   alert(resp);
-    //   _this.tableData = resp.data.content;
-    //   _this.pageSize = resp.data.size;
-    //   _this.total = resp.data.totalElements;
-    // });
+  created () {
+    this.lode();
   },
-  data() {
+  data () {
     return {
-      id:this.$store.state.userInfo.id,
-      product:[],
-search: '',
-     currentPage: 1,
+      id: this.$store.state.userInfo.id,
+      product: [],
+      search: '',
+      currentPage: 1,
       pageSize: 7,
       total: 0,
-      search:"",
-      // queryInfo: {
-      //   // name: "",
-      //   // type: "",
-      //   // page: 1,
-      //   // pageSize: 10,
-      // },
       options: [
         {
           label: 1,
-          value: "安心蔬菜",
+          value: '安心蔬菜'
         },
         {
           label: 2,
-          value: "新鲜牛奶",
-        },
+          value: '新鲜牛奶'
+        }
       ],
       tableData: [],
       user: [],
       dialogFormVisible: false,
       form: {
-        // name: "",
-        // region: "",
-        // date1: "",
-        // date2: "",
-        // delivery: false,
-        // type: [],
-        // resource: "",
-        // desc: "",
+
       },
-      formLabelWidth: "120px",
+      formLabelWidth: '120px'
     };
   },
-store
+  store
 };
 </script>
 
@@ -394,7 +345,6 @@ td {
   width: 100px;
 }
 .sk{
-
 
   width: 1057px;
   height: 40px;

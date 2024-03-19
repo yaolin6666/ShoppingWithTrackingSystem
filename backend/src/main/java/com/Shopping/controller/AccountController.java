@@ -44,8 +44,8 @@ public class AccountController {
         Assert.notNull(user,"用户不存在");
         if (!user.getPassword().equals(loginDto.getPassword())){
             return Result.fail("密码不正确");
-        } else if (!user.getRole().equals(1)){
-            return Result.fail("您不是管理员");
+        } else if (user.getRole().equals(0)){
+            return Result.fail("您不是管理员或者商家");
         }
         String jwt = jwtUtils.generateToken(user.getCustomerId());
         response.setHeader("Authorization",jwt);

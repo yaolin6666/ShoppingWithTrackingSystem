@@ -72,29 +72,6 @@
       >
   </div>
 </el-dialog>
-   <!-- <el-popover
-
-  placement="right"
-  width="800"
-
-  trigger="click">
-  <el-form  label-width="80px" :model="good"  ref="fruitRule"
-    :rules="rules">
-  <el-form-item label="收货地址" prop="goodName">
-    <el-input v-model="good.goodName"></el-input>
-  </el-form-item>
-  <el-form-item label="收货人" prop="goodDescribe">
-    <el-input v-model="good.goodDescribe"></el-input>
-  </el-form-item>
-  <el-form-item label="收货人电话" prop="goodPhone">
-    <el-input v-model="good.goodPhone"></el-input>
-  </el-form-item>
-</el-form>
-   <el-button type="primary" @click="onSubmits('fruitRule')"
-        >立即创建</el-button
-      >
-      <el-button slot="reference">click 激活</el-button>
-   </el-popover> -->
    </div>
  <router-link to="/home/myAddress"><div class="bb">管理收货地址</div></router-link>
 
@@ -421,29 +398,7 @@
 
     </el-form-item>
   </el-form>
- <!-- <el-button slot="reference">click 激活</el-button> -->
 </el-popover>
-  <!-- <el-form
- ref="fruitRules"
-
-    :data="admin"
-    :rules="rules"
-    label-width="300px"
-    class="demo-ruleForm"
-    style="width: 600px"
-  >
-    <el-form-item
-
-    label="地址"
-    prop="gooodName"
-    >
-<el-radio-group v-model="admin.goodName"  v-for="item in admin" :key="item.goodId" :data="admin" size="medium">
-      <radio border :label="item.goodName"></radio>
-      <radio border label="蓝色"></radio>
-    </el-radio-group>
-
-    </el-form-item>
-  </el-form> -->
   </el-row>
 </div>
 
@@ -531,7 +486,6 @@ export default {
       });
     },
     onSubmits (formName) {
-      this.good.customerId = this.ids;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let _this = this;
@@ -554,8 +508,9 @@ export default {
     },
 
     onSubmit () {
-      this.notice.customerId = this.ids;
-
+      this.good.shopCustomerId = this.good.customerId;
+      this.good.customerId = this.ids;
+      this.good.status = 100;
       let _this = this;
       // eslint-disable-next-line no-undef
       axios

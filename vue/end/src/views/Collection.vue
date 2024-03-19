@@ -40,17 +40,6 @@
            <el-table-column prop="productMessage" label="订单备注" width="90"/>
           <el-table-column prop="createTime" label="创建时间" width="150"/>
           <el-table-column prop="updateTime" label="最后修改时间" width="150"/>
-          <el-table-column fixed="right" label="操作" width="150" align="center">
-            <template #default="scope">
-              <p>等待买家确认收货</p>
-              <el-button
-                type="danger"
-                icon="el-icon-delete"
-                circle
-                @click="del(scope.row)">
-              </el-button>
-            </template>
-          </el-table-column>
         </el-table>
       </el-col>
     </el-row>
@@ -74,6 +63,7 @@ import request from "@/utils/request.js"
 import {ElMessage} from 'element-plus'
 export default {
   created() {
+    this.id=JSON.parse(sessionStorage.getItem('userInfo')).id;
     this.lode()
   },
   methods: {
@@ -82,7 +72,8 @@ export default {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-
+          search: this.search,
+          shopId: this.id
         }
       }).then(res => {
         console.log(res);

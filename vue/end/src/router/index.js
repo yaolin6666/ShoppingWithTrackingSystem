@@ -14,9 +14,9 @@ const routes = [
         component: () => import("@/views/Index")
       },
       {
-        path: 'user',
-        name: 'User',
-        component: () => import("@/views/User")
+        path: 'userAssign',
+        name: 'userAssign',
+        component: () => import("@/views/UserAssign.vue")
       },
       {
         path: 'userinfo',
@@ -57,9 +57,9 @@ const routes = [
         component: () => import("@/views/WantbuyInfor")
       },
       {
-        path: 'notice',
-        name: 'notice',
-        component: () => import("@/views/Notice")
+        path: 'origin',
+        name: 'origin',
+        component: () => import("@/views/Origin")
       },
       {
         path: 'order',

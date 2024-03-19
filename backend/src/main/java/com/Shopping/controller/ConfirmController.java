@@ -1,6 +1,8 @@
 package com.Shopping.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.Shopping.domain.Master;
+import com.Shopping.mapper.MasterMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -10,60 +12,65 @@ import com.Shopping.mapper.ConfirmMapper;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
 @RequestMapping("/confirm")
 public class ConfirmController {
-
     @Resource
-    private ConfirmMapper confirmMapper;
+    private MasterMapper masterMapper;
 
     @GetMapping("/findAll")
-    public List<Confirm> findAll(){
-        List<Confirm> confirms = confirmMapper.selectList(null);
-        return confirms;
+    public List<Master> findAll(){
+        List<Master> masters = masterMapper.selectList(null);
+        masters=masters.stream().filter(e->(e.getStatus()>=200&&e.getStatus()<300)).collect(Collectors.toList());
+        return masters;
     }
 
     @GetMapping("/finds/{customerId}")
     public Result<?> findCustomerId(@RequestParam(defaultValue = "1") Integer pageNum,
                                     @RequestParam(defaultValue = "5") Integer pageSize,
                                     @PathVariable Integer customerId){
-        Page<Confirm> page = confirmMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Confirm>lambdaQuery().eq(Confirm::getCustomerId, customerId));
+        Page<Master> page = masterMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Master>lambdaQuery()
+                .eq(Master::getCustomerId, customerId)
+                .ge(Master::getStatus,200)
+                .lt(Master::getStatus,300));
         return Result.success(page);
     }
 
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable("id") Integer id){
-        confirmMapper.deleteById(id);
+        masterMapper.deleteById(id);
         return Result.success();
     }
 
     @GetMapping("/find/{id}")
-    public Confirm find(@PathVariable("id") Integer id){
-        return this.confirmMapper.selectById(id);
+    public Master find(@PathVariable("id") Integer id){
+        return this.masterMapper.selectById(id);
     }
 
     @PutMapping("/update")
-    public Result update(@RequestBody Confirm confirm){
-        confirmMapper.updateById(confirm);
+    public Result update(@RequestBody Master master){
+        masterMapper.updateById(master);
         return Result.success();
     }
 
     @PostMapping("/add")
-    public Result insert(@RequestBody Confirm confirm){
-        confirmMapper.insert(confirm);
+    public Result insert(@RequestBody Master master){
+        master.setStatus(200);
+        masterMapper.updateById(master);
         return Result.success();
     }
 
     @PostMapping("/deleteBatch")
     public Result deleteBatch(@RequestBody List<Integer> ids){
-        confirmMapper.deleteBatchIds(ids);
+        masterMapper.deleteBatchIds(ids);
         return Result.success();
     }
     @GetMapping("/count")
     public Result Count(){
-        Integer count = confirmMapper.selectCount(null);
+        Integer count = masterMapper.selectCount(null);
         return Result.success(count);
     }
 
@@ -72,12 +79,12 @@ public class ConfirmController {
                               @RequestParam(defaultValue = "10") Integer pageSize,
                               @RequestParam(defaultValue = "") String search) {
         new Page<>(pageNum, pageSize);
-        Page<Confirm> confirmPage = confirmMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Confirm>lambdaQuery().like(Confirm::getProductName, search));
+        Page<Master> masterPage = masterMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Master>lambdaQuery().like(Master::getProductName, search));
         LambdaQueryWrapper<Confirm> query = Wrappers.<Confirm>lambdaQuery().orderByDesc(Confirm::getProductId);
         if (StrUtil.isNotBlank(search)) {
             query.like(Confirm::getProductName, search);
         }
-        return Result.success(confirmPage);
+        return Result.success(masterPage);
     }
 
 }

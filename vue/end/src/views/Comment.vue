@@ -104,6 +104,7 @@ export default {
   components: {},
   data() {
     return {
+      id: '',
       form: {},
       dialogVisible: false,
       search: '',
@@ -115,6 +116,7 @@ export default {
     }
   },
   created() {
+    this.id=JSON.parse(sessionStorage.getItem('userInfo')).id;
     this.lode()
   },
   methods: {
@@ -155,7 +157,7 @@ export default {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
           search: this.search,
-
+          shopId: this.id
         }
       }).then(res => {
         console.log(res);

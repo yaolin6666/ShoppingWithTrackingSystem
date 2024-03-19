@@ -27,7 +27,7 @@ public class UplodeController {
     @GetMapping("/{uuid}")
     public void getFiles(HttpServletResponse response, @PathVariable String uuid){
         OutputStream os;//新建输出流对象
-        String basePath = System.getProperty("user.dir").replace("\\","/") + "/src/main/resources/files/";
+        String basePath = System.getProperty("user.dir") + "\\src\\main\\resources\\files";
         List<String> fileNames = FileUtil.listFileNames(basePath);//获取所有文件名
         String fileName = fileNames.stream().filter(name -> name.contains(uuid)).findAny().orElse("");//找到跟参数一致的文件
         try {

@@ -1,11 +1,14 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Index from '@/components/Index';
-import Pp from '@/components/footer/products.vue'
+import Pp from '@/components/footer/products.vue';
 const Login = resolve => require(['@/components/Login'], resolve);
 const SignUp = resolve => require(['@/components/Signup'], resolve);
+// eslint-disable-next-line no-unused-vars
 const CheckPhone = resolve => require(['@/components/signUp/CheckPhone'], resolve);
+// eslint-disable-next-line no-unused-vars
 const InputInfo = resolve => require(['@/components/signUp/InputInfo'], resolve);
+// eslint-disable-next-line no-unused-vars
 const SignUpDone = resolve => require(['@/components/signUp/SignUpDone'], resolve);
 const GoodsList = resolve => require(['@/components/GoodsList'], resolve);
 const GoodssList = resolve => require(['@/components/GoodssList'], resolve);
@@ -28,106 +31,102 @@ const Consignmentrefund = resolve => require(['@/component/Consignmentrefund'], 
 const Receiptrefund = resolve => require(['@/component/Receiptrefund'], resolve);
 const Myfootprint = resolve => require(['@/components/home/Myfootprint'], resolve);
 
-
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path:"/hh",
+      path: '/hh',
 
       component: () => import('@/component/HH.vue'),
-      name:'hh'
+      name: 'hh'
     },
     {
-      path:"/nio",
+      path: '/nio',
 
       component: () => import('@/component/Nio.vue'),
-      name:'nio'
+      name: 'nio'
     },
     {
-      path:"/promptly/:id",
+      path: '/promptly/:id',
 
       component: () => import('@/component/promptly.vue'),
-      name:'promptly'
+      name: 'promptly'
     },
     {
-      path:"/order",
+      path: '/order',
 
       component: Orders,
-      name:'order'
+      name: 'order'
     },
     {
-      path:"/blogheader",
+      path: '/blogheader',
 
       component: () => import('@/component/BlogHeader.vue'),
-      name:'blogheader',
-      children:[
+      name: 'blogheader',
+      children: [
         {
-          path:"/orders",
+          path: '/orders',
 
           component: () => import('@/component/orders.vue'),
-          name:'orders',
+          name: 'orders'
         },
         {
-          path:"/Consignment",
+          path: '/Consignment',
 
           component: () => import('@/component/Consignment.vue'),
-          name:'Consignment',
+          name: 'Consignment'
         },
         {
-          path:"/Receipt",
+          path: '/Receipt',
 
           component: () => import('@/component/Receipt.vue'),
-          name:'Receipt',
+          name: 'Receipt'
         },
         {
-          path:"/Assess",
+          path: '/Assess',
 
           component: () => import('@/component/Assess.vue'),
-          name:'Assess',
+          name: 'Assess'
         },
         {
-          path:"/Refund",
+          path: '/Refund',
 
           component: () => import('@/component/Refund.vue'),
-          name:'Refund',
-        },
+          name: 'Refund'
+        }
       ]
     },
 
-
-     {
-      path:"/shoppingedit",
+    {
+      path: '/shoppingedit',
 
       component: () => import('@/component/shoppingedit.vue'),
-      name:'shoppingedit'
+      name: 'shoppingedit'
     },
 
     {
-      path:"/notice",
+      path: '/notice',
 
       component: () => import('@/component/Notice.vue'),
-      name:'notice'
+      name: 'notice'
     },
 
     {
-      path:"/show",
+      path: '/show',
 
       component: () => import('@/component/ShowBlogs.vue'),
-      name:'show'
+      name: 'show'
     },
-
 
     {
-      path:"/add",
-      component: () => import('@/component/AddBlogs.vue'),
+      path: '/add',
+      component: () => import('@/component/AddBlogs.vue')
     },
     {
-      path:"/blog/:id",
-      component: () => import('@/component/SingBlogs.vue'),
+      path: '/blog/:id',
+      component: () => import('@/component/SingBlogs.vue')
     },
-
 
     {
       path: '/Index', // 首页
@@ -203,7 +202,6 @@ export default new Router({
       component: Orderss
     },
 
-
     {
       path: '/Consignmentrefund/:id', // 订单页面
       name: 'Consignmentrefund',
@@ -264,7 +262,7 @@ export default new Router({
           path: 'myShoppingCart',
           name: 'MyShoppingCart',
           component: MyShoppingCart
-        },
+        }
 
       ]
     },
@@ -279,5 +277,5 @@ export default new Router({
       component: Merchant
     }
   ],
-  mode: 'history',
+  mode: 'history'
 });

@@ -2,18 +2,10 @@
   <div>
     <div class="containers">
       <el-backtop  :bottom="10" :right="0">
-  <div
-      class="tyt"
-    >
-      返回顶部
+  <div class="tyt">返回顶部
     </div>
  </el-backtop>
     <el-input placeholder="请输入内容" v-model="search" class="input-with-select">
-    <!-- <el-select v-model="search" slot="prepend" placeholder="请选择">
-      <el-option label="餐厅名" :value="1"></el-option>
-      <el-option label="订单号" value="2"></el-option>
-      <el-option label="用户电话" value="3"></el-option>
-    </el-select> -->
     <el-button slot="append" icon="el-icon-search" ></el-button>
   </el-input>
     </div>
@@ -39,7 +31,6 @@
             <span>广告</span>
           </div>
           <div v-show="admind.length<0"></div>
-
 
           <div class="item-as" v-for="(item,index) in admind.slice(10,20)" :key="index" @click="onSubmits(item)">
             <router-link v-bind:to="'/goodsDetail/'+item.productId">
@@ -75,11 +66,9 @@
              <div class="box_top">
       <!-- 价格排序 -->
 
-
        <el-button class="el-icon-top" @click="index1">价格升序</el-button>
       <el-button class="el-icon-bottom"  @click="index">价格降序</el-button>
 </div>
-
 
             <div v-for="admin in filteredBlogs" :key="admin"  border class="ss"  style="width: 100%" @click="onSubmits(admin)">
     <!-- <router-link v-bind:to="'/blog/'+admin.productId"> -->
@@ -114,7 +103,6 @@
 
         </v-card-title>
 
-
       </v-card>
       <div class="gt"><img src="@/assets/ym.png" ><img src="@/assets/cf.png" height="19"><div class="qf"><span>{{admin.productHome}}</span></div> </div>
 <div class="rt"><router-link v-bind:to="'/promptly/'+admin.productId">
@@ -128,7 +116,6 @@
 </router-link>
   </div>
 <div class="fy">
-
 
 <el-row :gutter="20" class="userindex-list">
       <el-col :span="24" class="userindex-page-box">
@@ -153,6 +140,7 @@ import Search from '@/components/Search';
 import GoodsListNavs from '@/components/nav/GoodsListNavs';
 import GoodsClassNav from '@/components/nav/GoodsClassNav';
 import store from '@/store/index';
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapActions } from 'vuex';
 export default {
   name: 'GoodsList',
@@ -162,15 +150,15 @@ export default {
   },
   data () {
     return {
-      ids:this.$store.state.userInfo.id,
-     product:[],
-      admind:[],
-      price1:"",
-      price2:"",
-      list1:[],
-       sort: true, //排序
+      ids: this.$store.state.userInfo.id,
+      product: [],
+      admind: [],
+      price1: '',
+      price2: '',
+      list1: [],
+      sort: true, // 排序
       id: this.$route.params.id,
-      search: "",
+      search: '',
       currentPage: 1,
       pageSize: 24,
       total: 0,
@@ -188,45 +176,43 @@ export default {
   },
   computed: {
     ...mapState(['userInfo', 'shoppingCart']),
-     filteredBlogs: function () {
+    filteredBlogs: function () {
       return this.admin.filter((admin) => {
         return admin.productName.match(this.search);
       });
-    },
-
+    }
 
   },
   methods: {
 
-
- Onclick() {
+    Onclick () {
       this.admin = [];
-        if(!this.price1 && !this.price2){
-        location.reload()
-      }else{
-      this.list1.forEach((ele) => {
-        if (this.price1 <= ele.productPrice && ele.productPrice <= this.price2) {
-          this.admin.push(ele);
-        }
-      });
+      if (!this.price1 && !this.price2) {
+        location.reload();
+      } else {
+        this.list1.forEach((ele) => {
+          if (this.price1 <= ele.productPrice && ele.productPrice <= this.price2) {
+            this.admin.push(ele);
+          }
+        });
       }
     },
-    index() {
-      this.cc
-      //排序
+    index () {
+      // eslint-disable-next-line no-unused-expressions
+      this.cc;
+      // 排序
       this.sort = !this.sort;
       if (this.sort) {
         this.admin.sort((a, b) => {
           return a.productPrice - b.productPrice;
         });
-      }
-      else {
+      } else {
         this.admin.sort((a, b) => {
           return a.productPrice - b.productPrice;
         });
       }
     },
-    index1() {
+    index1 () {
       this.sort = !this.sort;
       if (this.sort) {
         this.admin.sort((a, b) => {
@@ -239,25 +225,26 @@ export default {
       }
     },
 
- handleSizeChange(pageSize) {
-      //改变每页的个数触发
+    handleSizeChange (pageSize) {
+      // 改变每页的个数触发
       this.pageSize = pageSize;
       this.lode();
     },
-    handleCurrentChange(pageNum) {
-      //改变当前页码触发
+    handleCurrentChange (pageNum) {
+      // 改变当前页码触发
       this.currentPage = pageNum;
       this.lode();
     },
 
-loded() {
+    loded () {
+      // eslint-disable-next-line no-undef
       axios
-        .get("http://localhost:8888/info/page", {
+        .get('http://localhost:8888/info/page', {
           params: {
             pageNum: this.currentPage,
             pageSize: this.pageSize,
-            search: this.search,
-          },
+            search: this.search
+          }
         })
         .then((res) => {
           console.log(res);
@@ -266,34 +253,29 @@ loded() {
         });
     },
 
-onSubmits(admin) {
-   admin.customerId=this.ids
-      this.product=admin;
+    onSubmits (admin) {
+      admin.customerId = this.ids;
+      this.product = admin;
 
-
-          let _this = this;
-          axios
-            .post("http://localhost:8888/img/add", this.product)
-            .then(function (response) {
-              console.log(this.product)
-            });
-
-      },
-
-
-
-
-
-
-
-     lode() {
+      // eslint-disable-next-line no-unused-vars
+      let _this = this;
+      // eslint-disable-next-line no-undef
       axios
-        .get("http://localhost:8888/info/"+this.id, {
+        .post('http://localhost:8888/img/add', this.product)
+        .then(function (response) {
+          console.log(this.product);
+        });
+    },
+
+    lode () {
+      // eslint-disable-next-line no-undef
+      axios
+        .get('http://localhost:8888/info/' + this.id, {
           params: {
             pageNum: this.currentPage,
             pageSize: this.pageSize,
-            search: this.search,
-          },
+            search: this.search
+          }
         })
         .then((res) => {
           console.log(res);
@@ -314,16 +296,11 @@ onSubmits(admin) {
     }
   },
   created () {
-
     this.loded();
     this.lode();
     this.loadGoodsList();
   },
   mounted () {
-
-
-
-
     this.searchItem = this.$route.query.sreachData;
   },
   components: {
@@ -352,7 +329,6 @@ onSubmits(admin) {
 .goods-box {
   display: flex;
 }
-/* ---------------侧边广告栏开始------------------- */
 .as-box {
   width: 200px;
   height: 2900px;
@@ -397,19 +373,11 @@ onSubmits(admin) {
 .item-as-selled span{
   color: #005AA0;
 }
-/* ---------------侧边广告栏结束------------------- */
-
-/* ---------------商品栏开始------------------- */
 .goods-list-box {
   margin-left: 15px;
   width: calc(100% - 215px);
 }
-.goods-list-tool{
-  width: 100%;
-  height: 38px;
-  border: 1px solid #ccc;
-  background-color: #F1F1F1;
-}
+
 .goods-list-tool ul{
   padding-left: 15px;
   list-style: none;
@@ -431,53 +399,12 @@ onSubmits(admin) {
 .goods-list-tool i:hover{
   color: #E4393C;
 }
-.goods-list-tool-active {
-  color: #fff;
-  border-left: 1px solid #ccc;
-  background-color: #E4393C !important;
-}
 
-.goods-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-.goods-show-info{
-  width: 240px;
-  padding: 10px;
-  margin: 15px 0px;
-  border: 1px solid #fff;
-  cursor: pointer;
-}
-.goods-show-info:hover{
-  border: 1px solid #ccc;
-  box-shadow: 0px 0px 15px #ccc;
-}
-.goods-show-price{
-  margin-top: 6px;
-}
-.goods-show-detail{
-  font-size: 12px;
-  margin: 6px 0px;
-}
-.goods-show-num{
-  font-size: 12px;
-  margin-bottom: 6px;
-  color: #009688;
-}
 .goods-show-num span{
   color: #005AA0;
   font-weight: bold;
 }
-.goods-show-seller{
-  font-size: 12px;
-  color:#E4393C;
-}
-.goods-page {
-  margin-top: 20px;
-  display: flex;
-  justify-content: flex-end;
-}
+
 .ff {
   width: 100%;
   height: 100%;
@@ -490,7 +417,6 @@ onSubmits(admin) {
   margin-top: 40px;
   margin-left: 80px;
   float: left;
-  /* border: 1px solid #d1cdcd; */
   box-shadow: 0 4px 8px rgba(0, 0, 0, .22), 0 0 12px rgba(0, 0, 0, .14)
 }
 
@@ -503,9 +429,7 @@ onSubmits(admin) {
   margin-bottom: 15px;
   width: 700px;
 }
-.sreach {
-  margin: 5px 0px;
-}
+
 .input-with-select {
   width: 700px;
   background-color: #fff;
@@ -534,41 +458,11 @@ onSubmits(admin) {
   padding-top: 3000px;
   margin-bottom: 100px;
 }
-.te {
-  margin-top: 80px;
-}
-.ii {
-  width: 1800px;
-}
+
 .sss .ee{
   position: relative;
   overflow: hidden;
 }
-.sss .ee:hover .more{
-  top:215px;
-
-}
-.sss .ee .more{
-  position: absolute;
-  top: 256px;
-  width: 300px;
-  height: 35px;
-  background: #ee7546;
-  opacity: 0.8;
-  transition: 0.3s;
-
-
-}
-
-
-.kkw1{
-  font-size: 15px;
-  margin-left: 120px;
-  color: #fff;
-   font-family: tahoma, arial, "Hiragino Sans GB", 宋体, sans-serif;
-   font-weight: bold;
-}
-
 
 .sss:hover{
   border: 2px solid #ee7546;
@@ -577,7 +471,6 @@ onSubmits(admin) {
 
 .item-as-intro:hover{
   color: #ee7546;
-
 
 }
 .box_top{
@@ -630,8 +523,5 @@ onSubmits(admin) {
       text-align: center;
 
       color: #1989fa;
-      padding: 4px;
-
-}
-/* ---------------商品栏结束------------------- */
+      padding: 4px;}
 </style>

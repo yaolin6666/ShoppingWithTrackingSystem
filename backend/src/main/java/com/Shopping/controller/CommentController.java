@@ -2,6 +2,8 @@ package com.Shopping.controller;
 
 
 import cn.hutool.core.util.StrUtil;
+import com.Shopping.domain.Info;
+import com.Shopping.mapper.InfoMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -13,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -24,6 +27,9 @@ public class CommentController {
 
     @Resource
     CommentMapper commentMapper;
+
+    @Resource
+    InfoMapper infoMapper;
 
     @PostMapping("/add")
     public Result<?> save(@Validated @RequestBody Comment comment){
@@ -69,9 +75,17 @@ public class CommentController {
     @GetMapping("/page")
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search){
+                              @RequestParam(defaultValue = "") String search,
+                              @RequestParam(defaultValue = "0") Integer shopId){
         new Page<>(pageNum,pageSize);
-        Page<Comment> customerInfoPage = commentMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Comment>lambdaQuery().like(Comment::getCustomerName,search));
+        List<Integer> productList=infoMapper.selectList(Wrappers.<Info>lambdaQuery().eq(Info::getCustomerId,shopId)).stream().map(e->e.getProductId()).collect(Collectors.toList());
+        Page<Comment> customerInfoPage;
+        if(productList.size()!=0){
+            customerInfoPage = commentMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Comment>lambdaQuery().like(Comment::getCustomerName,search).in(Comment::getProductId,productList));
+        }else
+        {
+            customerInfoPage = commentMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Comment>lambdaQuery().eq(Comment::getCommentId,-1));
+        }
         LambdaQueryWrapper<Comment> query = Wrappers.<Comment>lambdaQuery().orderByDesc(Comment::getCommentId);
         if (StrUtil.isNotBlank(search)) {
             query.like(Comment::getCustomerName, search);

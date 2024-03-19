@@ -8,7 +8,6 @@
     <div class="ij" style="width: 400px;">
       <div style="text-align:center;font-size: 25px;color: #b3c0d1;margin: 14px 0">
         新用户注册
-
       </div>
       <div><el-divider></el-divider></div>
       <div class="hb">
@@ -18,7 +17,6 @@
         :rules="rules"
         ref="ruleForm"
       >
-      <!-- v-model双向绑定ruleForm.username -->
         <el-form-item prop="username">
           <el-input
             prefix-icon="el-icon-user"
@@ -56,55 +54,58 @@
    </div>
 </template>
 <script>
-import request from "@/utils/request.js";
+import request from '@/utils/request.js';
 export default {
-  name: "SignUp",
-  data() {
+  name: 'SignUp',
+  data () {
     return {
       url: {url: require('../assets/pic.gif')},
-      ruleForm: {},
+      ruleForm: {
+        role: 0
+      },
       rules: {
 
         username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+          { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
         confirm: [
-          { required: true, message: "请输入确认密码", trigger: "blur" },
-        ],
-      },
+          { required: true, message: '请输入确认密码', trigger: 'blur' }
+        ]
+      }
     };
   },
   methods: {
 
-    register() {
+    register () {
       if (this.ruleForm.password !== this.ruleForm.confirm) {
-        this.$message.error("两次密码不一致");
+        this.$message.error('两次密码不一致');
         return;
       }
-      this.$refs["ruleForm"].validate((valid) => {
+      this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-          request.post("/register", this.ruleForm).then((res) => {
+          request.post('/register', this.ruleForm).then((res) => {
             console.log(res);
             if (res.code === 200) {
-              this.$message.success("注册成功");
-              this.$router.push("/");
-            } else if(res.code == 400) {
-              this.$message.error("用户不存在");
-              this.$router.push("/SignUp");
+              this.$message.success('注册成功');
+              this.$router.push('/');
+              // eslint-disable-next-line eqeqeq
+            } else if (res.code == 400) {
+              this.$message.error('用户不存在');
+              this.$router.push('/SignUp');
             }
           });
         } else {
-          console.log("error submit!!");
+          console.log('error submit!!');
           return false;
         }
       });
     },
-    resetForm(formName) {
+    resetForm (formName) {
       this.$refs[formName].resetFields();
-    },
+    }
   },
-  mounted() {},
+  mounted () {}
 };
 </script>
 <style scoped>
@@ -130,39 +131,17 @@ export default {
   float: left;
 
 }
-.ij .el-input{
-      border: 0.5px solid #b2b2b2;
 
-  border-radius: 4px;
-
- margin-bottom: 10px;
-
-
-
-
-}
-.el-divider{
-  width: 100%;
-}
 .hb{
   margin-top: 50px;
 }
-.el-button{
-  background: #f10180;
-  color: #fff;
-  height: 50px;
-  border-radius: 4px;
 
-}
 .poii{
   float: right;
   margin-right: 400px;
 
+}
 
-}
-.poii .img{
-  margin-top: 10px;
-}
 .poii{
   float: right;
   margin-right: 400px;

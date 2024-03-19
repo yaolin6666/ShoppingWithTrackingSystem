@@ -3,6 +3,7 @@ package com.Shopping.controller;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.Shopping.common.lang.Result;
@@ -13,7 +14,7 @@ import com.Shopping.mapper.MasterMapper;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -28,13 +29,16 @@ public class MasterController {
     @GetMapping("/findAll")
     public List<Master> findAll(){
         List<Master> masters = masterMapper.selectList(null);
+        masters=masters.stream().filter(e->e.getStatus()<200).collect(Collectors.toList());
         return masters;
     }
     @GetMapping("/finds/{customerId}")
     public Result<?> findCustomerId(@RequestParam(defaultValue = "1") Integer pageNum,
                                     @RequestParam(defaultValue = "5") Integer pageSize,
                                     @PathVariable Integer customerId){
-        Page<Master> page = masterMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Master>lambdaQuery().eq(Master::getCustomerId, customerId));
+        Page<Master> page = masterMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Master>lambdaQuery()
+                .eq(Master::getCustomerId, customerId)
+                .lt(Master::getStatus,200));
         return Result.success(page);
     }
 
@@ -83,12 +87,17 @@ public class MasterController {
     @GetMapping("/page")
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search) {
+                              @RequestParam(defaultValue = "") String search,
+                              @RequestParam(defaultValue = "0") Integer shopId) {
         new Page<>(pageNum, pageSize);
-        Page<Master> masterPage = masterMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Master>lambdaQuery().like(Master::getProductName, search));
-        LambdaQueryWrapper<Master> query = Wrappers.<Master>lambdaQuery().orderByDesc(Master::getOrderId);
+        Page<Master> masterPage = masterMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Master>lambdaQuery()
+                .like(Master::getProductName, search)
+                .lt(Master::getStatus,200)
+                .eq(Master::getShopCustomerId,shopId));
+        LambdaQueryWrapper<Master> query = Wrappers.<Master>lambdaQuery()
+                .orderByDesc(Master::getOrderId);
         if (StrUtil.isNotBlank(search)) {
-            query.like(Master::getProductName, search);
+            query.like(Master::getProductName, search).lt(Master::getStatus,200);
         }
         return Result.success(masterPage);
     }

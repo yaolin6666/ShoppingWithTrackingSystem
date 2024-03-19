@@ -1,55 +1,52 @@
 <template>
   <div style="padding: 10px;">
-    <div style="margin: 10px 0;display: flex;">
-      <el-input v-model="search" placeholder="请输入" style="width: 20%;" clearable/>
-      <el-button type="primary" style="margin-left: 5px" @click="lode">查询</el-button>
-<!--      <el-button type="primary" @click="add">新增</el-button>-->
-      <el-popconfirm title="确认删除吗?" @confirm="deleteBatch">
-        <template #reference>
-          <el-button type="danger">批量删除</el-button>
-        </template>
-      </el-popconfirm>
-    </div>
 
-    <el-table :data="tableData" border stripe style="width: 100%" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" />
-      <el-table-column prop="customerId" label="ID" sortable  width="60"/>
-      <el-table-column prop="customerName" label="昵称"/>
-      <el-table-column label="头像">
-        <template #default="scope">
-          <el-image
-              style="width: 100px; height: 100px"
-              :src="scope.row.avatar"
-              :preview-src-list="[scope.row.avatar]"
-          >
-          </el-image>
-        </template>
-      </el-table-column>
-      <el-table-column prop="age" label="年龄" width="60"/>
-      <el-table-column prop="sex" label="性别" width="60"/>
-      <el-table-column prop="signatures" label="签名"/>
-      <el-table-column prop="phone" label="电话"/>
-      <el-table-column prop="email" label="邮箱" width="140"/>
-      <el-table-column prop="createTime" label="创建时间" width="150"/>
-      <el-table-column prop="updateTime" label="修改时间" width="150"/>
-      <el-table-column label="操作" width="150" align="center">
-        <template #default="scope">
-          <el-button icon="el-icon-edit" type="primary" circle @click="handleEdit(scope.row)"></el-button>
-          <el-popconfirm title="确认删除吗?" @confirm="handleDelete(scope.row.customerId)">
-            <template #reference>
-              <el-button type="danger" icon="el-icon-delete" circle></el-button>
-            </template>
-          </el-popconfirm>
+    <div :data="admin">
+      <div class="ju">
+        <img :src="admin.avatar" width="170" height="170" style="border-radius: 100px; box-shadow: 0 4px 8px rgba(0, 0, 0, .22), 0 0 12px rgba(0, 0, 0, .14);">
+        <div class="ju8">
+          <el-button @click="handleEdit(this.admin)">修 改</el-button>
+        </div>
+      </div>
+      <div class="jj">
+        <div class="ju1">
+          <i class="el-icon-user"></i>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称
+          <span style="margin-left: 90px;">
+       {{admin.customerName}}
+       </span>
+        </div>
+        <div class="ju3">
+          <i class="el-icon-phone-outline"></i>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话
+          <span style="margin-left: 90px;">
+       {{admin.phone}}
+        </span>
+        </div>
 
-        </template>
-      </el-table-column>
-    </el-table>
+        <div class="ju4">
+          <i class="el-icon-message"></i>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱
+          <span style="margin-left: 90px;">
+      {{admin.email}}
+      </span>
+        </div>
 
-    <div style="text-align: center;margin: 20px 0">
-      <el-pagination v-model:currentPage="currentPage" :page-sizes="[5, 10, 20, 30]" :page-size="pageSize"
-                     layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
-                     @current-change="handleCurrentChange">
-      </el-pagination>
+        <div class="ju5">
+          <i class="el-icon-present"></i>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄
+          <span style="margin-left: 90px;">
+       {{admin.age}}
+       </span>
+        </div>
+        <div class="ju6">
+          <i class="el-icon-male"></i>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别
+          <span style="margin-left: 90px;">
+       {{admin.sex}}
+       </span>
+        </div>
+      </div>
     </div>
 
     <el-dialog v-model="dialogVisible" title="修改" width="30%">
@@ -117,9 +114,16 @@ export default {
       total: 0,
       tableData: [],
       ids: [],
+      admin:[],
+      id:'',
     }
   },
   created() {
+    this.id=JSON.parse(sessionStorage.getItem('userInfo')).id
+    const url='/customerInfo/find/'+this.id;
+    request.get(url).then(res=>{
+      this.admin=res;
+    })
     this.lode()
   },
   methods: {
@@ -257,3 +261,61 @@ export default {
   },
 }
 </script>
+
+
+
+<style scoped>
+.jj{
+  padding-top: 100px;
+}
+.ju{
+  margin-left: 280px;
+  padding-top: 190px;
+  float: left;
+
+}
+.ju1{
+  margin-top: 40px;
+  font-size: 17px;
+  color: rgb(141, 148, 148);
+  font-weight: bold;
+  margin-left: 590px;
+
+}
+
+.ju3{
+  margin-top: 40px;
+  font-size: 17px;
+  font-weight: bold;
+  color: rgb(141, 148, 148);
+  margin-left: 590px;
+}
+.ju4{
+  margin-top: 40px;
+  font-size: 17px;
+  font-weight: bold;
+  color: rgb(141, 148, 148);
+  margin-left: 590px;
+}
+.ju5{
+  margin-top: 40px;
+  font-size: 17px;
+  font-weight: bold;
+  color: rgb(141, 148, 148);
+  margin-left: 590px;
+}
+.ju6{
+  margin-top: 40px;
+  font-size: 17px;
+  font-weight: bold;
+  color: rgb(141, 148, 148);
+  margin-left: 590px;
+}
+
+.ju8{
+
+  margin-top: 60px;
+  padding-left: 40px;
+}
+
+</style>
