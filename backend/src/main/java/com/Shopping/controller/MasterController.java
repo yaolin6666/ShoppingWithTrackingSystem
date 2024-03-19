@@ -1,5 +1,6 @@
 package com.Shopping.controller;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -11,8 +12,12 @@ import com.Shopping.domain.Info;
 import com.Shopping.domain.Master;
 import com.Shopping.mapper.InfoMapper;
 import com.Shopping.mapper.MasterMapper;
+import org.apache.http.client.utils.DateUtils;
+import org.joda.time.DateTime;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,9 +76,21 @@ public class MasterController {
         return Result.success();
     }
     @GetMapping("/count")
-    public Result Count(){
-        Integer count = masterMapper.selectCount(null);
+    public Result Count(@RequestParam Integer shopId){
+        LocalDateTime today=LocalDateTime.now();
+        LocalDateTime yesterday=today.minusDays(1);
+        Integer count = masterMapper.selectCount(Wrappers.<Master>lambdaQuery()
+                .eq(Master::getShopCustomerId,shopId)
+                .ge(Master::getCreateTime,yesterday)
+                .lt(Master::getCreateTime,today)
+        );
         return Result.success(count);
+    }
+    @GetMapping("/shopCount")
+    public List<Master> shopCount(@RequestParam Integer shopId){
+        List<Master> masters = masterMapper.selectList(Wrappers.<Master>lambdaQuery()
+                .eq(Master::getShopCustomerId,shopId));
+        return masters;
     }
     @GetMapping("/buy/{productId}")
     public Result buy(@PathVariable Integer productId){

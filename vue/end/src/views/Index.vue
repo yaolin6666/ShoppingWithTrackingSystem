@@ -51,14 +51,14 @@ import echarts from "echarts";
         order:'',
         tableData:[],
         category:[],
-       
         pageSize:300,
         jio:'',
-
+        customerId: '',
+        refundSize:'',
       }
     },
     created() {
-      
+      this.customerId=JSON.parse(sessionStorage.getItem('userInfo')).id;
       this.lode()
     },
     methods: {
@@ -69,11 +69,20 @@ import echarts from "echarts";
           console.log(res)
           this.user = res.data
         })
-        request.get("/info/count").then(res =>{
+        request.get("/info/count",{
+          params: {
+            customerId: this.customerId
+          }
+        }
+        ).then(res =>{
           console.log(res)
           this.product = res.data
         })
-        request.get("/master/count").then(res =>{
+        request.get("/master/count",{
+          params: {
+            shopId: this.customerId
+          }
+        }).then(res =>{
           console.log(res)
           this.order = res.data
         })
@@ -92,6 +101,7 @@ import echarts from "echarts";
         request.get("/refund/count").then(res =>{
           console.log(res)
           this.refund = res.data
+          this.refundSize=JSON.parse(this.refund)
         })
         request.get("/assess/count").then(res =>{
           console.log(res)
@@ -109,14 +119,27 @@ import echarts from "echarts";
       },
     },
     mounted() {
-      request.get("/productCategory/list").then(res =>{
-        console.log(res)
-        this.category = res.data.map(item => {return item.categoryName})
+      request.get("/master/shopCount",{
+        params: {
+          shopId: this.customerId
+        }
+      }).then(res =>{
+        let orderList=res;
+        let order=[],confirm=[],receipt=[];
+        for(let i=0;i<orderList.length;i++){
+          if(orderList[i].status<200){
+            order.push(orderList[i])
+          }else if(orderList[i].status<300){
+            confirm.push(orderList[i])
+          }else if(orderList[i].status<400){
+            receipt.push(orderList[i])
+          }
+        }
+        let orderSize=order.length;
+        let confirmSize=confirm.length;
+        let receiptSize=receipt.length;
         let echarts = require("echarts"); //引入echarts
-        // 基于准备好的dom，初始化echarts实例
         let chart1 = echarts.init(this.$refs.chart1);
-        let chart2 = echarts.init(this.$refs.chart2);
-        //图表内容
         const option1 = {
           title: {
             text: '订单详情'
@@ -124,7 +147,7 @@ import echarts from "echarts";
           tooltip: {},
           xAxis: {
             type:'category',
-            data: ['待发货','发货中','已收货','已退款','待评价','已评价']
+            data: ['待发货','发货中','已收货','已退款']
           },
           yAxis: {
             type:'value'
@@ -132,48 +155,10 @@ import echarts from "echarts";
           series: [{
             name: '数量',
             type: 'bar',
-            data: [this.order,this.confirm,this.receipt,this.refund,this.assess,this.comment,]
+            data: [orderSize,confirmSize,receiptSize,this.refundSize]
           }]
         };
-        const option2 = {
-          title: {
-            text: "各分类商品数",
-          },
-          tooltip: {},
-          //图例组件：展现了不同系列的标记(symbol)，颜色和名字。可以通过点击图例控制哪些系列不显示。
-          legend: {
-            orient: "vertical",
-            x: "left", //可设定图例在左、右、居中
-            y: "center", //可设定图例在上、下、居中
-            padding: [0, 0, 0, 0], //可设定图例[距上方距离，距右方距离，距下方距离，距左方距离]
-            data: this.category,
-          },
-          series: [
-            {
-              name: "数量",
-              type: "pie", // 设置图表类型为饼图
-              radius: "55%", // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
-              roseType: "angle", //也可以通过设置参数把饼图显示成南丁格尔图。
-              data: [
-                // 数据数组，name 为数据项名称，value 为数据项值
-                { value: this.infonum[0], name: this.category[0] },
-                { value: this.infonum[1], name: this.category[1] },
-                { value: this.infonum[2], name: this.category[2] },
-                { value: this.infonum[3], name: this.category[7] },
-                { value: this.infonum[4], name: this.category[9] },
-                { value: this.infonum[5], name: this.category[5] },
-                { value: this.infonum[6], name: this.category[6] },
-                { value: this.infonum[7], name: this.category[3] },
-                { value: this.infonum[8], name: this.category[8] },
-                { value: this.infonum[9], name: this.category[4] },
-                { value: this.infonum[10], name: this.category[11] },
-                { value: this.infonum[11], name: this.category[10] },
-              ],
-            },
-          ],
-        };
-        chart1.setOption(option1),
-            chart2.setOption(option2)
+        chart1.setOption(option1)
       })
 
 

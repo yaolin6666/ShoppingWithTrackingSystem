@@ -105,12 +105,6 @@
 
       </v-card>
       <div class="gt"><img src="@/assets/ym.png" ><img src="@/assets/cf.png" height="19"><div class="qf"><span>{{admin.productHome}}</span></div> </div>
-<div class="rt"><router-link v-bind:to="'/promptly/'+admin.productId">
-      <div class="bv"><img src="@/assets/mm.png"></div>
-      <el-button  size="mini" style="width:70px; background: coral;color:#fff;margin-top:6px;margin-right:13px;"> <span style=" float:right; margin-left: 20px;" >立即购买</span></el-button>
-</router-link><router-link v-bind:to="'/goodsDetail/'+admin.productId">
-      <el-button  size="mini" style="width:85px; background: coral;color:#fff;margin-top:6px;margin-right:12px;"> <span style=" float:right; margin-left: 20px;" >加入购物车</span></el-button>
-</router-link></div>
 </div>
 
 </router-link>

@@ -63,22 +63,14 @@
 
         </v-card-title>
 
-
       </v-card>
       <div class="gt"><img src="@/assets/ym.png" ><img src="@/assets/cf.png" height="19"><div class="qf"><span>{{admin.productHome}}</span></div> </div>
-<div class="rt"><router-link v-bind:to="'/promptly/'+admin.productId">
-      <div class="bv"><img src="@/assets/mm.png"></div>
-      <el-button  size="mini" style="width:70px; background: coral;color:#fff;margin-top:6px;margin-right:13px;"> <span style=" float:right; margin-left: 20px;" >立即购买</span></el-button>
-</router-link><router-link v-bind:to="'/goodsDetail/'+admin.productId">
-      <el-button  size="mini" style="width:85px; background: coral;color:#fff;margin-top:6px;margin-right:12px;"> <span style=" float:right; margin-left: 20px;" >加入购物车</span></el-button>
-</router-link></div>
 </div>
 
 </router-link>
   </div>
   </div>
   <div class="fy">
-
 
 <el-row :gutter="20" class="userindex-list">
       <el-col :span="24" class="userindex-page-box">
@@ -95,92 +87,88 @@
 <script>
 import ShopHeader from '@/components/header/ShopHeader';
 import store from '@/store/index';
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapActions } from 'vuex';
 export default {
   name: 'Merchant',
-  data() {
+  data () {
     return {
-      ids:this.$store.state.userInfo.id,
-      product:[],
-         sreachData:this.$route.query.sreachData,
-       price1:"",
-      price2:"",
-       list1:[],
-       sort: true, //排序
-      search: "",
+      ids: this.$store.state.userInfo.id,
+      product: [],
+      sreachData: this.$route.query.sreachData,
+      price1: '',
+      price2: '',
+      list1: [],
+      sort: true, // 排序
+      search: '',
       currentPage: 1,
       pageSize: 48,
       total: 0,
-      admin: [],
-    }
+      admin: []
+    };
   },
   created () {
-
-    console.log(this.$route.query.sreachData)
-    this.search=this.sreachData
-    this.lode()
+    console.log(this.$route.query.sreachData);
+    this.search = this.sreachData;
+    this.lode();
     this.loadGoodsList();
   },
   computed: {
-    ...mapState(['userInfo', 'shoppingCart']),
+    ...mapState(['userInfo', 'shoppingCart'])
   },
   methods: {
- onSubmits(admin) {
-       admin.customerId=this.ids
-      this.product=admin;
+    onSubmits (admin) {
+      admin.customerId = this.ids;
+      this.product = admin;
 
-
-          let _this = this;
-          axios
-            .post("http://localhost:8888/img/add", this.product)
-            .then(function (response) {
-              console.log(this.product)
-            });
-
-      },
-
-    lo(){
-
-      if(!this.search){
-        this.$router.push("/merchant");
-         location.reload()
-      }else{
-      this.$router.push({path: '/merchant', query: { sreachData: this.search }});
-      location.reload()
-      }
-
+      // eslint-disable-next-line no-unused-vars
+      let _this = this;
+      // eslint-disable-next-line no-undef
+      axios
+        .post('http://localhost:8888/img/add', this.product)
+        .then(function (response) {
+          console.log(this.product);
+        });
     },
 
-  //价格筛选
-    Onclick() {
+    lo () {
+      if (!this.search) {
+        this.$router.push('/merchant');
+        location.reload();
+      } else {
+        this.$router.push({path: '/merchant', query: { sreachData: this.search }});
+        location.reload();
+      }
+    },
 
+    // 价格筛选
+    Onclick () {
       this.admin = [];
-      if(!this.price1 && !this.price2){
-        location.reload()
-      }else{
-      this.list1.forEach((ele) => {
-        if (this.price1 <= ele.productPrice && ele.productPrice <= this.price2) {
-          this.admin.push(ele);
-        }
-      });
+      if (!this.price1 && !this.price2) {
+        location.reload();
+      } else {
+        this.list1.forEach((ele) => {
+          if (this.price1 <= ele.productPrice && ele.productPrice <= this.price2) {
+            this.admin.push(ele);
+          }
+        });
       }
     },
 
- index() {
-      //排序
+    index () {
+      // 排序
       this.sort = !this.sort;
       if (this.sort) {
         this.admin.sort((a, b) => {
           return a.productPrice - b.productPrice;
         });
-      }
-      else {
+      } else {
         this.admin.sort((a, b) => {
           return a.productPrice - b.productPrice;
         });
       }
     },
-    index1() {
+    index1 () {
       this.sort = !this.sort;
       if (this.sort) {
         this.admin.sort((a, b) => {
@@ -193,41 +181,34 @@ export default {
       }
     },
 
- handleSizeChange(pageSize) {
-      //改变每页的个数触发
+    handleSizeChange (pageSize) {
+      // 改变每页的个数触发
       this.pageSize = pageSize;
       this.lode();
     },
-    handleCurrentChange(pageNum) {
-      //改变当前页码触发
+    handleCurrentChange (pageNum) {
+      // 改变当前页码触发
       this.currentPage = pageNum;
       this.lode();
     },
 
-
-
-
-     lode() {
-
+    lode () {
+      // eslint-disable-next-line no-undef
       axios
-        .get("http://localhost:8888/info/page", {
+        .get('http://localhost:8888/info/page', {
           params: {
             pageNum: this.currentPage,
             pageSize: this.pageSize,
-            search: this.search,
-          },
+            search: this.search
+          }
         })
         .then((res) => {
           console.log(res);
           this.admin = res.data.data.records;
-           this.list1 = res.data.data.records;
+          this.list1 = res.data.data.records;
           this.total = res.data.data.total;
-
-
-
         });
-
-    },
+    }
 
   },
   components: {
@@ -245,7 +226,7 @@ export default {
   //     return jio;
   //   },
   // },
-store
+  store
 };
 </script>
 
@@ -481,12 +462,6 @@ padding-top: 55px;
     font-weight: bold;
 }
 
-
-
-
-
-
-
 .llss{
          margin-top: 40px;
          margin-left: 81px;
@@ -541,7 +516,6 @@ padding-top: 55px;
     font-weight: bold;
 }
 
-
 .rf{
   width: 100%;
   height: 500px;
@@ -553,7 +527,6 @@ padding-top: 55px;
 .qww{
   padding-top: 1px;
   margin-left: 5px;
-
 
 }
 .qww img{
@@ -582,9 +555,7 @@ padding-top: 55px;
   opacity: 0.8;
   transition: 0.3s;
 
-
 }
-
 
 .rf .ee{
   position: relative;
@@ -603,9 +574,7 @@ padding-top: 55px;
   opacity: 0.8;
   transition: 0.3s;
 
-
 }
-
 
 .sss .ee{
   position: relative;
@@ -624,9 +593,7 @@ padding-top: 55px;
   opacity: 0.8;
   transition: 0.3s;
 
-
 }
-
 
 .kkw{
   font-size: 15px;
@@ -659,10 +626,6 @@ padding-top: 55px;
  box-shadow: 0 4px 8px #ee7546, 0 0 12px #ee7546
 }
 
-
-
-
-
  .okss:hover{
   color: #ee7546;
   font-size: 17px;
@@ -683,7 +646,6 @@ padding-top: 55px;
 .ghh .li{
   float: right;
   margin-left: 30px;
-
 
 }
 .ghh .jjs{

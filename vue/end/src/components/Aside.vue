@@ -11,7 +11,7 @@
         <i class="el-icon-house"></i>
         <span>系统主页</span>
       </el-menu-item>
-       <el-menu-item index="/record">
+       <el-menu-item index="/record" v-if="this.role==1">
         <i class="el-icon-notebook-1"></i>
         <span>访问记录</span>
       </el-menu-item>
@@ -21,12 +21,12 @@
           <span >用户管理</span>
         </template>
         <el-menu-item-group>
-<!--          <el-menu-item index="/user">用户管理</el-menu-item>-->
           <el-menu-item index="/userinfo">用户信息管理</el-menu-item>
-          <el-menu-item index="/userAssign">商家审核管理</el-menu-item>
+          <el-menu-item index="/userAssign" v-if="this.role==1">商家审核管理</el-menu-item>
+          <el-menu-item index="/userAssign" v-if="this.role==2">商家审核资料提交</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
-      <el-sub-menu index="2">
+      <el-sub-menu index="2" v-if="this.role==3">
         <template #title>
           <i class="el-icon-box"></i>
           <span>商品管理</span>
@@ -37,7 +37,7 @@
           <el-menu-item index="/origin">商品货源管理</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
-      <el-sub-menu index="3">
+      <el-sub-menu index="3" v-if="this.role==3">
         <template #title>
           <i class="el-icon-shopping-cart-full"></i>
           <span>订单管理</span>
@@ -49,7 +49,7 @@
           <el-menu-item index="/comment">评价管理</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
-      <el-menu-item index="/feedback">
+      <el-menu-item index="/feedback" v-if="this.role==1">
         <i class="el-icon-chat-line-round"></i>
         <span>用户反馈</span>
       </el-menu-item>
@@ -69,8 +69,11 @@ export default {
     return {
       path: this.$route.path,
       isCollapse: false,
-
+      role: ''
     }
+  },
+  created() {
+    this.role=JSON.parse(sessionStorage.getItem('userInfo')).role;
   },
   methods: {
     handleOpen() {
@@ -87,13 +90,5 @@ export default {
 }
 </script>
 <style>
-/*.toggle-button {*/
-/*  background-color: #c8bfe7;*/
-/*  font-size: 25px;*/
-/*  color: #fff;*/
-/*  text-align: center;*/
-/*  letter-spacing: 0.2em;*/
-/*  cursor: pointer;*/
-/*}*/
 
 </style>

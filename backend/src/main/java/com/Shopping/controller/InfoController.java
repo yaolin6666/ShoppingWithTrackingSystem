@@ -84,8 +84,8 @@ public class InfoController {
         return Result.success();
     }
     @GetMapping("/count")
-    public Result Count(){
-        Integer count = infoMapper.selectCount(null);
+    public Result Count(@RequestParam(defaultValue = "0") Integer customerId){
+        Integer count = infoMapper.selectCount(Wrappers.<Info>lambdaQuery().eq(Info::getCustomerId,customerId));
         return Result.success(count);
     }
 

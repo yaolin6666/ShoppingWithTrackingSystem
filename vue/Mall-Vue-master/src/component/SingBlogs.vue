@@ -3,9 +3,7 @@
 <div class="qw">
 <div class="kk"><img  :src="admin.productImage" width="370px" height="400px"></div>
    <div :data="admin"   style="width: 100%" class="sss">
-
      <div class="k">
-
     <p style="font-size:20px;font-weight:bold;font-weight:bold;word-wrap:break-word;word-break:break-all;width:600px;">{{admin.productName}}5555555555555555555555555555555555555555555555555555555555555555555555</p>
     <p style="margin-top: 8px;margin-bottom:8px">追流行趋势 买风格新品</p>
 <div class="ef">
@@ -42,22 +40,12 @@
       <el-radio-button  style="margin-left:50px"  :label="admin.productCg"></el-radio-button>
     </el-radio-group>
 </div>
-
     <p style="margin-top: 21px;"><span style="color: rgb(155, 154, 154);margin-left:17px;">数量</span>
     <sapn style="margin-left:43px">
     <el-input-number v-model="admin.productNum" @change="handleChange" :min="1" :max="admin.productMnum" ></el-input-number></sapn></p>
-<!-- <el-radio-group v-model="admin.productImage">
-    <el-radio  :label="admin.productIm"><img :src="admin.productIm" width="50px" height="40px"></el-radio>
-    <el-radio-button :label="admin.productImd"></el-radio-button>
-    <el-radio-button :label="admin.productImf"></el-radio-button>
-    <el-radio-button :label="admin.productImg"></el-radio-button>
-      </el-radio-group> -->
-
 <el-button type="primary" @click="onSubmit('fruitRules')"
         >加入购物车</el-button
       >
-
-
 
 </div>
 
@@ -134,66 +122,59 @@
 
 <script>
 
-
 export default {
-  name:"sing-blogs",
-  data() {
+  name: 'sing-blogs',
+  data () {
     return {
       admin: {
-        name: "",
-        sale: "",
-        icon: "",
+        name: '',
+        sale: '',
+        icon: ''
 
       },
 
       rules: {
-          adminName: [
-            { required: true, message: "管理员名称不能为空", trigger: "blur" },
-          ],
-          adminPwd: [
-            { required: true, message: "密码不能为空", trigger: "blur" },
-          ],
-          adminPhone: [
-            { required: true, message: "联系方式不能为空", trigger: "blur" },
-          ],
-          adminState: [
-            { required: true, message: "管理员状态不能为空", trigger: "blur" },
-            // { type:'number' , message:'请输入数字'}
-            ],
-        },
-      baskets:[],
+        adminName: [
+          { required: true, message: '管理员名称不能为空', trigger: 'blur' }
+        ],
+        adminPwd: [
+          { required: true, message: '密码不能为空', trigger: 'blur' }
+        ],
+        adminPhone: [
+          { required: true, message: '联系方式不能为空', trigger: 'blur' }
+        ],
+        adminState: [
+          { required: true, message: '管理员状态不能为空', trigger: 'blur' }
+          // { type:'number' , message:'请输入数字'}
+        ]
+      },
+      baskets: [],
 
-      search:"",
-     id:this.$route.params.id,
+      search: '',
+      id: this.$route.params.id
 
+    };
+  },
 
-
-
-
-    }
-
+  methods: {
+    handleChange (value) {
+      console.log(value);
     },
 
-
-   methods:{
-     handleChange(value) {
-        console.log(value);
-        },
-
-      onSubmit(formName) {
+    onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let _this = this;
           axios
-            .post("http://localhost:8888/shopping/add", this.admin)
+            .post('http://localhost:8888/shopping/add', this.admin)
             .then(function (response) {
               if (response.data) {
-                _this.$alert(_this.admin.productName+ "添加成功！", "添加数据", {
-                  confirmButtonText: "确定",
+                _this.$alert(_this.admin.productName + '添加成功！', '添加数据', {
+                  confirmButtonText: '确定',
                   callback: (action) => {
-                    //跳转到/table
-                    _this.$router.push("/notice");
-                  },
+                    // 跳转到/table
+                    _this.$router.push('/notice');
+                  }
                 });
               }
             });
@@ -222,43 +203,29 @@ export default {
     //   });
     // },
 
-  decrease(admin){
-    admin.adminState--
+    decrease (admin) {
+      admin.adminState--;
+    },
+    increase (admin) {
+      admin.adminState++;
+    },
+    removeFrom (admin) {
 
+    }
 
   },
-  increase(admin){
-    admin.adminState++
-  },
-  removeFrom(admin){
 
-  },
+  created () {
+    const _this = this;
 
+    this.$axios.get('http://localhost:8888/info/find/' + this.id).then(function (resp) {
+      _this.admin = resp.data;
 
+      console.log(resp);
+    });
+  }
 
-   },
-
-
-
-
-     created(){
-
-
-    const  _this = this
-
-    this.$axios.get('http://localhost:8888/info/find/'+this.id).then(function (resp) {
-        _this.admin = resp.data
-
-
-        console.log(resp);
-      })
-  },
-
-
-
-}
-
-
+};
 
 </script>
 <style scoped>
@@ -275,7 +242,6 @@ margin-left: 30px;
  max-width: 800px;
  margin: 0 auto;
 
-
 }
 
 .ss{
@@ -286,8 +252,6 @@ margin-left: 30px;
   margin: 200px 0;
   margin-left: 300px;
   box-sizing: border-box;
-
-
 
 }
 .qw{

@@ -3,11 +3,7 @@
 
     <div class="item-detail-show">
       <el-backtop :bottom="10" :right="0">
-        <div
-          class="hyy"
-        >
-          返回顶部
-        </div>
+        <div class="hyy">返回顶部</div>
       </el-backtop>
       <div class="item-detail-left">
         <div class="item-detail-big-img">
@@ -39,80 +35,47 @@
             <div class="item-remarks-sum">
               <p>累计评价</p>
               <p>
-                <span class="item-remarks-num"
-                >{{ total }} 条</span
-                >
+                <span class="item-remarks-num">{{ total }} 条</span>
               </p>
             </div>
           </div>
         </div>
-        <!-- 选择颜色 -->
         <div class="item-select">
           <div class="item-select-title">
             <p>选择颜色</p>
           </div>
           <div class="item-select-column">
             <el-radio-group v-model="admin.productColor" size="medium">
-              <el-radio-button v-show="admin.productCs" :label="admin.productCs"
-                               style="border: 1px solid silver;"></el-radio-button>
-              <el-radio-button v-show="admin.productCd" style="margin-left:30px;border: 1px solid silver;"
-                               :label="admin.productCd"></el-radio-button>
-              <el-radio-button v-show="admin.productCf" style="margin-left:31px;border: 1px solid silver;"
-                               :label="admin.productCf"></el-radio-button>
-              <el-radio-button v-show="admin.productCg" style="margin-left:30px;border: 1px solid silver;"
-                               :label="admin.productCg"></el-radio-button>
+              <el-radio-button v-show="admin.productCs" :label="admin.productCs" style="border: 1px solid silver;"></el-radio-button>
+              <el-radio-button v-show="admin.productCd" style="margin-left:30px;border: 1px solid silver;" :label="admin.productCd"></el-radio-button>
+              <el-radio-button v-show="admin.productCf" style="margin-left:31px;border: 1px solid silver;" :label="admin.productCf"></el-radio-button>
+              <el-radio-button v-show="admin.productCg" style="margin-left:30px;border: 1px solid silver;" :label="admin.productCg"></el-radio-button>
             </el-radio-group>
           </div>
         </div>
         <p style="margin-top: 21px;"><span style="color: rgb(155, 154, 154);">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</span>
           <sapn style="margin-left:27px">
-            <el-input-number v-model="admin.productNum" @change="handleChange" :min="1"
-                             :max="admin.productMnum"></el-input-number>
+            <el-input-number v-model="admin.productNum" @change="handleChange" :min="1" :max="admin.productMnum"></el-input-number>
           </sapn>
         </p>
         <br/>
         <div class="add-buy-car-box">
           <div class="add-buy-car">
-            <Button type="error" size="large" @click="onSubmit('fruitRules')"
-            >加入购物车
-            </Button
-            >
+            <Button type="error" size="large" @click="onSubmit('fruitRules')">加入购物车</Button>
             <span style="margin-left: 30px;">
-            <Button type="error" size="large" @click="onSubmits('fruitRules')"
-            >收藏</Button
-            >
+            <Button type="error" size="large" @click="onSubmits('fruitRules')">收藏</Button>
             </span>
           </div>
         </div>
-        <el-popover
-          placement="top"
-          width="1000"
-          trigger="click"> -->
-
-          <el-form
-            ref="fruitRules"
-            :model="admin"
-            :rules="rules"
-            label-width="300px"
-            class="demo-ruleForm"
-            style="width: 600px"
-          >
-            <el-form-item
-              label="商品Id"
-              prop="productId"
-            >
+        <el-popover placement="top" width="1000" trigger="click"> -->
+          <el-form ref="fruitRules" :model="admin" :rules="rules" label-width="300px" class="demo-ruleForm" style="width: 600px">
+            <el-form-item label="商品Id" prop="productId">
               <el-input v-model="admin.productId">{{admin.productId}}</el-input>
             </el-form-item>
-            <el-form-item
-              label="商品名称"
-              prop="productName"
-            >
+            <el-form-item label="商品名称" prop="productName">
               <el-input v-model="admin.productName">{{admin.productName}}</el-input>
             </el-form-item>
-            <el-form-item
-              label="商品总数量"
-              prop="productMnum"
-            >
+            <el-form-item label="商品总数量" prop="productMnum">
               <el-input v-model="admin.productMnum">{{admin.productMnum}}</el-input>
             </el-form-item>
             <el-form-item label="颜色">
@@ -123,41 +86,24 @@
                 <el-radio border :label="admin.productCg"></el-radio>
               </el-radio-group>
             </el-form-item>
-
-            <el-form-item
-              label="价格"
-              prop="productPrice"
-            >
+            <el-form-item label="价格" prop="productPrice">
               <el-input v-model="admin.productPrice">{{admin.productPrice * admin.PriceNum}}</el-input>
             </el-form-item>
-            <el-form-item
-              label="商品图片"
-              prop="productErm"
-            >
+            <el-form-item label="商品图片" prop="productErm">
               <el-img v-model="admin.productErm" :src="admin.productErm" width="300" height="100"></el-img>
             </el-form-item>
-
-            <el-form-item
-              label="数量"
-              prop="admin.productNum"
-            >
+            <el-form-item label="数量" prop="admin.productNum">
               <el-input v-model="admin.productNum">{{admin.productNum}}</el-input>
             </el-form-item>
             <el-input-number v-model="admin.adminState" @change="handleChange" :min="1" :max="10"
                              label="描述文字"></el-input-number>
             <el-form-item>
-              <el-button type="primary" @click="onSubmit('fruitRules')"
-              >立即创建
-              </el-button
-              >
-
+              <el-button type="primary" @click="onSubmit('fruitRules')">立即创建
+              </el-button>
               <el-button>取消</el-button>
             </el-form-item>
           </el-form>
-          <!-- <el-button slot="reference">click 激活</el-button> -->
-
         </el-popover>
-
       </div>
     </div>
   </div>
@@ -226,10 +172,8 @@ export default {
                   confirmButtonText: '确定',
                   callback: (action) => {
                     // 跳转到/table
-
                     location.reload();
                   }
-
                 });
               }
             });
