@@ -1,77 +1,91 @@
 <template>
   <div style="padding: 10px;">
-
-    <div style="margin: 10px 0;display: flex;">
-      <el-input v-model="search" placeholder="请输入" style="width: 20%;" clearable/>
-      <el-button type="primary" style="margin-left: 5px" @click="lode">查询</el-button>
-      <el-button type="primary" style="margin-right: 10px;" @click="add">新增</el-button>
-      <el-popconfirm title="确认删除吗?" @confirm="deleteBatch">
-        <template #reference>
-          <el-button type="danger">批量删除</el-button>
-        </template>
-      </el-popconfirm>
+    <div v-if="existData">
+      <div class="add-box" style="width:60%;padding-left: 35%">
+        <el-Form :model="form" :rules="rules" label-position="left" ref="form" :label-width="100">
+          <el-form-item label="营业执照" prop="certificationImg">
+            <img :src="existData.certificationImg" width="300" height="250"/>
+          </el-form-item>
+          <el-form-item label="认证图片1" prop="img_1">
+            <img :src="existData.img1" width="300" height="250"/>
+          </el-form-item>
+          <el-form-item v-if="existData.img2!=null" label="认证图片2">
+            <img :src="existData.img2" width="300" height="250"/>
+          </el-form-item>
+          <el-form-item v-if="existData.img3!=null" label="认证图片3">
+            <img :src="existData.img3" width="300" height="250"/>
+          </el-form-item>
+        </el-Form>
+      </div>
+      <div class="add-submit">
+        <el-Button type="primary" disabled="disabled">已提交 请等待审核</el-Button>
+      </div>
     </div>
-
-    <el-table :data="tableData" border stripe style="width: 100%" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" />
-      <el-table-column prop="customerId" label="ID" sortable/>
-      <el-table-column prop="username" label="用户名"/>
-      <el-table-column label="角色">
-        <template #default="scope">
-          <span v-if="scope.row.role === 0">用户</span>
-          <span v-if="scope.row.role === 1">管理员</span>
-          <span v-if="scope.row.role === 2">商家(待审核)</span>
-          <span v-if="scope.row.role === 3">商家</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="createTime" label="创建时间"/>
-      <el-table-column prop="updateTime" label="修改时间"/>
-      <el-table-column label="操作" align="center">
-        <template #default="scope">
-          <el-button icon="el-icon-edit" type="primary" circle @click="handleEdit(scope.row)"></el-button>
-          <el-popconfirm title="确认删除吗?" @confirm="handleDelete(scope.row.customerId)">
-            <template #reference>
-              <el-button type="danger" icon="el-icon-delete" circle></el-button>
-            </template>
-          </el-popconfirm>
-
-        </template>
-      </el-table-column>
-    </el-table>
-    <div style="margin: 20px 0;text-align: center">
-      <el-pagination v-model:currentPage="currentPage" :page-sizes="[5, 10, 20, 30]" :page-size="pageSize"
-                     layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
-                     @current-change="handleCurrentChange">
-      </el-pagination>
-
-      <el-dialog v-model="dialogVisible" title="" width="30%">
-        <el-form :model="form" label-width="120px">
-          <el-form-item label="用户名">
-            <el-input v-model="form.username"></el-input>
+    <div v-if="!existData">
+      <div class="add-box" style="width:60%;padding-left: 35%">
+        <el-Form :model="form" :rules="rules" label-position="left" ref="form" :label-width="100">
+          <el-form-item label="营业执照" prop="certificationImg">
+            <el-upload ref="uplode"
+                       action="http://localhost:8888/files/uplode"
+                       :on-success="filesUplodeSeccess1">
+              <el-button size="small" type="primary">上传</el-button>
+              <template #tip>
+                <div class="el-upload__tip">
+                  只能上传jpg/png文件且文件大小不超过1MB
+                </div>
+              </template>
+            </el-upload>
           </el-form-item>
-          <el-form-item label="密码">
-            <el-input v-model="form.password"></el-input>
+          <el-form-item label="认证图片1" prop="img_1">
+            <el-upload ref="uplode"
+                       action="http://localhost:8888/files/uplode"
+                       :on-success="filesUplodeSeccess2">
+              <el-button size="small" type="primary">上传</el-button>
+              <template #tip>
+                <div class="el-upload__tip">
+                  只能上传jpg/png文件且文件大小不超过1MB
+                </div>
+              </template>
+            </el-upload>
           </el-form-item>
-          <el-form-item label="角色">
-            <el-radio v-model="form.role" label="0" style="padding-left: 50px">用户</el-radio>
-            <el-radio v-model="form.role" label="1">管理员</el-radio>
+          <el-form-item label="认证图片2">
+            <el-upload ref="uplode"
+                       action="http://localhost:8888/files/uplode"
+                       :on-success="filesUplodeSeccess3">
+              <el-button size="small" type="primary">上传</el-button>
+              <template #tip>
+                <div class="el-upload__tip">
+                  只能上传jpg/png文件且文件大小不超过1MB
+                </div>
+              </template>
+            </el-upload>
           </el-form-item>
-        </el-form>
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="save">确定</el-button>
-          </span>
-        </template>
-      </el-dialog>
+          <el-form-item label="认证图片3">
+            <el-upload ref="uplode"
+                       action="http://localhost:8888/files/uplode"
+                       :on-success="filesUplodeSeccess4">
+              <el-button size="small" type="primary">上传</el-button>
+              <template #tip>
+                <div class="el-upload__tip">
+                  只能上传jpg/png文件且文件大小不超过1MB
+                </div>
+              </template>
+            </el-upload>
+          </el-form-item>
+        </el-Form>
+      </div>
+      <div class="add-submit">
+        <el-Button type="primary" @click="submitData">提交资料</el-Button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 
-import request from "@/utils/request.js"
-import {ElMessage} from 'element-plus'
+import request from "@/utils/request";
+
+import {ElMessage} from "element-plus";
 
 export default {
   name: 'User',
@@ -79,119 +93,49 @@ export default {
   components: {},
   data() {
     return {
+      accountId: '',
       form: {},
-      dialogVisible: false,
-      search: '',
-      currentPage: 1,
-      pageSize: 5,
-      total: 0,
-      tableData: [],
-      ids: [],
+      existData: {},
+      rules: {
+        certificationImg: [
+          {required: true, message: '请上传营业执照', trigger: 'blur'}
+        ],
+        img_1: [
+          {required: true, message: '请至少上传一张认证图片', trigger: 'blur'}
+        ]
+      }
     }
   },
   created() {
-    this.lode()
+    this.accountId = JSON.parse(sessionStorage.getItem('userInfo')).id;
+    request.get("/register/find/" + this.accountId).then(res => {
+      console.log(res);
+      this.existData = res
+      this.lode()
+      this.dialogVisible = false
+    })
   },
-  mounted() {
-    
-  },
-
   methods: {
-    deleteBatch(){
-      if (!this.ids.length){
-        ElMessage({
-          type:"warning",
-          message:"请先进行选择"
-        })
-        return
-      }
-      request.post("/account/deleteBatch",this.ids).then(res => {
-        if (res.code === 200) {
-          ElMessage({
-            type: 'success',
-            message: '批量删除成功',
-          })
-          this.lode()
-        } else {
-          ElMessage({
-            type: 'error',
-            message: res.msg
-          })
-        }
-      })
+    filesUplodeSeccess1(res) {
+      this.form.certificationImg = res.data
     },
-    handleSelectionChange(val){
-      this.ids = val.map(v => v.customerId)
+    filesUplodeSeccess2(res) {
+      this.form.img_1 = res.data
     },
-    lode() {
-      request.get("/account/page", {
-        params: {
-          pageNum: this.currentPage,
-          pageSize: this.pageSize,
-          search: this.search,
-        }
-      }).then(res => {
+    filesUplodeSeccess3(res) {
+      this.form.img_2 = res.data
+    },
+    filesUplodeSeccess4(res) {
+      this.form.img_3 = res.data
+    },
+    submitData() {
+      this.form.accountId = this.accountId;
+      request.post("/register/add", this.form).then(res => {
         console.log(res);
-        this.tableData = res.data.records
-        this.total = res.data.total
-      })
-
-    },
-    add() {
-      this.dialogVisible = true
-      this.form = {}
-
-    },
-    save() {
-      if (this.form.customerId) {
-        request.put("/account/update", this.form).then(res => {
-          console.log(res);
-          if (res.code === 200) {
-            ElMessage({
-              type: 'success',
-              message: '修改成功',
-            })
-          } else {
-            ElMessage({
-              type: 'error',
-              message: res.msg
-            })
-          }
-          this.lode()
-          this.dialogVisible = false
-        })
-      } else {
-        request.post("/account", this.form).then(res => {
-          console.log(res);
-          if (res.code === 200) {
-            ElMessage({
-              type: 'success',
-              message: '添加成功',
-            })
-          } else {
-            ElMessage({
-              type: 'error',
-              message: res.msg
-            })
-          }
-          this.lode()
-          this.dialogVisible = false
-        })
-      }
-
-    },
-    handleEdit(row) {
-      this.form = JSON.parse(JSON.stringify(row))
-      this.dialogVisible = true
-
-    },
-    handleDelete(customerId) {
-      request.delete("/account/" + customerId).then(res => {
-        console.log(customerId);
         if (res.code === 200) {
           ElMessage({
             type: 'success',
-            message: '删除成功',
+            message: '添加成功',
           })
         } else {
           ElMessage({
@@ -200,19 +144,16 @@ export default {
           })
         }
         this.lode()
+        this.dialogVisible = false
       })
-
-    },
-    handleSizeChange(pageSize) {//改变每页的个数触发
-      this.pageSize = pageSize
-      this.lode()
-
-    },
-    handleCurrentChange(pageNum) {//改变当前页码触发
-      this.currentPage = pageNum
-      this.lode()
-
-    },
+    }
   },
 }
 </script>
+
+<style scoped>
+.add-submit {
+  display: flex;
+  justify-content: center;
+}
+</style>

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Index from '@/components/Index';
 import Pp from '@/components/footer/products.vue';
+
 const Login = resolve => require(['@/components/Login'], resolve);
 const SignUp = resolve => require(['@/components/Signup'], resolve);
 // eslint-disable-next-line no-unused-vars
@@ -119,10 +120,6 @@ export default new Router({
       name: 'show'
     },
 
-    {
-      path: '/add',
-      component: () => import('@/component/AddBlogs.vue')
-    },
     {
       path: '/blog/:id',
       component: () => import('@/component/SingBlogs.vue')

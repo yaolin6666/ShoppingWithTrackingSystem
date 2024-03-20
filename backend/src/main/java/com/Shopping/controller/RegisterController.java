@@ -2,7 +2,6 @@ package com.Shopping.controller;
 
 import com.Shopping.common.lang.Result;
 import com.Shopping.domain.Register;
-import com.Shopping.domain.Shopping;
 import com.Shopping.mapper.RegisterMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -24,10 +23,10 @@ public class RegisterController {
         return registers;
     }
 
-    @GetMapping("/finds/{customerId}")
+    @GetMapping("/find/{customerId}")
     public Register findCustomerId(@PathVariable Integer customerId) {
-        List<Register> registerList = registerMapper.selectList( Wrappers.<Register>lambdaQuery().eq(Register::getRegisterId, customerId));
-        return registerList.get(0);
+        List<Register> registerList = registerMapper.selectList( Wrappers.<Register>lambdaQuery().eq(Register::getAccountId, customerId));
+        return registerList.size()>0?registerList.get(0):null;
     }
 
     @DeleteMapping("/delete/{id}")

@@ -25,10 +25,10 @@ public class Register implements Serializable {
 
     private String certificationImg;
 
-    private String img_1;
-    private String img_2;
+    private String img1;
+    private String img2;
 
-    private String img_3;
+    private String img3;
 
     /**
      * 创建时间

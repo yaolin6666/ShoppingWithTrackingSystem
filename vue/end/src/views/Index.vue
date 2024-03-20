@@ -95,7 +95,11 @@ export default {
           console.log(res)
           this.confirm = res.data
         })
-        request.get("/refund/count").then(res =>{
+        request.get("/refund/count",{
+          params: {
+            shopId: this.customerId
+          }
+        }).then(res =>{
           console.log(res)
           this.refund = res.data
           this.refundSize=JSON.parse(this.refund)

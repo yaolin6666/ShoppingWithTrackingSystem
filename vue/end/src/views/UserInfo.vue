@@ -57,8 +57,7 @@
         <el-form-item label="头像">
           <el-upload ref="uplode"
                      action="http://localhost:8888/files/uplode"
-                     :on-success="filesUplodeSeccess"
-          >
+                     :on-success="filesUplodeSeccess">
             <el-button size="small" type="primary">上传</el-button>
             <template #tip>
               <div class="el-upload__tip">

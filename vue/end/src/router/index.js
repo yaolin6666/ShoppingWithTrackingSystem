@@ -86,11 +86,6 @@ const routes = [
         component: () => import("@/views/Record")
       },
       {
-        path: 'userwallet',
-        name: 'Userwallet',
-        component: () => import("@/views/Userwallet")
-      },
-      {
         path: 'comment',
         name: 'Comment',
         component: () => import("@/views/Comment")

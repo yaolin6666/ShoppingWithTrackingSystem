@@ -64,8 +64,9 @@ public class RefundController {
     }
 
     @GetMapping("/count")
-    public Result Count() {
-        Integer count = refundMapper.selectCount(null);
+    public Result Count(@RequestParam(defaultValue = "0") Integer shopId) {
+        Integer count = refundMapper.selectCount(Wrappers.<Refund>lambdaQuery()
+                .eq(Refund::getShopCustomerId, shopId));
         return Result.success(count);
     }
 
