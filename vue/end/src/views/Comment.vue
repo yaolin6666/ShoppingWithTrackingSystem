@@ -10,11 +10,11 @@
       </el-popconfirm>
     </div>
 
-    <el-table :data="tableData"  border stripe style="width: 100%" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" />
-      <el-table-column prop="commentId" label="ID" sortable  width="60"/>
+    <el-table :data="tableData" border stripe style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55"/>
+      <el-table-column prop="commentId" label="ID" sortable width="60"/>
       <el-table-column prop="productId" label="商品ID" sortable width="85"/>
-       <el-table-column label="评论人头像">
+      <el-table-column label="评论人头像">
         <template #default="scope">
           <el-image
               style="width: 100px; height: 100px"
@@ -28,18 +28,14 @@
       <el-table-column prop="commentNr" label="评论内容" width="200"/>
       <el-table-column label="评论晒图">
         <template #default="scope">
-          <el-image
-              style="width: 100px; height: 100px"
-              :src="scope.row.commentPic"
-              :preview-src-list="[scope.row.commentPic]"
-          >
+          <el-image style="width: 100px; height: 100px" :src="scope.row.commentPic" :preview-src-list="[scope.row.commentPic]">
           </el-image>
         </template>
       </el-table-column>
       <el-table-column prop="commentPf" label="商品评分">
-         <template #default="scope">
-        <el-rate v-model="scope.row.commentPf" disabled :label-width="formLabelWidth"></el-rate>
-         </template>
+        <template #default="scope">
+          <el-rate v-model="scope.row.commentPf" disabled :label-width="formLabelWidth"></el-rate>
+        </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间"/>
       <el-table-column prop="updateTime" label="修改时间"/>
@@ -116,19 +112,19 @@ export default {
     }
   },
   created() {
-    this.id=JSON.parse(sessionStorage.getItem('userInfo')).id;
+    this.id = JSON.parse(sessionStorage.getItem('userInfo')).id;
     this.lode()
   },
   methods: {
-    deleteBatch(){
-      if (!this.ids.length){
+    deleteBatch() {
+      if (!this.ids.length) {
         ElMessage({
-          type:"warning",
-          message:"请先进行选择"
+          type: "warning",
+          message: "请先进行选择"
         })
         return
       }
-      request.post("/comment/deleteBatch",this.ids).then(res => {
+      request.post("/comment/deleteBatch", this.ids).then(res => {
         if (res.code === 200) {
           ElMessage({
             type: 'success',
@@ -143,10 +139,10 @@ export default {
         }
       })
     },
-    handleSelectionChange(val){
+    handleSelectionChange(val) {
       this.ids = val.map(v => v.commentId)
     },
-    filesUplodeSeccess(res){
+    filesUplodeSeccess(res) {
       console.log(res)
       this.form.avatar = res.data
 
@@ -215,7 +211,7 @@ export default {
     handleEdit(row) {
       this.form = JSON.parse(JSON.stringify(row))
       this.dialogVisible = true
-      this.$nextTick(() =>{
+      this.$nextTick(() => {
         this.$refs['uplode'].clearFiles()
       })
 

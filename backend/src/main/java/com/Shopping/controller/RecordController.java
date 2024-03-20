@@ -21,36 +21,36 @@ public class RecordController {
     private RecordMapper recordMapper;
 
     @GetMapping("/findAll")
-    public List<Record> findAll(){
+    public List<Record> findAll() {
         List<Record> records = recordMapper.selectList(null);
         return records;
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<?> delete(@PathVariable("id") Integer id){
+    public Result<?> delete(@PathVariable("id") Integer id) {
         recordMapper.deleteById(id);
         return Result.success();
     }
 
     @GetMapping("/find/{id}")
-    public Record find(@PathVariable("id") Integer id){
+    public Record find(@PathVariable("id") Integer id) {
         return this.recordMapper.selectById(id);
     }
 
     @PutMapping("/update")
-    public Result<?> update(@RequestBody Record record){
+    public Result<?> update(@RequestBody Record record) {
         recordMapper.updateById(record);
         return Result.success();
     }
 
     @PostMapping("/add")
-    public Result<?> insert(@RequestBody Record record){
+    public Result<?> insert(@RequestBody Record record) {
         recordMapper.insert(record);
         return Result.success();
     }
 
     @PostMapping("/deleteBatch")
-    public Result<?> deleteBatch(@RequestBody List<Integer> ids){
+    public Result<?> deleteBatch(@RequestBody List<Integer> ids) {
         recordMapper.deleteBatchIds(ids);
         return Result.success();
     }

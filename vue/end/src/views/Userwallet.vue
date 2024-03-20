@@ -240,7 +240,7 @@ export default {
       const _this = this
       this.form = JSON.parse(JSON.stringify(row))
       this.dialogVisible = true
-      request.get('/good/findAll').then(function (resp) {
+      request.get('/address/findAll').then(function (resp) {
         _this.admins = resp
         console.log(resp);
       })
@@ -249,7 +249,7 @@ export default {
       const _this = this
       this.form = JSON.parse(JSON.stringify(row))
       this.dialogVisible1 = true
-      request.get('/good/findAll').then(function (resp) {
+      request.get('/address/findAll').then(function (resp) {
         _this.admins = resp
         console.log(resp);
       })

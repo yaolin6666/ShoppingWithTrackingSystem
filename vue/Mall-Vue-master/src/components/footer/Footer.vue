@@ -94,18 +94,18 @@ export default {
   flex-direction: row;
   justify-content: space-between;
 }
-.servece-type-info {
+.servece-type-product {
   color: #666666;
 }
-.servece-type-info ul {
+.servece-type-product ul {
   list-style: none;
 }
-.servece-type-info li {
+.servece-type-product li {
   font-size: 14px;
   cursor: pointer;
   line-height: 26px;
 }
-.servece-type-info li:first-child {
+.servece-type-product li:first-child {
   font-size: 16px;
   line-height: 28px;
   font-weight: bold;

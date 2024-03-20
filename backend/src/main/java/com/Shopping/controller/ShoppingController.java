@@ -22,42 +22,44 @@ public class ShoppingController {
     private ShoppingMapper shoppingMapper;
 
     @GetMapping("/findAll")
-    public List<Shopping> findAll(){
+    public List<Shopping> findAll() {
         List<Shopping> shops = shoppingMapper.selectList(null);
         return shops;
     }
+
     @GetMapping("/finds/{customerId}")
     public Result<?> findCustomerId(@RequestParam(defaultValue = "1") Integer pageNum,
-                                   @RequestParam(defaultValue = "5") Integer pageSize,
-                                   @PathVariable Integer customerId){
+                                    @RequestParam(defaultValue = "5") Integer pageSize,
+                                    @PathVariable Integer customerId) {
         Page<Shopping> page = shoppingMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Shopping>lambdaQuery().eq(Shopping::getCustomerId, customerId));
         return Result.success(page);
     }
+
     @DeleteMapping("/delete/{id}")
-    public Result<?> delete(@PathVariable("id") Integer id){
+    public Result<?> delete(@PathVariable("id") Integer id) {
         shoppingMapper.deleteById(id);
         return Result.success();
     }
 
     @GetMapping("/find/{id}")
-    public Shopping find(@PathVariable("id") Integer id){
+    public Shopping find(@PathVariable("id") Integer id) {
         return this.shoppingMapper.selectById(id);
     }
 
     @PutMapping("/update")
-    public Result<?> update(@RequestBody Shopping shopping){
+    public Result<?> update(@RequestBody Shopping shopping) {
         shoppingMapper.updateById(shopping);
         return Result.success();
     }
 
     @PostMapping("/add")
-    public Result<?> insert(@RequestBody Shopping shopping){
+    public Result<?> insert(@RequestBody Shopping shopping) {
         shoppingMapper.insert(shopping);
         return Result.success();
     }
 
     @PostMapping("/deleteBatch")
-    public Result<?> deleteBatch(@RequestBody List<Integer> ids){
+    public Result<?> deleteBatch(@RequestBody List<Integer> ids) {
         shoppingMapper.deleteBatchIds(ids);
         return Result.success();
     }

@@ -101,7 +101,7 @@ export default {
   //   gt(){
   //     const _this = this;
   //      this.$axios
-  //     .get("http://localhost:8888/info/"+this.id,"/"+this.brandId)
+  //     .get("http://localhost:8888/product/"+this.id,"/"+this.brandId)
   //     .then(function (resp) {
   //       _this.admins = resp.data.data;
 

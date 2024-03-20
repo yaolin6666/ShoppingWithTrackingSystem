@@ -3,20 +3,20 @@
     <Search></Search>
     <GoodsListNav></GoodsListNav>
     <!-- 添加成功提示 -->
-    <div class="add-info-box-container">
-      <div class="add-info-box">
-        <div class="add-info-detail">
-          <div class="add-info-title">
+    <div class="add-product-box-container">
+      <div class="add-product-box">
+        <div class="add-product-detail">
+          <div class="add-product-title">
             <p>
               <i class="fa fa-check-circle"></i> 商品已成功加入购物车！</p>
           </div>
-          <div class="add-info-box-row">
-            <div class="add-info-img">
+          <div class="add-product-box-row">
+            <div class="add-product-img">
               <img :src="newShoppingCart.package.img" alt="">
             </div>
-            <div class="add-info-intro">
+            <div class="add-product-intro">
               <p>{{newShoppingCart.title}} {{newShoppingCart.package.intro}}...</p>
-              <p class="add-info-intro-detail">颜色：{{newShoppingCart.package.intro}}/ 数量：{{newShoppingCart.count}}</p>
+              <p class="add-product-intro-detail">颜色：{{newShoppingCart.package.intro}}/ 数量：{{newShoppingCart.count}}</p>
             </div>
           </div>
         </div>
@@ -93,11 +93,11 @@ export default {
 
 <style scoped>
 /****************************加入购物车页面开始*****************************/
-.add-info-box-container{
+.add-product-box-container{
   width: 100%;
   background-color: #F5F5F5;
 }
-.add-info-box{
+.add-product-box{
   width: 90%;
   margin: 0px auto;
   padding: 15px 0px;
@@ -105,33 +105,33 @@ export default {
     flex-direction: row;
     justify-content: space-between;
 }
-.add-info-detail{
+.add-product-detail{
   display: flex;
     flex-direction: column;
 }
-.add-info-title{
+.add-product-title{
   font-size: 25px;
   color: #71b247;
 }
-.add-info-box-row{
+.add-product-box-row{
   display: flex;
     flex-direction: row;
     margin-top: 15px;
 }
-.add-info-img{
+.add-product-img{
   width: 56px;
   height: 56px;
   margin-right: 15px;
 }
-.add-info-img img{
+.add-product-img img{
   width: 100%;
 }
-.add-info-intro{
+.add-product-intro{
   display: flex;
     flex-direction: column;
     justify-content: center;
 }
-.add-info-intro-detail{
+.add-product-intro-detail{
   font-size: 12px;
   color: #999999;
 }

@@ -195,7 +195,7 @@ export default {
     lode () {
       // eslint-disable-next-line no-undef
       axios
-        .get('http://localhost:8888/info/page', {
+        .get('http://localhost:8888/product/page', {
           params: {
             pageNum: this.currentPage,
             pageSize: this.pageSize,
@@ -239,47 +239,47 @@ export default {
   font-size: 25px;
   font-weight: bold;
 }
-.goods-container {
+.addresses-container {
   margin: 15px auto;
   width: 80%;
 }
-.goods-list {
+.addresses-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.goods-show-info{
+.addresses-show-product{
   width: 240px;
   padding: 10px;
   margin: 15px 0px;
   border: 1px solid #fff;
   cursor: pointer;
 }
-.goods-show-info:hover{
+.addresses-show-product:hover{
   border: 1px solid #ccc;
   box-shadow: 0px 0px 15px #ccc;
 }
-.goods-show-price{
+.addresses-show-price{
   margin-top: 6px;
 }
-.goods-show-detail{
+.addresses-show-detail{
   font-size: 12px;
   margin: 6px 0px;
 }
-.goods-show-num{
+.addresses-show-num{
   font-size: 12px;
   margin-bottom: 6px;
   color: #009688;
 }
-.goods-show-num span{
+.addresses-show-num span{
   color: #005AA0;
   font-weight: bold;
 }
-.goods-show-seller{
+.addresses-show-seller{
   font-size: 12px;
   color:#E4393C;
 }
-.goods-page {
+.addresses-page {
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;

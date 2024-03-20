@@ -149,7 +149,7 @@ export default {
       const _this = this;
 
       this.$axios
-        .get('http://localhost:8888/customerInfo/find/' + this.id)
+        .get('http://localhost:8888/account/find/' + this.id)
         .then(function (resp) {
           _this.admind = resp.data;
 
@@ -299,7 +299,7 @@ export default {
     const _this = this;
 
     this.$axios
-      .get('http://localhost:8888/customerInfo/find/' + this.id)
+      .get('http://localhost:8888/account/find/' + this.id)
       .then(function (resp) {
         _this.adminss = resp.data;
 

@@ -47,7 +47,7 @@ export default {
 
     open() {
       this.$notify({
-        type:'info',
+        type:'product',
         title: '今日小目标',
         message: '先赚它一个亿',
         offset: 50,

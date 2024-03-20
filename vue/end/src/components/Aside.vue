@@ -22,7 +22,8 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/userinfo">用户信息管理</el-menu-item>
-          <el-menu-item index="/userAssign" v-if="this.role==1">商家审核管理</el-menu-item>
+          <el-menu-item index="/adminAssign" v-if="this.role==1">商家审核</el-menu-item>
+          <el-menu-item index="/shop" v-if="this.role==1">商家管理</el-menu-item>
           <el-menu-item index="/userAssign" v-if="this.role==2">商家审核资料提交</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>

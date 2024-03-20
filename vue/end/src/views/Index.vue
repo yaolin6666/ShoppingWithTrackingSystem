@@ -33,7 +33,6 @@
       </el-row>
     </div>
   <div style="width: 100%;height: 500px;display: flex">
-<!--    <div ref="chart2" style="width: 600px;height: 500px;margin-left: 50px"></div>-->
     <div ref="chart1" style="width: 800px;margin-left: 10%;height: 500px;"></div>
   </div>
 </div>
@@ -41,8 +40,8 @@
 
 <script>
 import request from "@/utils/request.js"
-import echarts from "echarts";
-  export default {
+
+export default {
     name: "Index",
     data(){
       return{
@@ -62,14 +61,12 @@ import echarts from "echarts";
       this.lode()
     },
     methods: {
-     
-
       lode(){
-        request.get("/customerInfo/count").then(res =>{
+        request.get("/account/count").then(res =>{
           console.log(res)
           this.user = res.data
         })
-        request.get("/info/count",{
+        request.get("/product/count",{
           params: {
             customerId: this.customerId
           }
@@ -86,7 +83,11 @@ import echarts from "echarts";
           console.log(res)
           this.order = res.data
         })
-        request.get("/comment/findAll").then(res =>{
+        request.get("/comment/findAll",{
+          params: {
+            shopId: this.customerId
+          }
+        }).then(res =>{
           console.log(res)
           this.tableData = res.data
         })
@@ -94,28 +95,15 @@ import echarts from "echarts";
           console.log(res)
           this.confirm = res.data
         })
-        request.get("/receipt/count").then(res =>{
-          console.log(res)
-          this.receipt = res.data
-        })
         request.get("/refund/count").then(res =>{
           console.log(res)
           this.refund = res.data
           this.refundSize=JSON.parse(this.refund)
         })
-        request.get("/assess/count").then(res =>{
-          console.log(res)
-          this.assess = res.data
-        })
         request.get("/comment/count").then(res =>{
           console.log(res)
           this.comment = res.data
         })
-        request.get("/info/group").then(res =>{
-          console.log(res.data.map(item => {return item.num}))
-          this.infonum = res.data.map(item => {return item.num})
-        })
-
       },
     },
     mounted() {
@@ -160,11 +148,8 @@ import echarts from "echarts";
         };
         chart1.setOption(option1)
       })
-
-
     },
     computed: {
-      
       totalSumAll(){
         let totalSumAll = 0;
         this.tableData.map((item) => {totalSumAll += item.commentPf})
@@ -175,9 +160,6 @@ import echarts from "echarts";
       
     }
   }
-
 </script>
-
 <style scoped>
-
 </style>

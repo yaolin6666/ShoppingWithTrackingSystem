@@ -159,7 +159,7 @@ export default {
   },
   methods: {
     lode() {
-      request.get("/info/page", {
+      request.get("/product/page", {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -180,7 +180,7 @@ export default {
     },
       //修改
     onSubmit() {
-      request.put("/info/update", this.admins).then(res => {
+      request.put("/product/update", this.admins).then(res => {
         console.log(res);
         if (res.code === 200) {
           ElMessage({
@@ -206,7 +206,7 @@ export default {
       })
         .then(() => {
           request
-              .delete("/info/delete/" + row.productId)
+              .delete("/product/delete/" + row.productId)
               .then(res => {
                 if (res.code === 200) {
                   ElMessage({
@@ -232,7 +232,7 @@ export default {
         })
         return
       }
-      request.post("/info/deleteBatch",this.ids).then(res => {
+      request.post("/product/deleteBatch",this.ids).then(res => {
         if (res.code === 200) {
           ElMessage({
             type: 'success',

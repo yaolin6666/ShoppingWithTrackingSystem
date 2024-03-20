@@ -9,16 +9,12 @@
       返回顶部
     </div>
  </el-backtop>
-    <!-- <div class="ff"><input v-model="search" placeholder="请输入内容" /></div> -->
-    <!-- 搜索条件 -->
     <el-row :gutter="20" class="userindex-queryInfo">
-      <!-- 商品名称搜索 -->
       <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4">
         <el-input
           class="userindex-queryInfo-li"
           v-model="search"
           clearable
-
           size="small"
           placeholder="请输入用户名称"
         ></el-input>
@@ -28,10 +24,7 @@
           >搜 索</el-button
         >
       </el-col>
-      <!-- 添加按钮 -->
     </el-row>
-
-    <!-- 检索结果 -->
     <el-row :gutter="20" class="userindex-list" :search="search">
       <el-col :span="24">
 <table style="margin-top:20px;" align="center"  >
@@ -46,7 +39,6 @@
 <span style="margin-left: 44px;">交易操作</span>
 </div>
 </div>
-
 <div class="shopping-cart-null" v-show="user.length <= 0">
                 <Icon type="ios-cart-outline" class="cart-null-icon"></Icon>
                 <span>你的订单没有空空哦</span>
@@ -74,7 +66,6 @@
 <td class="kk2">
 <p style="margin-left: 12px;margin-top: 9px;">等待卖家发货</p>
 <router-link v-bind:to="'/ordersss/'+user.orderId"><p style="margin-left: 21px;margin-top: 18px;color:red">退款/退货</p></router-link>
-
 </td>
 </tr>
 </div>

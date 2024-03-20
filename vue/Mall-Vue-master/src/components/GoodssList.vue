@@ -27,7 +27,7 @@
       <!-- 商品标签导航 -->
       <GoodsClassNav></GoodsClassNav>
       <!-- 商品展示容器 -->
-      <div class="goods-box">
+      <div class="addresses-box">
         <div class="as-box">
           <div class="item-as-title">
             <span>商品精选</span>
@@ -56,7 +56,7 @@
 
           </div>
         </div>
-        <div class="goods-list-box">
+        <div class="addresses-list-box">
 
           <div class="ff">
 
@@ -344,7 +344,7 @@ export default {
     lode () {
       // eslint-disable-next-line no-undef
       axios
-        .get('http://localhost:8888/info/' + this.id + '/' + this.ids,
+        .get('http://localhost:8888/product/' + this.id + '/' + this.ids,
           {
             params: {
               pageNum: this.currentPage,
@@ -364,7 +364,7 @@ export default {
     loded () {
       // eslint-disable-next-line no-undef
       axios
-        .get('http://localhost:8888/info/page', {
+        .get('http://localhost:8888/product/page', {
           params: {
 
             pageSize: this.pageSize
@@ -383,7 +383,7 @@ export default {
     lodes () {
       // eslint-disable-next-line no-undef
       axios
-        .get('http://localhost:8888/info/find/' + this.id + '/' + this.ids,
+        .get('http://localhost:8888/product/find/' + this.id + '/' + this.ids,
           {
             params: {
               pageNum: this.currentPage,
@@ -459,7 +459,7 @@ export default {
   font-size: 25px;
   font-weight: bold;
 }
-.goods-box {
+.addresses-box {
   display: flex;
 }
 /* ---------------侧边广告栏开始------------------- */
@@ -509,80 +509,80 @@ export default {
 /* ---------------侧边广告栏结束------------------- */
 
 /* ---------------商品栏开始------------------- */
-.goods-list-box {
+.addresses-list-box {
   margin-left: 15px;
   width: calc(100% - 215px);
 }
-.goods-list-tool{
+.addresses-list-tool{
   width: 100%;
   height: 38px;
   border: 1px solid #ccc;
   background-color: #F1F1F1;
 }
-.goods-list-tool ul{
+.addresses-list-tool ul{
   padding-left: 15px;
   list-style: none;
 }
-.goods-list-tool li{
+.addresses-list-tool li{
   cursor: pointer;
   float: left;
 }
-.goods-list-tool span{
+.addresses-list-tool span{
   padding: 5px 8px;
   border: 1px solid #ccc;
   border-left: none;
   line-height: 36px;
   background-color: #fff;
 }
-.goods-list-tool span:hover{
+.addresses-list-tool span:hover{
   border: 1px solid #E4393C;
 }
-.goods-list-tool i:hover{
+.addresses-list-tool i:hover{
   color: #E4393C;
 }
-.goods-list-tool-active {
+.addresses-list-tool-active {
   color: #fff;
   border-left: 1px solid #ccc;
   background-color: #E4393C !important;
 }
 
-.goods-list {
+.addresses-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.goods-show-info{
+.addresses-show-product{
   width: 240px;
   padding: 10px;
   margin: 15px 0px;
   border: 1px solid #fff;
   cursor: pointer;
 }
-.goods-show-info:hover{
+.addresses-show-product:hover{
   border: 1px solid #ccc;
   box-shadow: 0px 0px 15px #ccc;
 }
-.goods-show-price{
+.addresses-show-price{
   margin-top: 6px;
 }
-.goods-show-detail{
+.addresses-show-detail{
   font-size: 12px;
   margin: 6px 0px;
 }
-.goods-show-num{
+.addresses-show-num{
   font-size: 12px;
   margin-bottom: 6px;
   color: #009688;
 }
-.goods-show-num span{
+.addresses-show-num span{
   color: #005AA0;
   font-weight: bold;
 }
-.goods-show-seller{
+.addresses-show-seller{
   font-size: 12px;
   color:#E4393C;
 }
-.goods-page {
+.addresses-page {
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;

@@ -21,47 +21,50 @@ public class RefundController {
     private RefundMapper refundMapper;
 
     @GetMapping("/findAll")
-    public List<Refund> findAll(){
+    public List<Refund> findAll() {
         List<Refund> refunds = refundMapper.selectList(null);
         return refunds;
     }
+
     @GetMapping("/finds/{customerId}")
     public Result<?> findCustomerId(@RequestParam(defaultValue = "1") Integer pageNum,
                                     @RequestParam(defaultValue = "5") Integer pageSize,
-                                    @PathVariable Integer customerId){
+                                    @PathVariable Integer customerId) {
         Page<Refund> page = refundMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Refund>lambdaQuery().eq(Refund::getCustomerId, customerId));
         return Result.success(page);
     }
+
     @DeleteMapping("/delete/{id}")
-    public Result<?> delete(@PathVariable("id") Integer id){
+    public Result<?> delete(@PathVariable("id") Integer id) {
         refundMapper.deleteById(id);
         return Result.success();
     }
 
     @GetMapping("/find/{id}")
-    public Refund find(@PathVariable("id") Integer id){
+    public Refund find(@PathVariable("id") Integer id) {
         return this.refundMapper.selectById(id);
     }
 
     @PutMapping("/update")
-    public Result<?> update(@RequestBody Refund refund){
+    public Result<?> update(@RequestBody Refund refund) {
         refundMapper.updateById(refund);
         return Result.success();
     }
 
     @PostMapping("/add")
-    public Result<?> insert(@RequestBody Refund refund){
+    public Result<?> insert(@RequestBody Refund refund) {
         refundMapper.insert(refund);
         return Result.success();
     }
 
     @PostMapping("/deleteBatch")
-    public Result<?> deleteBatch(@RequestBody List<Integer> ids){
+    public Result<?> deleteBatch(@RequestBody List<Integer> ids) {
         refundMapper.deleteBatchIds(ids);
         return Result.success();
     }
+
     @GetMapping("/count")
-    public Result Count(){
+    public Result Count() {
         Integer count = refundMapper.selectCount(null);
         return Result.success(count);
     }
@@ -74,7 +77,7 @@ public class RefundController {
         new Page<>(pageNum, pageSize);
         Page<Refund> refundPage = refundMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Refund>lambdaQuery()
                 .like(Refund::getProductName, search)
-                .eq(Refund::getShopCustomerId,shopId));
+                .eq(Refund::getShopCustomerId, shopId));
         LambdaQueryWrapper<Refund> query = Wrappers.<Refund>lambdaQuery().orderByDesc(Refund::getRefundId);
         if (StrUtil.isNotBlank(search)) {
             query.like(Refund::getProductName, search);

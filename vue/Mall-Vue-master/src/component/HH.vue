@@ -2,9 +2,9 @@
   <div>
 
     <div v-for="admin in admins" :key="admin">
-    {{admin.productId}}
+      {{ admin.productId }}
     </div>
-  <el-button @click="onSubmitss()"></el-button>
+    <el-button @click="onSubmitss()"></el-button>
   </div>
 </template>
 
@@ -58,9 +58,7 @@ export default {
     lodes () {
       // eslint-disable-next-line no-undef
       axios
-        .get('http://localhost:8888/productCategory/list', {
-
-        })
+        .get('http://localhost:8888/productCategory/list', {})
         .then((res) => {
           console.log(res);
           this.list = res.data.data;
@@ -70,9 +68,7 @@ export default {
     lodess () {
       // eslint-disable-next-line no-undef
       axios
-        .get('http://localhost:8888/productCategory/list', {
-
-        })
+        .get('http://localhost:8888/productCategory/list', {})
         .then((res) => {
           console.log(res);
           this.lists = res.data.data.children[0];
@@ -83,10 +79,11 @@ export default {
 };
 </script>
 
-<style  scoped>
- .detail-item-panel ul {
+<style scoped>
+.detail-item-panel ul {
   list-style: none;
 }
+
 .detail-item-panel li {
   line-height: 38px;
   margin-left: 40px;

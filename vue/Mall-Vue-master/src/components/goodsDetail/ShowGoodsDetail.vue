@@ -121,13 +121,13 @@
                   <span>商品评价</span>
                 </div>
                 <div class="remarks-analyse-box">
-                  <div class="remarks-analyse-goods" v-show="!totalSumAll">
+                  <div class="remarks-analyse-addresses" v-show="!totalSumAll">
                     <i-circle :percent="totalSumAll" stroke-color="#e4393c">
                       <span class="remarks-analyse-num">0%</span>
                       <p class="remarks-analyse-title">好评率</p>
                     </i-circle>
                   </div>
-                  <div class="remarks-analyse-goods" v-show="!!totalSumAll">
+                  <div class="remarks-analyse-addresses" v-show="!!totalSumAll">
                     <i-circle :percent="totalSumAll" stroke-color="#e4393c">
                       <span class="remarks-analyse-num"
                         >{{ totalSumAll }}%</span
@@ -373,7 +373,7 @@ export default {
 
     lodes () {
       // eslint-disable-next-line no-undef
-      axios.get('http://localhost:8888/info/page').then((res) => {
+      axios.get('http://localhost:8888/product/page').then((res) => {
         console.log(res);
         this.adminss = res.data.data.records;
       });
@@ -430,7 +430,7 @@ export default {
     const _this = this;
 
     this.$axios
-      .get('http://localhost:8888/info/find/' + this.id)
+      .get('http://localhost:8888/product/find/' + this.id)
       .then(function (resp) {
         _this.admin = resp.data;
 
@@ -595,7 +595,7 @@ export default {
   display: flex;
   align-items: center;
 }
-.remarks-analyse-goods {
+.remarks-analyse-addresses {
   margin-left: 15px;
   margin-right: 15px;
 }

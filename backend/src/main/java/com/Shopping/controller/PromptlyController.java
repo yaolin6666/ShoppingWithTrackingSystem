@@ -16,31 +16,30 @@ public class PromptlyController {
     private PromptlyMapper promptlyMapper;
 
     @GetMapping("/findAll")
-    public List<Promptly> findAll(){
+    public List<Promptly> findAll() {
         List<Promptly> promptlys = promptlyMapper.selectList(null);
         return promptlys;
     }
 
     @DeleteMapping("/delete/{id}")
-    public int delete(@PathVariable("id") Integer id){
+    public int delete(@PathVariable("id") Integer id) {
         return promptlyMapper.deleteById(id);
     }
 
     @GetMapping("/find/{id}")
-    public Promptly find(@PathVariable("id") Integer id){
+    public Promptly find(@PathVariable("id") Integer id) {
         return this.promptlyMapper.selectById(id);
     }
 
     @PutMapping("/update")
-    public int update(@RequestBody Promptly promptly){
+    public int update(@RequestBody Promptly promptly) {
         return this.promptlyMapper.updateById(promptly);
     }
 
     @PostMapping("/add")
-    public int insert(@RequestBody Promptly promptly){
+    public int insert(@RequestBody Promptly promptly) {
         return this.promptlyMapper.insert(promptly);
     }
-
 
 
 }

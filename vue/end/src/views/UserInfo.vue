@@ -120,7 +120,7 @@ export default {
   },
   created() {
     this.id=JSON.parse(sessionStorage.getItem('userInfo')).id
-    const url='/customerInfo/find/'+this.id;
+    const url='/account/find/'+this.id;
     request.get(url).then(res=>{
       this.admin=res;
     })
@@ -135,7 +135,7 @@ export default {
         })
         return
       }
-      request.post("/customerInfo/deleteBatch",this.ids).then(res => {
+      request.post("/account/deleteBatch",this.ids).then(res => {
         if (res.code === 200) {
           ElMessage({
             type: 'success',
@@ -159,7 +159,7 @@ export default {
 
     },
     lode() {
-      request.get("/customerInfo/page", {
+      request.get("/account/page", {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -183,7 +183,7 @@ export default {
     },
     save() {
       if (this.form.customerId) {
-        request.put("/customerInfo/update", this.form).then(res => {
+        request.put("/account/update", this.form).then(res => {
           console.log(res);
           if (res.code === 200) {
             ElMessage({
@@ -200,7 +200,7 @@ export default {
           this.dialogVisible = false
         })
       } else {
-        request.post("/customerInfo", this.form).then(res => {
+        request.post("/account", this.form).then(res => {
           console.log(res);
           if (res.code === 200) {
             ElMessage({
@@ -230,7 +230,7 @@ export default {
     },
     handleDelete(customerId) {
 
-      request.delete("/customerInfo/" + customerId).then(res => {
+      request.delete("/account/" + customerId).then(res => {
         console.log(customerId);
         if (res.code === 200) {
           ElMessage({

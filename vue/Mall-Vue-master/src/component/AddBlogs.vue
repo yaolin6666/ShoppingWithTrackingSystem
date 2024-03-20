@@ -379,7 +379,7 @@ export default {
     let productId = this.$route.query.productId;
     let _this = this;
     // eslint-disable-next-line no-undef
-    axios.get('http://localhost:8888/info/find/' + productId).then(function (response) {
+    axios.get('http://localhost:8888/product/find/' + productId).then(function (response) {
       _this.admin = response.data;
     });
   },
@@ -2568,7 +2568,7 @@ export default {
           let _this = this;
           // eslint-disable-next-line no-undef
           axios
-            .post('http://localhost:8888/info/add', this.admin)
+            .post('http://localhost:8888/product/add', this.admin)
             .then(function (response) {
               if (response.data) {
                 _this.$alert(_this.admin.productName + '添加成功！', '添加数据', {

@@ -131,7 +131,7 @@ export default {
   created () {
     const _this = this;
     this.$axios
-      .get('http://localhost:8888/customerInfo/find/' + this.id)
+      .get('http://localhost:8888/account/find/' + this.id)
       .then(function (resp) {
         _this.admin = resp.data;
         console.log(resp);
@@ -154,7 +154,7 @@ export default {
         if (valid) {
           let _this = this;
           // eslint-disable-next-line no-undef
-          axios.put('http://localhost:8888/customerInfo/update', this.admin).then(function (response) {
+          axios.put('http://localhost:8888/account/update', this.admin).then(function (response) {
             if (response.data) {
               _this.$alert('修改成功！', '修改个人主页', {
                 confirmButtonText: '确定',

@@ -68,10 +68,10 @@ export default {
         if (valid) {
           let _this = this;
           axios
-            .post("http://localhost:8888/good/add", this.good)
+            .post("http://localhost:8888/address/add", this.address)
             .then(function (response) {
               if (response.data) {
-                _this.$alert(_this.good.goodName+ "添加成功！", "添加数据", {
+                _this.$alert(_this.address.goodName+ "添加成功！", "添加数据", {
                   confirmButtonText: "确定",
                   callback: (action) => {
                     //跳转到/table

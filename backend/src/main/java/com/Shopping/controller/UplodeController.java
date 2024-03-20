@@ -21,18 +21,19 @@ import java.util.List;
 public class UplodeController {
     @PostMapping("/uplode")
     public Result<?> uplode(MultipartFile file) {
-        String url=TencentCOSUtil.upLoadFile(file);
+        String url = TencentCOSUtil.upLoadFile(file);
         return Result.success(url);
     }
+
     @GetMapping("/{uuid}")
-    public void getFiles(HttpServletResponse response, @PathVariable String uuid){
+    public void getFiles(HttpServletResponse response, @PathVariable String uuid) {
         OutputStream os;//新建输出流对象
         String basePath = System.getProperty("user.dir") + "\\src\\main\\resources\\files";
         List<String> fileNames = FileUtil.listFileNames(basePath);//获取所有文件名
         String fileName = fileNames.stream().filter(name -> name.contains(uuid)).findAny().orElse("");//找到跟参数一致的文件
         try {
-            if (StrUtil.isNotEmpty(fileName)){
-                response.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(fileName,"UTF-8"));
+            if (StrUtil.isNotEmpty(fileName)) {
+                response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
                 response.setContentType("application/octet-stream");
                 byte[] bytes = FileUtil.readBytes(basePath + fileName);//通过文件的路径读取文件字节流
                 os = response.getOutputStream();//通过输出流返回文件

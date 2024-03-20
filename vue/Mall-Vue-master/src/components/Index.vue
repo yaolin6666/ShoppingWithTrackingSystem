@@ -139,7 +139,7 @@ export default {
     lode () {
       // eslint-disable-next-line no-undef
       axios
-        .get('http://localhost:8888/info/page', {
+        .get('http://localhost:8888/product/page', {
           params: {
             pageNum: this.currentPage,
             pageSize: this.pageSize,
@@ -253,7 +253,7 @@ export default {
   transition: margin-top 0.3s;
 }
 
-.seckill-item-info i:first-child {
+.seckill-item-product i:first-child {
   font-size: 14px;
 }
 

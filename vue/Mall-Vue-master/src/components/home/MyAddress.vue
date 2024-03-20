@@ -3,54 +3,43 @@
  <span style="margin-left: 18px;"> <el-button type="text" @click="dialogFormVisible = true">使用新地址</el-button>
 
 <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-  <el-form :model="goods" ref="fruitRule"
+  <el-form :model="addresses" ref="fruitRule"
     :rules="rules">
-   <el-form-item label="收货地址" prop="goodName">
-    <el-input v-model="goods.goodName"></el-input>
+   <el-form-item label="收货地址" prop="addressName">
+    <el-input v-model="addresses.addressName"></el-input>
   </el-form-item>
-
-  <!-- <el-form-item label="收货地址" prop="goodName">
-     <Distpicker v-model="goods.province"  @province="getProvince" @city="getCity" @area="getArea"></Distpicker>
-  </el-form-item> -->
-  <el-form-item label="收货人" prop="goodDescribe">
-    <el-input v-model="goods.goodDescribe"></el-input>
+  <el-form-item label="收货人" prop="addressDescribe">
+    <el-input v-model="addresses.addressDescribe"></el-input>
   </el-form-item>
-  <el-form-item label="收货人电话" prop="goodPhone">
-    <el-input v-model.number="goods.goodPhone"
-    oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-
- minlength="11"
- show-word-limit
-    ></el-input>
+  <el-form-item label="收货人电话" prop="addressPhone">
+    <el-input v-model.number="addresses.addressPhone"
+    oninput="value=value.replace(/^\.+|[^\d.]/g,'')" minlength="11" show-word-limit></el-input>
   </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="onSubmits('fruitRule');"
-        >立即创建</el-button
-      >
+    <el-button type="primary" @click="onSubmits('fruitRule');">立即创建</el-button>
   </div>
 </el-dialog></span>
-<div class="shopping-cart-null" v-show="good.length <= 0">
+<div class="shopping-cart-null" v-show="address.length <= 0">
                 <Icon type="ios-cart-outline" class="cart-null-icon"></Icon>
                 <span>你的购物车没有空空哦</span>
                 <span>赶快去添加商品吧~</span>
               </div>
-              <div class="shopping-cart-list" v-show="good.length > 0">
-    <div class="address-box" v-for="item in good" :key="item.goodId">
+              <div class="shopping-cart-list" v-show="address.length > 0">
+    <div class="address-box" v-for="item in address" :key="item.addressId">
       <div class="address-header">
-        <span>{{item.goodDescribe}}</span>
+        <span>{{item.addressDescribe}}</span>
         <div class="address-action">
-         <router-link v-bind:to="'/editAddress/'+item.goodId"> <span @click="edit(index)"><Icon type="edit"></Icon> 修改</span></router-link>
-          <span @click="goodsDelete(item.goodId)"><Icon type="trash-a"></Icon> 删除</span>
+         <router-link v-bind:to="'/editAddress/'+item.addressId"> <span @click="edit(index)"><Icon type="edit"></Icon> 修改</span></router-link>
+          <span @click="goodsDelete(item.addressId)"><Icon type="trash-a"></Icon> 删除</span>
 
         </div>
       </div>
       <div class="address-content">
-        <p><span class="address-content-title"> 收 货 人 :</span> {{item.goodDescribe}}</p>
-        <!-- <p><span class="address-content-title">收货地区:</span> {{item.province}} {{item.city}} {{item.area}}</p> -->
-         <p><span class="address-content-title">收货地址:</span> {{item.goodName}}</p>
-        <p><span class="address-content-title">收货人电话:</span> {{item.goodPhone}}</p>
+        <p><span class="address-content-title"> 收 货 人 :</span> {{item.addressDescribe}}</p>
+         <p><span class="address-content-title">收货地址:</span> {{item.addressName}}</p>
+        <p><span class="address-content-title">收货人电话:</span> {{item.addressPhone}}</p>
       </div>
     </div>
               </div>
@@ -69,6 +58,7 @@
 
 <script>
 import store from '@/store/index';
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapActions } from 'vuex';
 import Distpicker from 'v-distpicker';
 export default {
@@ -76,123 +66,111 @@ export default {
   data () {
     return {
       search: '',
-     currentPage: 1,
+      currentPage: 1,
       pageSize: 5,
       total: 0,
       modal: false,
       dialogTableVisible: false,
-        dialogFormVisible: false,
-        id:this.$store.state.userInfo.id,
-      good:[],
-      goods:{},
+      dialogFormVisible: false,
+      id: this.$store.state.userInfo.id,
+      address: [],
+      addresses: {},
       rules: {
-        goodName: [
+        addressName: [
           { required: true, message: '请输入地址', trigger: 'blur' }
         ],
-        goodDescribe: [
+        addressDescribe: [
           { required: true, message: '请输入收货人名称', trigger: 'blur' }
         ],
-
-        goodPhone: [
+        addressPhone: [
           { required: true, message: '收货人电话不能为空,并且只能为数字哦,并且长度只能为11位', trigger: 'blur'
-           },
+          }
 
         ]
       }
     };
   },
   created () {
-
-    this.lode()
-    // const  _this = this
-    // this.$axios.get('http://localhost:8888/good/findAll').then(function (resp) {
-    //     _this.good = resp.data
-
-    //     console.log(resp);
-    //   })
-
+    this.lode();
   },
   computed: {
 
-    ...mapState(['userInfo', 'shoppingCart']),
+    ...mapState(['userInfo', 'shoppingCart'])
 
   },
   methods: {
 
-lode() {
-      axios.get("http://localhost:8888/good/finds/" +this.id, {
+    lode () {
+      // eslint-disable-next-line no-undef
+      axios.get('http://localhost:8888/address/finds/' + this.id, {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          search: this.search,
+          search: this.search
         }
       }).then(res => {
         console.log(res);
-        this.good = res.data.data.records
-        this.total = res.data.data.total
-
-      })
-
+        this.address = res.data.data.records;
+        this.total = res.data.data.total;
+      });
     },
 
-
-    onSubmits(formName) {
-
-this.goods.customerId=this.id
+    onSubmits (formName) {
+      this.addresses.customerId = this.id;
 
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let _this = this;
+          // eslint-disable-next-line no-undef
           axios
-            .post("http://localhost:8888/good/add", this.goods)
+            .post('http://localhost:8888/address/add', this.addresses)
             .then(function (response) {
               if (response.data) {
-                _this.$alert( "添加成功！", "添加收货地址", {
-                  confirmButtonText: "确定",
+                _this.$alert('添加成功！', '添加收货地址', {
+                  confirmButtonText: '确定',
                   callback: (action) => {
-                    //跳转到/table
+                    // 跳转到/table
                     location.reload();
-                  },
+                  }
                 });
               }
             });
         }
       });
     },
-     goodsDelete(goodId) {
+    goodsDelete (goodId) {
       let _this = this;
-      this.$confirm("是否确定要删除", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('是否确定要删除', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
+          // eslint-disable-next-line no-undef
           axios
-            .delete("http://localhost:8888/good/delete/" + goodId)
+            .delete('http://localhost:8888/address/delete/' + goodId)
             .then(function (response) {
               if (response.data) {
-                _this.$alert("删除成功!", "删除收货地址", {
-                  confirmButtonText: "确定",
+                _this.$alert('删除成功!', '删除收货地址', {
+                  confirmButtonText: '确定',
                   callback: (action) => {
-                    //跳转到 /table
+                    // 跳转到 /table
                     location.reload();
-                  },
+                  }
                 });
               }
             });
         })
         .catch(() => {});
     },
-handleSizeChange(pageSize) {//改变每页的个数触发
-      this.pageSize = pageSize
-      this.lode()
-
+    handleSizeChange (pageSize) { // 改变每页的个数触发
+      this.pageSize = pageSize;
+      this.lode();
     },
-    handleCurrentChange(pageNum) {//改变当前页码触发
-      this.currentPage = pageNum
-      this.lode()
-
-    },
+    handleCurrentChange (pageNum) { // 改变当前页码触发
+      this.currentPage = pageNum;
+      this.lode();
+    }
 
   },
   components: {

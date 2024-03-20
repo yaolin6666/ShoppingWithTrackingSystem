@@ -21,42 +21,44 @@ public class ImgController {
     private ImgMapper imgMapper;
 
     @GetMapping("/findAll")
-    public List<Img> findAll(){
+    public List<Img> findAll() {
         List<Img> img = imgMapper.selectList(null);
         return img;
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable("id") Integer id){
+    public Result delete(@PathVariable("id") Integer id) {
         imgMapper.deleteById(id);
         return Result.success();
     }
 
     @GetMapping("/find/{id}")
-    public Img find(@PathVariable("id") Integer id){
+    public Img find(@PathVariable("id") Integer id) {
         return this.imgMapper.selectById(id);
     }
 
     @PutMapping("/update")
-    public Result update(@RequestBody Img img){
+    public Result update(@RequestBody Img img) {
         imgMapper.updateById(img);
         return Result.success();
     }
 
     @PostMapping("/add")
-    public Result insert(@RequestBody Img img){
+    public Result insert(@RequestBody Img img) {
         imgMapper.insert(img);
         return Result.success();
     }
+
     @PostMapping("/deleteBatch")
-    public Result deleteBatch(@RequestBody List<Integer> ids){
+    public Result deleteBatch(@RequestBody List<Integer> ids) {
         imgMapper.deleteBatchIds(ids);
         return Result.success();
     }
+
     @GetMapping("/finds/{customerId}")
     public Result<?> findCustomerId(@RequestParam(defaultValue = "1") Integer pageNum,
                                     @RequestParam(defaultValue = "5") Integer pageSize,
-                                    @PathVariable Integer customerId){
+                                    @PathVariable Integer customerId) {
         Page<Img> page = imgMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Img>lambdaQuery().eq(Img::getCustomerId, customerId).orderByDesc(Img::getCreateTime));
         return Result.success(page);
     }

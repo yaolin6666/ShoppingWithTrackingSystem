@@ -1,22 +1,17 @@
 package com.Shopping.controller;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.Shopping.common.lang.Result;
-import com.Shopping.domain.Info;
+import com.Shopping.domain.Product;
 import com.Shopping.domain.Master;
-import com.Shopping.mapper.InfoMapper;
+import com.Shopping.mapper.ProductMapper;
 import com.Shopping.mapper.MasterMapper;
-import org.apache.http.client.utils.DateUtils;
-import org.joda.time.DateTime;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +24,7 @@ public class MasterController {
     @Resource
     private MasterMapper masterMapper;
     @Resource
-    private InfoMapper infoMapper;
+    private ProductMapper productMapper;
 
     @GetMapping("/findAll")
     public List<Master> findAll(){
@@ -94,9 +89,9 @@ public class MasterController {
     }
     @GetMapping("/buy/{productId}")
     public Result buy(@PathVariable Integer productId){
-        Info info = infoMapper.selectById(productId);
+        Product product = productMapper.selectById(productId);
         String orderSn = IdUtil.getSnowflake().nextIdStr();
-        String payUrl = "http://localhost:8888/alipay/pay?subject=" + info.getProductName() + "&traceNo=" + orderSn + "&totalAmount=" + info.getProductPrice();
+        String payUrl = "http://localhost:8888/alipay/pay?subject=" + product.getProductName() + "&traceNo=" + orderSn + "&totalAmount=" + product.getProductPrice();
         return Result.success(payUrl);
     }
 

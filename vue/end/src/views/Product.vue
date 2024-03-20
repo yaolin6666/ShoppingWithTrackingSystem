@@ -240,7 +240,7 @@
             onSubmit() {
               this.admins.customerId=this.id;
                 if (this.admins.productId) {
-                    request.put("/info/update", this.admins).then(res => {
+                    request.put("/product/update", this.admins).then(res => {
                         console.log(res);
                         if (res.code === 200) {
                             ElMessage({
@@ -257,7 +257,7 @@
                         this.dialogVisible = false
                     })
                 } else {
-                    request.post("/info/add", this.admins).then(res => {
+                    request.post("/product/add", this.admins).then(res => {
                         console.log(res);
                         if (res.code === 200) {
                             ElMessage({
@@ -281,7 +281,7 @@
             },
 
             lode() {
-                request.get("/info/page", {
+                request.get("/product/page", {
                     params: {
                         pageNum: this.currentPage,
                         pageSize: this.pageSize,
@@ -320,7 +320,7 @@
                     type: "warning",
                 }).then(() => {
                     request
-                        .delete("/info/delete/" + row.productId)
+                        .delete("/product/delete/" + row.productId)
                         .then(res => {
                             if (res.code === 200) {
                                 ElMessage({
@@ -347,7 +347,7 @@
                     })
                     return
                 }
-                request.post("/info/deleteBatch", this.ids).then(res => {
+                request.post("/product/deleteBatch", this.ids).then(res => {
                     if (res.code === 200) {
                         ElMessage({
                             type: 'success',

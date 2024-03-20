@@ -1,5 +1,5 @@
 <template>
-  <div class="info-form">
+  <div class="product-form">
      <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80" >
         <FormItem label="用户名" prop="name">
             <i-input v-model="formValidate.name" clearable size="large" placeholder="请输入你的姓名"></i-input>
@@ -86,7 +86,7 @@ export default {
 </script>
 
 <style scoped>
-.info-form {
+.product-form {
   width: 90% !important;
 }
 </style>

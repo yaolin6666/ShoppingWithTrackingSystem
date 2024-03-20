@@ -11,26 +11,26 @@
       </el-popconfirm>
     </div>
 
-        <el-dialog title="收货地址" v-model="dialogVisible">
-          <el-form :model="admins" label-width="100px">
-            <el-form-item label="收货人地址">
-              <el-input v-model="admins.goodName"></el-input>
-            </el-form-item>
-            <el-form-item label="收货人">
-              <el-input v-model="admins.goodDescribe"></el-input>
-            </el-form-item>
-            <el-form-item label="收货人电话">
-              <el-input v-model="admins.goodPhone"></el-input>
-            </el-form-item>
-            <el-form-item label="用户ID">
-              <el-input v-model="admins.customerId"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="onSubmit">确定</el-button>
-              <el-button @click="dialogVisible = false">取 消</el-button>
-            </el-form-item>
-          </el-form>
-        </el-dialog>
+    <el-dialog title="收货地址" v-model="dialogVisible">
+      <el-form :model="admins" label-width="100px">
+        <el-form-item label="收货人地址">
+          <el-input v-model="admins.goodName"></el-input>
+        </el-form-item>
+        <el-form-item label="收货人">
+          <el-input v-model="admins.goodDescribe"></el-input>
+        </el-form-item>
+        <el-form-item label="收货人电话">
+          <el-input v-model="admins.goodPhone"></el-input>
+        </el-form-item>
+        <el-form-item label="用户ID">
+          <el-input v-model="admins.customerId"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">确定</el-button>
+          <el-button @click="dialogVisible = false">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
 
     <!-- 检索结果 -->
     <el-row class="userindex-list">
@@ -39,7 +39,7 @@
                   border stripe style="width: 100%" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55"/>
           <el-table-column prop="goodId" label="ID"/>
-           <el-table-column prop="customerId" label="用户ID"/>
+          <el-table-column prop="customerId" label="用户ID"/>
           <el-table-column prop="goodName" label="收货人地址"/>
           <el-table-column prop="goodDescribe" label="收货人名字"/>
           <el-table-column prop="goodPhone" label="收货人电话"/>
@@ -86,8 +86,8 @@ export default {
       this.admins = {}
     },
     onSubmit() {
-      if (this.admins.goodId){
-        request.put('/good/update',this.admins).then(res => {
+      if (this.admins.goodId) {
+        request.put('/address/update', this.admins).then(res => {
           console.log(res);
           if (res.code === 200) {
             ElMessage({
@@ -106,7 +106,7 @@ export default {
 
       } else {
 
-        request.post("/good/add", this.admins).then(res => {
+        request.post("/address/add", this.admins).then(res => {
           console.log(res);
           if (res.code === 200) {
             ElMessage({
@@ -123,11 +123,12 @@ export default {
           this.dialogVisible = false
 
         });
-      };
+      }
+      ;
     },
 
     lode() {
-      request.get("/good/page", {
+      request.get("/address/page", {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -153,37 +154,37 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-            request
-                .delete("/good/delete/" + goodId)
-                .then(res => {
-                  if (res.code === 200) {
-                    ElMessage({
-                      type: 'success',
-                      message: '删除成功',
-                    })
-                  } else {
-                    ElMessage({
-                      type: 'error',
-                      message: res.msg
-                    })
-                  }
-                  this.lode()
-                });
-          })
-          ;
+        request
+            .delete("/address/delete/" + goodId)
+            .then(res => {
+              if (res.code === 200) {
+                ElMessage({
+                  type: 'success',
+                  message: '删除成功',
+                })
+              } else {
+                ElMessage({
+                  type: 'error',
+                  message: res.msg
+                })
+              }
+              this.lode()
+            });
+      })
+      ;
     },
     handleSelectionChange(val) {
       this.ids = val.map(v => v.goodId)
     },
-    deleteBatch(){
-      if (!this.ids.length){
+    deleteBatch() {
+      if (!this.ids.length) {
         ElMessage({
-          type:"warning",
-          message:"请先进行选择"
+          type: "warning",
+          message: "请先进行选择"
         })
         return
       }
-      request.post("/good/deleteBatch",this.ids).then(res => {
+      request.post("/address/deleteBatch", this.ids).then(res => {
         if (res.code === 200) {
           ElMessage({
             type: 'success',

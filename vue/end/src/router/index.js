@@ -19,6 +19,16 @@ const routes = [
         component: () => import("@/views/UserAssign.vue")
       },
       {
+        path: 'shop',
+        name: 'shop',
+        component: () => import("@/views/shop.vue")
+      },
+      {
+        path: 'adminAssign',
+        name: 'adminAssign',
+        component: () => import("@/views/adminAssign.vue")
+      },
+      {
         path: 'userinfo',
         name: 'UserInfo',
         component: () => import("@/views/UserInfo")
@@ -39,12 +49,6 @@ const routes = [
         name: 'feedback',
         component: () => import("@/views/Feedback")
       },
-      {
-        path: 'brand',
-        name: 'Brand',
-        component: () => import("@/views/Brand")
-      },
-
       {
         path: 'address',
         name: 'Address',
@@ -90,11 +94,6 @@ const routes = [
         path: 'comment',
         name: 'Comment',
         component: () => import("@/views/Comment")
-      },
-      {
-        path: 'category',
-        name: 'Category',
-        component: () => import("@/views/Category")
       },
       {
         path: 'refund',

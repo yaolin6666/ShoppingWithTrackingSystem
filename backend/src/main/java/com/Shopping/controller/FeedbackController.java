@@ -22,28 +22,30 @@ public class FeedbackController {
 
 
     @DeleteMapping("/delete/{id}")
-    public Result<?> delete(@PathVariable Integer id){
+    public Result<?> delete(@PathVariable Integer id) {
         feedbackMapper.deleteById(id);
         return Result.success();
     }
+
     @GetMapping("/find/{id}")
-    public Feedback find(@PathVariable("id") Integer id){
+    public Feedback find(@PathVariable("id") Integer id) {
         return this.feedbackMapper.selectById(id);
     }
 
     @PutMapping("/update")
-    public Result<?> update(@RequestBody Feedback feedback){
+    public Result<?> update(@RequestBody Feedback feedback) {
         feedbackMapper.updateById(feedback);
         return Result.success();
     }
 
     @PostMapping("/add")
-    public Result<?> insert(@RequestBody Feedback feedback){
+    public Result<?> insert(@RequestBody Feedback feedback) {
         feedbackMapper.insert(feedback);
         return Result.success();
     }
+
     @PostMapping("/deleteBatch")
-    public Result<?> deleteBatch(@RequestBody List<Integer> ids){
+    public Result<?> deleteBatch(@RequestBody List<Integer> ids) {
         feedbackMapper.deleteBatchIds(ids);
         return Result.success();
     }

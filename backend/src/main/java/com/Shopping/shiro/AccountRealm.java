@@ -2,8 +2,8 @@ package com.Shopping.shiro;
 
 import cn.hutool.core.bean.BeanUtil;
 
-import com.Shopping.domain.CustomerInfo;
-import com.Shopping.service.CustomerInfoSerivce;
+import com.Shopping.domain.Account;
+import com.Shopping.service.AccountSerivce;
 import com.Shopping.util.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +21,7 @@ public class AccountRealm extends AuthorizingRealm {
     @Autowired
     JwtUtils jwtUtils;
     @Autowired
-    CustomerInfoSerivce customerLoginSerivce;
+    AccountSerivce customerLoginSerivce;
     @Override
     public boolean supports(AuthenticationToken token) {
         return token instanceof JwtToken;
@@ -35,7 +35,7 @@ public class AccountRealm extends AuthorizingRealm {
         JwtToken jwt = (JwtToken) token;
         log.info("jwt----------------->{}", jwt);
         String userId = jwtUtils.getClaimByToken((String) jwt.getPrincipal()).getSubject();
-        CustomerInfo user = customerLoginSerivce.getById(Long.parseLong(userId));
+        Account user = customerLoginSerivce.getById(Long.parseLong(userId));
         if(user == null) {
             throw new UnknownAccountException("账户不存在！");
         }

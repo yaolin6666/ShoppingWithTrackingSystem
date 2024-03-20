@@ -28,12 +28,14 @@ import java.util.Map;
 public class ShiroConfig {
     @Resource
     JwtFilter jwtFilter;
+
     @Bean
     public SessionManager sessionManager(RedisSessionDAO redisSessionDAO) {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionDAO(redisSessionDAO);
         return sessionManager;
     }
+
     @Bean
     public DefaultWebSecurityManager securityManager(AccountRealm accountRealm,
                                                      SessionManager sessionManager,
@@ -51,6 +53,7 @@ public class ShiroConfig {
         securityManager.setSubjectDAO(subjectDAO);
         return securityManager;
     }
+
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
@@ -59,6 +62,7 @@ public class ShiroConfig {
         chainDefinition.addPathDefinitions(filterMap);
         return chainDefinition;
     }
+
     @Bean("shiroFilterFactoryBean")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager,
                                                          ShiroFilterChainDefinition shiroFilterChainDefinition) {
@@ -71,7 +75,6 @@ public class ShiroConfig {
         shiroFilter.setFilterChainDefinitionMap(filterMap);
         return shiroFilter;
     }
-
 
 
 }

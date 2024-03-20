@@ -59,18 +59,10 @@
 </td>
 <td class="kk2">
   <el-button
-    type="primary"
-    circle
     @click="updateMaster(user)">
     确认收货
   </el-button>
-  <router-link v-bind:to="'/ordersss/'+user.orderId">
-    <el-button
-      circle
-      type="danger">
-      退款/退货
-    </el-button>
-  </router-link>
+  <router-link v-bind:to="'/ordersss/'+user.orderId"><p style="margin-left: 21px;margin-top: 18px;color:red">退款/退货</p></router-link>
 </td>
 </tr>
 </div>
@@ -151,7 +143,7 @@ export default {
         .post('http://localhost:8888/assess/add', user)
         .then(function (response) {
           if (response.data) {
-            _this.$alert(user.goodName + '成功收货', '添加数据', {
+            _this.$alert(user.productName + '成功收货', '添加数据', {
               confirmButtonText: '确定',
               callback: (action) => {
                 // 跳转到/table

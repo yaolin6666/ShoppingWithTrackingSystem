@@ -24,7 +24,7 @@
       <!-- 商品标签导航 -->
       <GoodsClassNav></GoodsClassNav>
       <!-- 商品展示容器 -->
-      <div class="goods-box">
+      <div class="addresses-box">
         <div class="as-box">
           <div class="item-as-title">
             <span>商品精选</span>
@@ -53,7 +53,7 @@
 
           </div>
         </div>
-        <div class="goods-list-box">
+        <div class="addresses-list-box">
           <div class="ff">
             <div class="ghh"><div class="jjs"><el-input class="jjs" v-model="price1" placeholder="￥">
               </el-input></div>
@@ -233,7 +233,7 @@ export default {
     loded () {
       // eslint-disable-next-line no-undef
       axios
-        .get('http://localhost:8888/info/page', {
+        .get('http://localhost:8888/product/page', {
           params: {
             pageNum: this.currentPage,
             pageSize: this.pageSize,
@@ -264,7 +264,7 @@ export default {
     lode () {
       // eslint-disable-next-line no-undef
       axios
-        .get('http://localhost:8888/info/' + this.id, {
+        .get('http://localhost:8888/product/' + this.id, {
           params: {
             pageNum: this.currentPage,
             pageSize: this.pageSize,
@@ -320,7 +320,7 @@ export default {
   font-size: 25px;
   font-weight: bold;
 }
-.goods-box {
+.addresses-box {
   display: flex;
 }
 .as-box {
@@ -367,34 +367,34 @@ export default {
 .item-as-selled span{
   color: #005AA0;
 }
-.goods-list-box {
+.addresses-list-box {
   margin-left: 15px;
   width: calc(100% - 215px);
 }
 
-.goods-list-tool ul{
+.addresses-list-tool ul{
   padding-left: 15px;
   list-style: none;
 }
-.goods-list-tool li{
+.addresses-list-tool li{
   cursor: pointer;
   float: left;
 }
-.goods-list-tool span{
+.addresses-list-tool span{
   padding: 5px 8px;
   border: 1px solid #ccc;
   border-left: none;
   line-height: 36px;
   background-color: #fff;
 }
-.goods-list-tool span:hover{
+.addresses-list-tool span:hover{
   border: 1px solid #E4393C;
 }
-.goods-list-tool i:hover{
+.addresses-list-tool i:hover{
   color: #E4393C;
 }
 
-.goods-show-num span{
+.addresses-show-num span{
   color: #005AA0;
   font-weight: bold;
 }

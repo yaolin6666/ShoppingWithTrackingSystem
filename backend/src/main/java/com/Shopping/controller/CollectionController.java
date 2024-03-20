@@ -21,43 +21,44 @@ public class CollectionController {
     private CollectionMapper collectionMapper;
 
     @GetMapping("/findAll")
-    public List<Collection> findAll(){
+    public List<Collection> findAll() {
         List<Collection> collections = collectionMapper.selectList(null);
         return collections;
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<?> delete(@PathVariable("id") Integer id){
+    public Result<?> delete(@PathVariable("id") Integer id) {
         collectionMapper.deleteById(id);
         return Result.success();
     }
 
     @GetMapping("/find/{id}")
-    public Collection find(@PathVariable("id") Integer id){
+    public Collection find(@PathVariable("id") Integer id) {
         return this.collectionMapper.selectById(id);
     }
 
     @PutMapping("/update")
-    public Result<?> update(@RequestBody Collection collection){
+    public Result<?> update(@RequestBody Collection collection) {
         collectionMapper.updateById(collection);
         return Result.success();
     }
+
     @GetMapping("/finds/{customerId}")
     public Result<?> findCustomerId(@RequestParam(defaultValue = "1") Integer pageNum,
                                     @RequestParam(defaultValue = "5") Integer pageSize,
-                                    @PathVariable Integer customerId){
+                                    @PathVariable Integer customerId) {
         Page<Collection> page = collectionMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Collection>lambdaQuery().eq(Collection::getCustomerId, customerId));
         return Result.success(page);
     }
 
     @PostMapping("/add")
-    public Result<?> insert(@RequestBody Collection collection){
+    public Result<?> insert(@RequestBody Collection collection) {
         collectionMapper.insert(collection);
         return Result.success();
     }
 
     @PostMapping("/deleteBatch")
-    public Result<?> deleteBatch(@RequestBody List<Integer> ids){
+    public Result<?> deleteBatch(@RequestBody List<Integer> ids) {
         collectionMapper.deleteBatchIds(ids);
         return Result.success();
     }

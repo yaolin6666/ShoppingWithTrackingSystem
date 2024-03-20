@@ -244,7 +244,7 @@ export default {
         console.log(resp);
       });
 
-    this.$axios.get('http://localhost:8888/info/find/' + this.id).then(function (resp) {
+    this.$axios.get('http://localhost:8888/product/find/' + this.id).then(function (resp) {
       _this.admin = resp.data;
 
       console.log(resp);

@@ -3,13 +3,12 @@
 
     <Search></Search>
     <GoodsListNav></GoodsListNav>
-    <div class="goods-list-container">
+    <div class="addresses-list-container">
       <Alert show-icon class="tips-box">
         小提示
         <Icon type="ios-lightbulb-outline" slot="icon"></Icon>
         <template slot="desc">确认商品是否完整，请点击商品前的确认收货按钮，确认收货即可。</template>
       </Alert>
-
      <table  class="kn">
        <div class="bb">
   <div class="ff">
@@ -43,12 +42,9 @@
           <div class="l7"><span>等待确认收货</span></div>
           </router-link>
         </td>
-
         </tr>
-
       </tbody>
      </table>
-
       <div class="address-container">
         <h3>收货人信息</h3>
         <div class="address-box">
@@ -198,7 +194,7 @@ export default {
   },
   created () {
     const _this = this;
-    this.$axios.get('http://localhost:8888/good/findAll').then(function (resp) {
+    this.$axios.get('http://localhost:8888/address/findAll').then(function (resp) {
       _this.admins = resp.data;
 
       console.log(resp);
@@ -367,7 +363,7 @@ export default {
 </script>
 
 <style scoped>
-.goods-list-container {
+.addresses-list-container {
   margin: 15px auto;
   width: 80%;
 }

@@ -53,16 +53,16 @@
    <el-button type="text" @click="dialogFormVisible = true">使用新地址</el-button>
 
 <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-  <el-form :model="good" ref="fruitRule"
+  <el-form :model="address" ref="fruitRule"
     :rules="rules">
    <el-form-item label="收货地址" prop="goodName">
-    <el-input v-model="good.goodName"></el-input>
+    <el-input v-model="address.goodName"></el-input>
   </el-form-item>
   <el-form-item label="收货人" prop="goodDescribe">
-    <el-input v-model="good.goodDescribe"></el-input>
+    <el-input v-model="address.goodDescribe"></el-input>
   </el-form-item>
   <el-form-item label="收货人电话" prop="goodPhone">
-    <el-input v-model="good.goodPhone"></el-input>
+    <el-input v-model="address.goodPhone"></el-input>
   </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">
@@ -413,14 +413,14 @@ export default {
     console.log(this.ids);
 
     const _this = this;
-    this.$axios.get('http://localhost:8888/good/finds/' + this.ids).then(function (resp) {
+    this.$axios.get('http://localhost:8888/address/finds/' + this.ids).then(function (resp) {
       _this.admin = resp.data.data.records;
 
       console.log(resp);
     });
 
     // eslint-disable-next-line no-undef
-    axios.get('http://localhost:8888/info/find/' + this.id).then(function (response) {
+    axios.get('http://localhost:8888/product/find/' + this.id).then(function (response) {
       _this.notice = response.data;
     });
   },
@@ -445,7 +445,7 @@ export default {
       },
       id: this.$route.params.id,
       color: this.$route.params.color,
-      good: {},
+      address: {},
       admin: [],
       rules: {
         goodName: [
@@ -491,10 +491,10 @@ export default {
           let _this = this;
           // eslint-disable-next-line no-undef
           axios
-            .post('http://localhost:8888/good/add', this.good)
+            .post('http://localhost:8888/address/add', this.address)
             .then(function (response) {
               if (response.data) {
-                _this.$alert(_this.good.goodName + '添加成功！', '添加收货地址', {
+                _this.$alert(_this.address.goodName + '添加成功！', '添加收货地址', {
                   confirmButtonText: '确定',
                   callback: (action) => {
                     // 跳转到/table
@@ -508,9 +508,9 @@ export default {
     },
 
     onSubmit () {
-      this.good.shopCustomerId = this.good.customerId;
-      this.good.customerId = this.ids;
-      this.good.status = 100;
+      this.address.shopCustomerId = this.address.customerId;
+      this.address.customerId = this.ids;
+      this.address.status = 100;
       let _this = this;
       // eslint-disable-next-line no-undef
       axios

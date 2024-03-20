@@ -3,7 +3,7 @@
 
     <Search></Search>
     <GoodsListNav></GoodsListNav>
-    <div class="goods-list-container">
+    <div class="addresses-list-container">
       <Alert show-icon class="tips-box">
         小提示
         <Icon type="ios-lightbulb-outline" slot="icon"></Icon>
@@ -211,7 +211,7 @@ export default {
   },
   created () {
     const _this = this;
-    this.$axios.get('http://localhost:8888/good/findAll').then(function (resp) {
+    this.$axios.get('http://localhost:8888/address/findAll').then(function (resp) {
       _this.admins = resp.data;
 
       console.log(resp);
@@ -407,7 +407,7 @@ export default {
 </script>
 
 <style scoped>
-.goods-list-container {
+.addresses-list-container {
   margin: 15px auto;
   width: 80%;
 }

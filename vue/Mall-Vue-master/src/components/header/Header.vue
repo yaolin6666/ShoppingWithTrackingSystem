@@ -39,7 +39,7 @@
             </div>
             <DropdownMenu slot="list">
               <div class="my-page">
-                <div class="my-info" @click="myInfo">
+                <div class="my-product" @click="myInfo">
                   <Icon type="home"></Icon>
                   <p>我的主页</p>
                 </div>
@@ -75,7 +75,7 @@
                   </div>
                    </router-link>
                   <router-link v-bind:to="'/goodsDetail/'+item.productId">
-                  <div class="shopping-cart-info">
+                  <div class="shopping-cart-product">
                     <div class="shopping-cart-title">
                       <p>{{item.productName.substring(0, 22)}}...</p>
                     </div>
@@ -140,7 +140,7 @@ export default {
     const _this = this;
 
     this.$axios
-      .get('http://localhost:8888/customerInfo/find/' + this.id)
+      .get('http://localhost:8888/account/find/' + this.id)
       .then(function (resp) {
         _this.admin = resp.data;
 
@@ -381,7 +381,7 @@ export default {
   width: 100%;
 
 }
-.shopping-cart-info {
+.shopping-cart-product {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -436,20 +436,20 @@ export default {
   padding: 0px;
   border: none;
 }
-.my-info {
+.my-product {
   padding: 5px;
   width: 50%;
   height: 100%;
   text-align: center;
   cursor: pointer;
 }
-.my-info:hover {
+.my-product:hover {
   box-shadow: 0px 0px 5px #ccc;
 }
-.my-info i {
+.my-product i {
   font-size: 28px;
 }
-.my-info p {
+.my-product p {
   font-size: 12px;
 }
 .sign-out {

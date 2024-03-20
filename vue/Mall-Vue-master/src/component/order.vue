@@ -19,9 +19,9 @@
       </h3>
       <div style="margin-left: 190px;">
         <div style="word-wrap:break-word;word-break:break-all;width:1172px;">
-          <el-radio-group v-model="addressId" v-for="item in addressList" :key="item.goodId" @click="toggleTab(item.goodId)">
-            <el-radio-button :label="item.goodId" class="jiaf" style="margin-left: 8px;">
-              {{item.goodName}} 收货人:{{item.goodDescribe}} 电话:{{item.goodPhone}}
+          <el-radio-group v-model="addressId" v-for="item in addressList" :key="item.addressId" @click="toggleTab(item.addressId)">
+            <el-radio-button :label="item.addressId" class="jiaf" style="margin-left: 8px;">
+              {{item.addressName}} 收货人:{{item.addressDescribe}} 电话:{{item.addressPhone}}
             </el-radio-button>
           </el-radio-group>
         </div>
@@ -32,16 +32,16 @@
       <div class="bb">
         <el-button type="text" @click="dialogFormVisible = true">使用新地址</el-button>
         <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-          <el-form :model="good" ref="fruitRule"
+          <el-form :model="address" ref="fruitRule"
                    :rules="rules">
             <el-form-item label="收货地址" prop="goodName">
-              <el-input v-model="good.goodName"></el-input>
+              <el-input v-model="address.addressName"></el-input>
             </el-form-item>
             <el-form-item label="收货人" prop="goodDescribe">
-              <el-input v-model="good.goodDescribe"></el-input>
+              <el-input v-model="address.addressDescribe"></el-input>
             </el-form-item>
             <el-form-item label="收货人电话" prop="goodPhone">
-              <el-input v-model="good.goodPhone"></el-input>
+              <el-input v-model="address.addressPhone"></el-input>
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
@@ -306,7 +306,7 @@ export default {
   name: 'order',
   created () {
     const _this = this;
-    this.$axios.get('http://localhost:8888/good/finds/' + this.ids).then(function (resp) {
+    this.$axios.get('http://localhost:8888/address/finds/' + this.ids).then(function (resp) {
       _this.addressList = resp.data.data.records;
 
       console.log(resp);
@@ -321,15 +321,15 @@ export default {
   updated () {
     const _this = this;
     // eslint-disable-next-line no-undef
-    axios.get('http://localhost:8888/info/find/' + this.notice.productId).then(function (response) {
+    axios.get('http://localhost:8888/product/find/' + this.notice.productId).then(function (response) {
       _this.goodInfo = response.data;
     });
     for (let i = 0; i < this.addressList.length; i++) {
       // eslint-disable-next-line eqeqeq
-      if (this.addressList[i].goodId == this.addressId) {
-        this.notice.address = this.addressList[i].goodName;
-        this.notice.shippingUser = this.addressList[i].goodDescribe;
-        this.notice.productPhones = this.addressList[i].goodPhone;
+      if (this.addressList[i].addressId == this.addressId) {
+        this.notice.address = this.addressList[i].addressName;
+        this.notice.shippingUser = this.addressList[i].addressDescribe;
+        this.notice.productPhones = this.addressList[i].addressPhone;
       }
     }
   },
@@ -354,17 +354,17 @@ export default {
         status: '',
         shopCustomerId: ''
       },
-      good: {},
+      address: {},
       addressList: [],
       admin: [],
       rules: {
-        goodName: [
+        addressName: [
           {required: true, message: '收货人地址为空', trigger: 'blur'}
         ],
-        goodDescribe: [
+        addressDescribe: [
           {required: true, message: '收货人名称为空', trigger: 'blur'}
         ],
-        goodPhone: [
+        addressPhone: [
           {required: true, message: '收货人电话不能为空', trigger: 'blur'}
         ]
 
@@ -393,17 +393,17 @@ export default {
     },
 
     onSubmits (formName) {
-      this.good.customerId = this.ids;
-      this.good.status = 100;
+      this.address.customerId = this.ids;
+      this.address.status = 100;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let _this = this;
           // eslint-disable-next-line no-undef
           axios
-            .post('http://localhost:8888/good/add', this.good)
+            .post('http://localhost:8888/address/add', this.address)
             .then(function (response) {
               if (response.data) {
-                _this.$alert(_this.good.goodName + '添加成功！', '添加数据', {
+                _this.$alert(_this.address.addressName + '添加成功！', '添加数据', {
                   confirmButtonText: '确定',
                   callback: (action) => {
                     // 跳转到/table
