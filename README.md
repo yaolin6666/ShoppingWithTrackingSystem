@@ -7,16 +7,6 @@
 ---
 # 开发计划
 
-## 代码
-
-arginfo arginfoorigin
-
-deliverinfoorigin
-
-orderorigin
-
-team template
-
 
 ---
 ### 溯源系统修改 WIP
@@ -49,9 +39,19 @@ fabric应用层编写
 
 schedule进行自动清理订单
 
-数据库
+~~数据库~~
 
 后端管理
+
+## 代码Dao
+
+arginfo arginfoorigin
+
+deliverinfoorigin
+
+orderorigin
+
+team template
 
 ### 订单 WIP
 
