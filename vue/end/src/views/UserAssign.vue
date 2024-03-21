@@ -4,16 +4,40 @@
       <div class="add-box" style="width:60%;padding-left: 35%">
         <el-Form :model="form" :rules="rules" label-position="left" ref="form" :label-width="100">
           <el-form-item label="营业执照" prop="certificationImg">
-            <img :src="existData.certificationImg" width="300" height="250"/>
+            <template #default="scope">
+              <el-image style="width: 300px; height: 300px" :src="existData.certificationImg" :preview-src-list="[existData.certificationImg]">
+                <div solt="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+            </template>
           </el-form-item>
           <el-form-item label="认证图片1" prop="img_1">
-            <img :src="existData.img1" width="300" height="250"/>
+            <template #default="scope">
+              <el-image style="width: 300px; height: 300px" :src="existData.img1" :preview-src-list="[existData.img1]">
+                <div solt="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+            </template>
           </el-form-item>
           <el-form-item v-if="existData.img2!=null" label="认证图片2">
-            <img :src="existData.img2" width="300" height="250"/>
+            <template #default="scope">
+              <el-image style="width: 300px; height: 300px" :src="existData.img2" :preview-src-list="[existData.img2]">
+                <div solt="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+            </template>
           </el-form-item>
           <el-form-item v-if="existData.img3!=null" label="认证图片3">
-            <img :src="existData.img3" width="300" height="250"/>
+            <template #default="scope">
+              <el-image style="width: 300px; height: 300px" :src="existData.img3" :preview-src-list="[existData.img3]">
+                <div solt="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+            </template>
           </el-form-item>
         </el-Form>
       </div>

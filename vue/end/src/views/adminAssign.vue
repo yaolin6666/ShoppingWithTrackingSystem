@@ -10,24 +10,41 @@
 
       <el-table-column prop="accountId" label="ID" sortable/>
       <el-table-column prop="certificationImg" label="营业执照" width="150" height="300">
-        <template v-slot:default="scope">
-          <el-image :src="scope.row.certificationImg"/>
+        <template #default="scope">
+          <el-image style="width: 200px; height: 200px" :src="scope.row.certificationImg" :preview-src-list="[scope.row.certificationImg]">
+            <div solt="error" class="image-slot">
+              <i class="el-icon-picture-outline"></i>
+            </div>
+          </el-image>
         </template>
       </el-table-column>
       <el-table-column prop="certificationImg" label="认证图片1" width="150" height="300">
-        <template v-slot:default="scope">
-          <el-image :src="scope.row.img1"/>
+        <template #default="scope">
+          <el-image style="width: 200px; height: 200px" :src="scope.row.img1" :preview-src-list="[scope.row.img1]">
+            <div solt="error" class="image-slot">
+              <i class="el-icon-picture-outline"></i>
+            </div>
+          </el-image>
         </template>
       </el-table-column>
       <el-table-column prop="certificationImg" label="认证图片2" width="150" height="300">
-        <template v-slot:default="scope">
-          <el-image  v-if="scope.row.img2" :src="scope.row.img2"/>
+
+        <template #default="scope">
+          <el-image v-if="scope.row.img2" style="width: 200px; height: 200px" :src="scope.row.img2" :preview-src-list="[scope.row.img2]">
+            <div solt="error" class="image-slot">
+              <i class="el-icon-picture-outline"></i>
+            </div>
+          </el-image>
           <div v-if="!scope.row.img2">未上传</div>
         </template>
       </el-table-column>
       <el-table-column prop="certificationImg" label="认证图片3" width="150" height="300">
-        <template v-slot:default="scope">
-          <el-image v-if="scope.row.img3" :src="scope.row.img3"/>
+        <template #default="scope">
+          <el-image v-if="scope.row.img3" style="width: 200px; height: 200px" :src="scope.row.img3" :preview-src-list="[scope.row.img3]">
+            <div solt="error" class="image-slot">
+              <i class="el-icon-picture-outline"></i>
+            </div>
+          </el-image>
           <div v-if="!scope.row.img3">未上传</div>
         </template>
       </el-table-column>
@@ -37,13 +54,13 @@
         <template #default="scope">
           <el-popconfirm title="确认同意吗?" @confirm="handleEdit(scope.row)">
             <template #reference>
-              <el-button type="primary" icon="el-icon-edit" circle></el-button>
+              <el-button type="primary" circle>同意</el-button>
             </template>
           </el-popconfirm>
 
           <el-popconfirm title="确认拒绝吗?" @confirm="handleDelete(scope.row.registerId)">
             <template #reference>
-              <el-button type="danger" icon="el-icon-delete" circle></el-button>
+              <el-button type="danger" circle>拒绝</el-button>
             </template>
           </el-popconfirm>
         </template>

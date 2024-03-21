@@ -24,12 +24,12 @@
         <template #default="scope">
           <el-popconfirm v-if="scope.row.role==3" title="确认封禁吗?" @confirm="handleEdit(scope.row.customerId)">
             <template #reference>
-              <el-button type="danger" icon="el-icon-delete" circle></el-button>
+              <el-button type="danger"  circle>封禁账号</el-button>
             </template>
           </el-popconfirm>
           <el-popconfirm v-if="scope.row.role==2" title="确认删除吗?" @confirm="handleDelete(scope.row.customerId)">
             <template #reference>
-              <el-button type="danger" icon="el-icon-delete" circle></el-button>
+              <el-button type="danger"  circle>删除账号</el-button>
             </template>
           </el-popconfirm>
 
