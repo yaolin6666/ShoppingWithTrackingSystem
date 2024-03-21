@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.yaolin6666</groupId>
-    <artifactId>FabricChainCode</artifactId>
+    <artifactId>fabric</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
