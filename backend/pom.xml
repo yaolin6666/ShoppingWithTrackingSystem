@@ -6,7 +6,7 @@
     <artifactId>backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Spring_Vue_Mall</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Shopping system with Tracking system</description>
 
     <properties>
         <java.version>1.8</java.version>

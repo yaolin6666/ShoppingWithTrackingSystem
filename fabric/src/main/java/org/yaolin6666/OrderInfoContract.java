@@ -24,22 +24,23 @@ import org.hyperledger.fabric.shim.ChaincodeStub;
 @Default
 public class OrderInfoContract implements ContractInterface {
     @Transaction
-    public void initLedger(final Context ctx){
-        ChaincodeStub stub= ctx.getStub();
-        for(int i= 0;i<10;i++){
-            ArgInfo argInfo=new ArgInfo().setArgInfoID(Integer.toString(i));
-            stub.putStringState(argInfo.getArgInfoID(),JSON.toJSONString(argInfo));
+    public void initLedger(final Context ctx) {
+        ChaincodeStub stub = ctx.getStub();
+        for (int i = 0; i < 10; i++) {
+            ArgInfo argInfo = new ArgInfo().setArgInfoID(Integer.toString(i));
+            stub.putStringState(argInfo.getArgInfoID(), JSON.toJSONString(argInfo));
         }
     }
+
     /**
      * key 使用uuid生成
      */
     @Transaction
-    public OrderInfo queryOrderInfo(final Context ctx,final String key){
-        ChaincodeStub stub= ctx.getStub();
-        String orderInfoState=stub.getStringState(key);
-        if(StringUtils.isBlank(orderInfoState)){
-            String errorMessage=String.format("DeliverInfo %s does not exist",key);
+    public OrderInfo queryOrderInfo(final Context ctx, final String key) {
+        ChaincodeStub stub = ctx.getStub();
+        String orderInfoState = stub.getStringState(key);
+        if (StringUtils.isBlank(orderInfoState)) {
+            String errorMessage = String.format("DeliverInfo %s does not exist", key);
             throw new ChaincodeException(errorMessage);
         }
 
@@ -47,37 +48,37 @@ public class OrderInfoContract implements ContractInterface {
     }
 
     @Transaction
-    public OrderInfo createOrderInfo(final Context ctx,final String key,String orderId,String argId,String orderInfo){
-        ChaincodeStub stub= ctx.getStub();
-        String deliverInfoState=stub.getStringState(key);
-        if(StringUtils.isNotBlank(deliverInfoState)){
-            String errorMessage=String.format("DeliverInfo %s already exists",key);
+    public OrderInfo createOrderInfo(final Context ctx, final String key, String orderId, String argId, String orderInfo) {
+        ChaincodeStub stub = ctx.getStub();
+        String deliverInfoState = stub.getStringState(key);
+        if (StringUtils.isNotBlank(deliverInfoState)) {
+            String errorMessage = String.format("DeliverInfo %s already exists", key);
             throw new ChaincodeException(errorMessage);
         }
-        OrderInfo input=new OrderInfo().setOrderInfoId(key).setOrderId(orderId).setArgId(argId).setOrderInfo(orderInfo);
-        stub.putStringState(key,JSON.toJSONString(input));
+        OrderInfo input = new OrderInfo().setOrderInfoId(key).setOrderId(orderId).setArgId(argId).setOrderInfo(orderInfo);
+        stub.putStringState(key, JSON.toJSONString(input));
         return input;
     }
 
     @Transaction
-    public OrderInfo updateOrderInfo(final Context ctx,final String key,String orderId,String argId,String orderInfo){
-        ChaincodeStub stub= ctx.getStub();
-        String deliverInfoState=stub.getStringState(key);
-        if(StringUtils.isBlank(deliverInfoState)){
-            String errorMessage=String.format("DeliverInfo %s does not exist",key);
+    public OrderInfo updateOrderInfo(final Context ctx, final String key, String orderId, String argId, String orderInfo) {
+        ChaincodeStub stub = ctx.getStub();
+        String deliverInfoState = stub.getStringState(key);
+        if (StringUtils.isBlank(deliverInfoState)) {
+            String errorMessage = String.format("DeliverInfo %s does not exist", key);
             throw new ChaincodeException(errorMessage);
         }
-        OrderInfo input=new OrderInfo().setOrderInfoId(key).setOrderId(orderId).setArgId(argId).setOrderInfo(orderInfo);
-        stub.putStringState(key,JSON.toJSONString(input));
+        OrderInfo input = new OrderInfo().setOrderInfoId(key).setOrderId(orderId).setArgId(argId).setOrderInfo(orderInfo);
+        stub.putStringState(key, JSON.toJSONString(input));
         return input;
     }
 
     @Transaction
-    public OrderInfo deleteOrderInfo(final Context ctx,final String key){
-        ChaincodeStub stub= ctx.getStub();
-        String orderInfoState=stub.getStringState(key);
-        if(StringUtils.isBlank(orderInfoState)){
-            String errorMessage=String.format("DeliverInfo %s does not exist",key);
+    public OrderInfo deleteOrderInfo(final Context ctx, final String key) {
+        ChaincodeStub stub = ctx.getStub();
+        String orderInfoState = stub.getStringState(key);
+        if (StringUtils.isBlank(orderInfoState)) {
+            String errorMessage = String.format("DeliverInfo %s does not exist", key);
             throw new ChaincodeException(errorMessage);
         }
         stub.delState(key);
