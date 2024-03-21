@@ -1,15 +1,13 @@
 package com.Shopping.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.Shopping.common.lang.Result;
 import com.Shopping.domain.Master;
 import com.Shopping.mapper.MasterMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
-import com.Shopping.common.lang.Result;
-import com.Shopping.domain.Assess;
-import com.Shopping.mapper.AssessMapper;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +18,6 @@ import java.util.List;
 @RequestMapping("/assess")
 public class AssessController {
 
-    @Autowired
-    private AssessMapper assessMapper;
     @Autowired
     private MasterMapper masterMapper;
 
@@ -62,6 +58,7 @@ public class AssessController {
     @PostMapping("/add")
     public Result insert(@RequestBody Master master) {
         master.setStatus(300);
+        master.setReceiveTime(LocalDateTime.now().toDate());
         masterMapper.updateById(master);
         return Result.success();
     }
@@ -84,10 +81,10 @@ public class AssessController {
                               @RequestParam(defaultValue = "10") Integer pageSize,
                               @RequestParam(defaultValue = "") String search) {
         new Page<>(pageNum, pageSize);
-        Page<Assess> assessPage = assessMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Assess>lambdaQuery().like(Assess::getProductName, search));
-        LambdaQueryWrapper<Assess> query = Wrappers.<Assess>lambdaQuery().orderByDesc(Assess::getProductId);
+        Page<Master> assessPage = masterMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Master>lambdaQuery().like(Master::getProductName, search));
+        LambdaQueryWrapper<Master> query = Wrappers.<Master>lambdaQuery().orderByDesc(Master::getProductId);
         if (StrUtil.isNotBlank(search)) {
-            query.like(Assess::getProductName, search);
+            query.like(Master::getProductName, search);
         }
         return Result.success(assessPage);
     }

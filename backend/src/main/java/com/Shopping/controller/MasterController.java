@@ -113,6 +113,23 @@ public class MasterController {
         }
         return Result.success(masterPage);
     }
+    @GetMapping("/pageAdmin")
+    public Result<?> findPageAdmin(@RequestParam(defaultValue = "1") Integer pageNum,
+                              @RequestParam(defaultValue = "10") Integer pageSize,
+                              @RequestParam(defaultValue = "") String search,
+                              @RequestParam(defaultValue = "0") Integer shopId) {
+        new Page<>(pageNum, pageSize);
+        Page<Master> masterPage = masterMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Master>lambdaQuery()
+                .like(Master::getProductName, search)
+                .lt(Master::getStatus,150)
+                .eq(Master::getShopCustomerId,shopId));
+        LambdaQueryWrapper<Master> query = Wrappers.<Master>lambdaQuery()
+                .orderByDesc(Master::getOrderId);
+        if (StrUtil.isNotBlank(search)) {
+            query.like(Master::getProductName, search).lt(Master::getStatus,200);
+        }
+        return Result.success(masterPage);
+    }
 
 }
 

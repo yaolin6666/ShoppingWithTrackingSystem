@@ -1,14 +1,13 @@
 package com.Shopping.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.Shopping.common.lang.Result;
 import com.Shopping.domain.Master;
 import com.Shopping.mapper.MasterMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.Shopping.common.lang.Result;
-import com.Shopping.domain.Confirm;
-import com.Shopping.mapper.ConfirmMapper;
+import org.joda.time.LocalDateTime;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -60,6 +59,7 @@ public class ConfirmController {
     @PostMapping("/add")
     public Result insert(@RequestBody Master master) {
         master.setStatus(200);
+        master.setShippingTime(LocalDateTime.now().toDate());
         masterMapper.updateById(master);
         return Result.success();
     }
@@ -82,9 +82,9 @@ public class ConfirmController {
                               @RequestParam(defaultValue = "") String search) {
         new Page<>(pageNum, pageSize);
         Page<Master> masterPage = masterMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Master>lambdaQuery().like(Master::getProductName, search));
-        LambdaQueryWrapper<Confirm> query = Wrappers.<Confirm>lambdaQuery().orderByDesc(Confirm::getProductId);
+        LambdaQueryWrapper<Master> query = Wrappers.<Master>lambdaQuery().orderByDesc(Master::getProductId);
         if (StrUtil.isNotBlank(search)) {
-            query.like(Confirm::getProductName, search);
+            query.like(Master::getProductName, search);
         }
         return Result.success(masterPage);
     }

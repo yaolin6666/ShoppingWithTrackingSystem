@@ -52,7 +52,7 @@
                   </el-row>
                   <el-row>
                     <el-col :span="10">
-                      <el-form-item label="商品规格图片1" prop="productMd">
+                      <el-form-item label="商品描述图片1" prop="productMd">
                         <el-upload class="upload-demo" action="http://localhost:8888/files/uplode" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :on-success="filesUplodeSeccesse" list-type="picture">
                           <el-button size="small" type="primary">点击上传</el-button>
                           <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过1Gb</div>
@@ -60,7 +60,7 @@
                       </el-form-item>
                     </el-col>
                     <el-col :span="10">
-                      <el-form-item label="商品规格图片2" prop="productMf">
+                      <el-form-item label="商品描述图片2" prop="productMf">
                         <el-upload class="upload-demo" action="http://localhost:8888/files/uplode" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :on-success="filesUplodeSeccessr" list-type="picture">
                           <el-button size="small" type="primary">点击上传</el-button>
                           <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过1Gb</div>
@@ -68,7 +68,7 @@
                       </el-form-item>
                     </el-col>
                     <el-col :span="10">
-                      <el-form-item label="商品规格图片3" prop="productMg">
+                      <el-form-item label="商品描述图片3" prop="productMg">
                         <el-upload class="upload-demo" action="http://localhost:8888/files/uplode" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :on-success="filesUplodeSeccesst" list-type="picture">
                           <el-button size="small" type="primary">点击上传</el-button>
                           <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过1Gb</div>

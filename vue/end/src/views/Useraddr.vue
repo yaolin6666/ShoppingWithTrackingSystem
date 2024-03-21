@@ -88,7 +88,10 @@
           <el-input v-model="form.paymentMethod" :disabled="true"/>
         </el-form-item>
         <el-form-item label="快递公司">
-          <el-input v-model="form.shippingCompName" :disabled="true"/>
+          <el-input v-model="form.shippingCompName" :disabled="false"/>
+        </el-form-item>
+        <el-form-item label="快递编号">
+          <el-input v-model="form.shippingSn" :disabled="false"/>
         </el-form-item>
         <el-form-item label="订单备注">
           <el-input v-model="form.productMessage" :disabled="true"></el-input>
@@ -125,7 +128,7 @@ export default {
   },
   methods: {
     lode() {
-      request.get("/master/page", {
+      request.get("/master/pageAdmin", {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,

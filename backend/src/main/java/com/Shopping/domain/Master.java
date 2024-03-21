@@ -52,6 +52,8 @@ public class Master implements Serializable {
     private String shippingCompName;
 
     private Integer shippingSn;
+    private Date shippingTime;
+    private Date receiveTime;
 
     private String productImage;
 
@@ -68,7 +70,7 @@ public class Master implements Serializable {
     private Integer productNum;
 
     /**
-     *   状态 100表示单独购买未发货 102表示团购成功未发货 103表示团购未达成人数订单
+     *   状态 100表示单独购买未发货 101表示团购成功未发货 150表示团购未达成人数订单
      *       200表示已发货未收货
      *       300表示已收货
     */
@@ -79,6 +81,8 @@ public class Master implements Serializable {
 
     @TableField(value = "shop_id")
     private Integer shopCustomerId;
+
+    private Integer teamId;
 
     /**
      * 创建时间

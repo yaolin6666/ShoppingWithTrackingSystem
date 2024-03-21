@@ -8,8 +8,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import com.Shopping.common.lang.Result;
-import com.Shopping.domain.Receipt;
-import com.Shopping.mapper.ReceiptMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
