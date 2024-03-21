@@ -5,19 +5,7 @@
   {{pan }}
   <div class="kk"><img src="@/assets/hb.png" width="500px" height="500px" alt="">
   <div class="kk1">111111</div>
-  <!-- <div class="jj">sdsd</div> -->
   </div>
-  <!-- <div class="rr">
-  <ul>
-    <li>
-       sdsd
-    </li>
-    <li>
-      dsd
-    </li>
-  </ul>
-  </div> -->
-
   </div>
 </template>
 
@@ -25,20 +13,20 @@
 export default {
   name: 'MallVueMasterNio',
 
-  data() {
+  data () {
     return {
-      pan:"pan",
-      pan1:"1"
+      pan: 'pan',
+      pan1: '1'
     };
   },
 
-  mounted() {
+  mounted () {
 
   },
 
   methods: {
 
-  },
+  }
 };
 </script>
 
@@ -48,11 +36,7 @@ export default {
   border: 1px solid red;
 
 }
-.kk .jj{
-  position: relative;
-  top: -150px;
-  border: 1px solid red;
-}
+
 .rr li:first-child{
   color: red;
 }

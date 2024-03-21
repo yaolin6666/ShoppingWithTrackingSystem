@@ -50,7 +50,7 @@ export default {
   data () {
     return {
       shopIntro: {
-        shopName: '网上商城系统',
+        shopName: '基于Fabric溯源的农产品团购平台',
         slogen: '尽享优惠、安全'
       }
     };

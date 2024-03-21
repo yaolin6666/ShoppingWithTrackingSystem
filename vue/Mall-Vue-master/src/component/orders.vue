@@ -1,6 +1,4 @@
-// 用户管理
 <template>
-
   <div class="userindex">
     <el-backtop  :bottom="10" :right="0">
   <div

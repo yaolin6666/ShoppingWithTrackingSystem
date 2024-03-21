@@ -35,11 +35,6 @@ export default {
         {url: require('@/assets/5.jpg')}
 
       ],
-      image2: [
-        {url: require('@/assets/nav_showimg1.jpg')},
-        {url: require('@/assets/nav_showimg2.jpg')}
-
-      ],
       imagess: [
         {url: require('@/assets/ccc10.png')},
         {url: require('@/assets/ccc7.png')},

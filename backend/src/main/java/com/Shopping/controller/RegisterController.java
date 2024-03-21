@@ -1,7 +1,9 @@
 package com.Shopping.controller;
 
 import com.Shopping.common.lang.Result;
+import com.Shopping.domain.Account;
 import com.Shopping.domain.Register;
+import com.Shopping.mapper.AccountMapper;
 import com.Shopping.mapper.RegisterMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -16,6 +18,8 @@ import java.util.List;
 public class RegisterController {
     @Resource
     private RegisterMapper registerMapper;
+    @Resource
+    private AccountMapper accountMapper;
 
     @GetMapping("/findAll")
     public List<Register> findAll() {
@@ -35,9 +39,18 @@ public class RegisterController {
         return Result.success();
     }
 
-    @PutMapping("/update")
+    @PutMapping("/agreeAccount")
     public Result<?> update(@RequestBody Register register) {
-        registerMapper.updateById(register);
+        Account account=accountMapper.selectById(register.getAccountId());
+        account.setRole(3);
+        accountMapper.updateById(account);
+        registerMapper.deleteById(register.getRegisterId());
+        return Result.success();
+    }
+    @PutMapping("/disAgreeAccount")
+    public Result<?> update(@RequestBody Account account) {
+        account.setRole(2);
+        accountMapper.updateById(account);
         return Result.success();
     }
 

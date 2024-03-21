@@ -76,5 +76,21 @@ public class UserInfoController {
         }
         return Result.success(customerInfoPage);
     }
+    @GetMapping("/pageShop")
+    public Result<?> findPageShop(@RequestParam(defaultValue = "1") Integer pageNum,
+                              @RequestParam(defaultValue = "10") Integer pageSize,
+                              @RequestParam(defaultValue = "") String search){
+        new Page<>(pageNum,pageSize);
+        Page<Account> customerInfoPage = accountMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Account>lambdaQuery()
+                .ge(Account::getRole,2).and(accountLambdaQueryWrapper ->{
+                    accountLambdaQueryWrapper.like(Account::getUsername, search).or().like(Account::getCustomerName,search);
+                })
+        );
+        LambdaQueryWrapper<Account> query = Wrappers.<Account>lambdaQuery().orderByDesc(Account::getAccountId);
+        if (StrUtil.isNotBlank(search)) {
+            query.like(Account::getUsername, search).or().like(Account::getCustomerName,search);
+        }
+        return Result.success(customerInfoPage);
+    }
 }
 

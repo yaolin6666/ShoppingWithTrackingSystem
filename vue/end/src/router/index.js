@@ -19,9 +19,9 @@ const routes = [
         component: () => import("@/views/UserAssign.vue")
       },
       {
-        path: 'shop',
-        name: 'shop',
-        component: () => import("@/views/shop.vue")
+        path: 'shopAdmin',
+        name: 'shopAdmin',
+        component: () => import("@/views/shopAdmin.vue")
       },
       {
         path: 'adminAssign',
@@ -94,11 +94,6 @@ const routes = [
         path: 'refund',
         name: 'Refund',
         component: () => import("@/views/Refund")
-      },
-      {
-        path: 'footprints',
-        name: 'Footprints',
-        component: () => import("@/views/Footprints")
       },
     ]
   },

@@ -37,7 +37,7 @@
       </div>
     </div>
     <div class="wee"><span>
-     网上商城系统
+     基于Fabric溯源的农产品团购平台
     </span><span
       style="margin-left:10px"><img :src="url.url"/></span></div>
   </div>

@@ -59,10 +59,6 @@ export const loadCarouselItems = ({ commit }) => {
         'static/img/nav/4.jpg',
         'static/img/nav/5.jpg'
       ],
-      activity: [
-        'static/img/nav/nav_showimg1.jpg',
-        'static/img/nav/nav_showimg2.jpg'
-      ]
     };
     commit('SET_CAROUSELITEMS_INFO', data);
   });

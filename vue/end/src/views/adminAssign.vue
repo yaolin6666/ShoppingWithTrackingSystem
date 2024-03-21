@@ -4,37 +4,48 @@
     <div style="margin: 10px 0;display: flex;">
       <el-input v-model="search" placeholder="请输入" style="width: 20%;" clearable/>
       <el-button type="primary" style="margin-left: 5px" @click="lode">查询</el-button>
-      <el-button type="primary" style="margin-right: 10px;" @click="add">新增</el-button>
-      <el-popconfirm title="确认删除吗?" @confirm="deleteBatch">
-        <template #reference>
-          <el-button type="danger">批量删除</el-button>
-        </template>
-      </el-popconfirm>
     </div>
 
     <el-table :data="tableData" border stripe style="width: 100%" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" />
+
       <el-table-column prop="accountId" label="ID" sortable/>
-      <el-table-column prop="username" label="用户名"/>
-      <el-table-column label="角色">
-        <template #default="scope">
-          <span v-if="scope.row.role === 0">用户</span>
-          <span v-if="scope.row.role === 1">管理员</span>
-          <span v-if="scope.row.role === 2">商家(待审核)</span>
-          <span v-if="scope.row.role === 3">商家</span>
+      <el-table-column prop="certificationImg" label="营业执照" width="150" height="300">
+        <template v-slot:default="scope">
+          <el-image :src="scope.row.certificationImg"/>
+        </template>
+      </el-table-column>
+      <el-table-column prop="certificationImg" label="认证图片1" width="150" height="300">
+        <template v-slot:default="scope">
+          <el-image :src="scope.row.img1"/>
+        </template>
+      </el-table-column>
+      <el-table-column prop="certificationImg" label="认证图片2" width="150" height="300">
+        <template v-slot:default="scope">
+          <el-image  v-if="scope.row.img2" :src="scope.row.img2"/>
+          <div v-if="!scope.row.img2">未上传</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="certificationImg" label="认证图片3" width="150" height="300">
+        <template v-slot:default="scope">
+          <el-image v-if="scope.row.img3" :src="scope.row.img3"/>
+          <div v-if="!scope.row.img3">未上传</div>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间"/>
       <el-table-column prop="updateTime" label="修改时间"/>
       <el-table-column label="操作" align="center">
         <template #default="scope">
-          <el-button icon="el-icon-edit" type="primary" circle @click="handleEdit(scope.row)"></el-button>
-          <el-popconfirm title="确认删除吗?" @confirm="handleDelete(scope.row.customerId)">
+          <el-popconfirm title="确认同意吗?" @confirm="handleEdit(scope.row)">
+            <template #reference>
+              <el-button type="primary" icon="el-icon-edit" circle></el-button>
+            </template>
+          </el-popconfirm>
+
+          <el-popconfirm title="确认拒绝吗?" @confirm="handleDelete(scope.row.registerId)">
             <template #reference>
               <el-button type="danger" icon="el-icon-delete" circle></el-button>
             </template>
           </el-popconfirm>
-
         </template>
       </el-table-column>
     </el-table>
@@ -97,34 +108,11 @@ export default {
   },
 
   methods: {
-    deleteBatch(){
-      if (!this.ids.length){
-        ElMessage({
-          type:"warning",
-          message:"请先进行选择"
-        })
-        return
-      }
-      request.post("/account/deleteBatch",this.ids).then(res => {
-        if (res.code === 200) {
-          ElMessage({
-            type: 'success',
-            message: '批量删除成功',
-          })
-          this.lode()
-        } else {
-          ElMessage({
-            type: 'error',
-            message: res.msg
-          })
-        }
-      })
-    },
     handleSelectionChange(val){
       this.ids = val.map(v => v.customerId)
     },
     lode() {
-      request.get("/account/page", {
+      request.get("/register/page", {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -181,13 +169,23 @@ export default {
 
     },
     handleEdit(row) {
-      this.form = JSON.parse(JSON.stringify(row))
-      this.dialogVisible = true
-
+      request.put("/register/agreeAccount",row).then(res => {
+        if (res.code === 200) {
+          ElMessage({
+            type: 'success',
+            message: '通过成功',
+          })
+        } else {
+          ElMessage({
+            type: 'error',
+            message: res.msg
+          })
+        }
+        this.lode()
+      })
     },
-    handleDelete(customerId) {
-      request.delete("/account/" + customerId).then(res => {
-        console.log(customerId);
+    handleDelete(registerId) {
+      request.delete("/register/delete/" + registerId).then(res => {
         if (res.code === 200) {
           ElMessage({
             type: 'success',

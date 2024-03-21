@@ -4,7 +4,6 @@
     <div style="margin: 10px 0;display: flex;">
       <el-input v-model="search" placeholder="请输入" style="width: 20%;" clearable/>
       <el-button type="primary" style="margin-left: 5px" @click="lode">查询</el-button>
-      <el-button type="primary" @click="add">新增</el-button>
       <el-popconfirm title="确认删除吗?" @confirm="deleteBatch">
         <template #reference>
           <el-button type="danger">批量删除</el-button>
@@ -33,26 +32,19 @@
       <el-col :span="24">
         <el-table :data="admin.filter(data => !search || data.feedbackBt.toLowerCase().includes(search.toLowerCase()))"
                   border stripe style="width: 100%" @selection-change="handleSelectionChange">
-          <el-table-column type="selection" width="55" />
-          <el-table-column prop="feedbackId" label="ID" width="80"/>
+          <el-table-column type="selection" width="50" />
+          <el-table-column prop="feedbackId" label="ID" width="50"/>
 
-          <el-table-column prop="feedbackBt" label="反馈标题"/>
+          <el-table-column prop="feedbackBt" label="反馈标题" width="200"/>
 
-          <el-table-column prop="feedbackNy" label="反馈内容" width="300"/>
+          <el-table-column prop="feedbackNy" label="反馈内容" />
 
-          <el-table-column prop="createTime" label="创建时间"/>
+          <el-table-column prop="createTime" label="创建时间" width="150"/>
 
-          <el-table-column prop="updateTime" label="最后修改时间"/>
 
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
-              <el-button
-                  type="primary"
-                  icon="el-icon-edit"
-                  circle
-                  @click="edit(scope.row)"
-              >
-              </el-button>
+
 
               <el-button
                   type="danger"
@@ -95,46 +87,6 @@ export default {
       this.dialogVisible = true
       this.form = {}
     },
-    onSubmit() {
-      if (this.form.feedbackId){
-        request.put('/feedback/update',this.form).then(res => {
-          console.log(res);
-          if (res.code === 200) {
-            ElMessage({
-              type: 'success',
-              message: '修改成功',
-            })
-          } else {
-            ElMessage({
-              type: 'error',
-              message: res.msg
-            })
-          }
-          this.lode()
-          this.dialogVisible = false
-        })
-
-      } else {
-
-      request.post("/feedback/add", this.form).then(res => {
-            console.log(res);
-        if (res.code === 200) {
-          ElMessage({
-            type: 'success',
-            message: '添加成功',
-          })
-        } else {
-          ElMessage({
-            type: 'error',
-            message: res.msg
-          })
-        }
-        this.lode()
-        this.dialogVisible = false
-
-          });
-      };
-    },
     edit(row) {
       this.form = JSON.parse(JSON.stringify(row))
       this.dialogVisible = true
@@ -164,7 +116,7 @@ export default {
       })
           .then(() => {
             request
-                .delete("/feedback/" + feedbackId)
+                .delete("/feedback/delete/" + feedbackId)
                 .then(res => {
                   if (res.code === 200) {
                     ElMessage({

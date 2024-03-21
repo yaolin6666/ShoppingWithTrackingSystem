@@ -2,7 +2,7 @@
 
 <div class="ll" >
 <div class="pi1">
-  网上商城系统
+  基于Fabric溯源的农产品团购平台
 </div>
 <div class="pi">
 

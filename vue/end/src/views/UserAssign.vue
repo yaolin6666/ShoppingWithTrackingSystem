@@ -120,13 +120,13 @@ export default {
       this.form.certificationImg = res.data
     },
     filesUplodeSeccess2(res) {
-      this.form.img_1 = res.data
+      this.form.img1 = res.data
     },
     filesUplodeSeccess3(res) {
-      this.form.img_2 = res.data
+      this.form.img2 = res.data
     },
     filesUplodeSeccess4(res) {
-      this.form.img_3 = res.data
+      this.form.img3 = res.data
     },
     submitData() {
       this.form.accountId = this.accountId;
@@ -145,6 +145,7 @@ export default {
         }
         this.lode()
         this.dialogVisible = false
+        location.reload()
       })
     }
   },

@@ -1,19 +1,20 @@
 package com.Shopping.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.Shopping.common.lang.Result;
+import com.Shopping.domain.Account;
 import com.Shopping.domain.Product;
+import com.Shopping.mapper.AccountMapper;
+import com.Shopping.mapper.ProductMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
-
-import com.Shopping.common.lang.Result;
-import com.Shopping.mapper.ProductMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -22,6 +23,8 @@ public class ProductController {
 
     @Resource
     private ProductMapper productMapper;
+    @Resource
+    private AccountMapper accountMapper;
 
     @GetMapping("/findAll")
     public List<Product> findAll(){
@@ -98,7 +101,12 @@ public class ProductController {
         new Page<>(pageNum, pageSize);
         Page<Product> infoPage;
         if(customerId==0){
-        infoPage = productMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Product>lambdaQuery().like(Product::getProductName, search));
+            List<Integer> accountIds=accountMapper.selectList(Wrappers.<Account>lambdaQuery().eq(Account::getRole,3))
+                    .stream()
+                    .map(e->e.getAccountId())
+                    .collect(Collectors.toList());
+            infoPage = productMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Product>lambdaQuery()
+                    .like(Product::getProductName, search).in(Product::getCustomerId,accountIds));
         }else{
             infoPage = productMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Product>lambdaQuery()
                     .like(Product::getProductName, search)
