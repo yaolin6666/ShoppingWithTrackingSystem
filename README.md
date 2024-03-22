@@ -13,11 +13,11 @@
 
 ~~fabric网络搭建 智能合约的建立~~
 
-货源数据库添加 状态管理 数量管理
+~~货源数据库添加 状态管理 数量管理~~
 
 区块链浏览器
 
-完成 修改商品数据库 绑定商家 
+~~完成 修改商品数据库 绑定商家~~ 
 
 fabric应用层编写
 
@@ -53,13 +53,13 @@ schedule进行自动清理订单
 
 ## 代码Dao
 
-arginfo arginfoorigin
+~~arginfo arginfoorigin~~
 
-deliverinfoorigin
+~~deliverinfoorigin~~~
 
-orderorigin
+~~orderorigin~~
 
-team template
+~~team template~~
 
 ### 订单 WIP
 
