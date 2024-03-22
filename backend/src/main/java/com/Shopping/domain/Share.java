@@ -13,30 +13,28 @@ import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Arginfo implements Serializable {
+public class Share implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-
-    @TableId(value = "arginfo_id", type = IdType.AUTO)
-    private Integer arginfoId;
-
+    @TableId(value = "share_id", type = IdType.AUTO)
+    private Integer shareId;
+    private String shareTitle;
+    private String shareContent;
+    private String shareImg1;
+    private String shareImg2;
+    private String shareImg3;
+    private String shareImg4;
+    private String shareImg5;
+    private String shareImg6;
+    private String shareImg7;
+    private String shareImg8;
+    private String shareImg9;
+    private String shareVideo;
     private Integer productId;
+    private Integer accountId;
 
-    private Integer shopId;
-    //状态0 未上架 1上架 2售罄
-    private Integer status;
-    private Integer count;
-
-    /**
-     * 创建时间
-     */
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
-
-    /**
-     * 修改时间
-     */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 

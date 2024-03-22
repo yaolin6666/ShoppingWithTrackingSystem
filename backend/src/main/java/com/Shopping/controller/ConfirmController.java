@@ -11,7 +11,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.joda.time.LocalDateTime;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -62,7 +61,6 @@ public class ConfirmController {
         return Result.success();
     }
 
-    @Transactional
     @PostMapping("/add")
     public Result insert(@RequestBody Master master) {
         master.setStatus(200);

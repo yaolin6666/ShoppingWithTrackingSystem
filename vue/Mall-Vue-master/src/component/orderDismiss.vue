@@ -1,18 +1,13 @@
-// 用户管理
 <template>
-
   <div class="userindex">
     <el-backtop :bottom="10" :right="0">
       <div
-          class="kg2"
+          class="juy"
       >
         返回顶部
       </div>
     </el-backtop>
-    <!-- <div class="ff"><input v-model="search" placeholder="请输入内容" /></div> -->
-    <!-- 搜索条件 -->
     <el-row :gutter="20" class="userindex-queryInfo">
-      <!-- 商品名称搜索 -->
       <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4">
         <el-input
             class="userindex-queryInfo-li"
@@ -28,10 +23,7 @@
         </el-button
         >
       </el-col>
-      <!-- 添加按钮 -->
     </el-row>
-
-    <!-- 检索结果 -->
     <el-row :gutter="20" class="userindex-list" :search="search">
       <el-col :span="24">
         <table style="margin-top:20px;" align="center">
@@ -46,14 +38,13 @@
               <span style="margin-left: 44px;">交易操作</span>
             </div>
           </div>
-
-          <div class="shopping-cart-null" v-show="user.length<0">
+          <div class="shopping-cart-null" v-show="user.length <= 0">
             <Icon type="ios-cart-outline" class="cart-null-icon"></Icon>
             <span>你的订单没有空空哦</span>
             <span>赶快去添加商品吧~</span>
           </div>
           <div class="shopping-cart-list" v-show="user.length > 0">
-            <tbody :data="user" v-for="user in user" :key="user.refundId" @click="onSubmits(user)">
+            <tbody v-for="user in user" :key="user">
             <div class="vs">
               <tr>
                 <div class="sk">
@@ -63,7 +54,8 @@
               </tr>
               <div v-bind:to="'/goodsDetail/'+user.productId">
                 <tr>
-                  <td align="center" class="kk" style="border: 1px solid #ffff;"><img :src="user.productImage" width="100px" height="70px"></td>
+                  <td align="center" class="kk" style="border: 1px solid #ffff;"><img :src="user.productImage"
+                                                                                      width="100px" height="70px"></td>
                   <td class="kk1" style="border: 1px solid #ffff;">
                     <div style="float:left;margin-left: 12px;word-wrap:break-word;word-break:break-all; width:150px">
                       <span>{{ user.productName }}</span></div>
@@ -78,18 +70,17 @@
                   <td class="kk2"><p style="margin-left: 26px;font-weight:bold;color: red;">￥{{ user.productPrice }}</p>
                     <p style="margin-left: 20px;margin-top: 5px;">({{ user.paymentMethod }})</p>
                   </td>
-                  <td class="kk2"><p style="margin-left: 26px;">付款成功</p>
+                  <td class="kk2"><p style="margin-left: 26px;">已失效</p>
                     <p style="margin-left: 26px;margin-top: 5px;">订单详情</p>
                   </td>
-                  <td class="kk2"><p style="margin-left: 12px;margin-top: 27px;">
-                    <span style="color:red" v-show="!user.refundTx">等待退款/退货</span>
-                    <span style="color:red" v-show="!!user.refundTx">{{ user.refundTx }}</span>
-                  </p></td>
+                  <td class="kk2">
+                    <p style="margin-left: 12px;margin-top: 9px;">卖家已退款</p>
+                    <div style="margin-left: 12px">
+                      <el-button style="color:red" @click="del(user.orderId)">删除</el-button>
+                    </div>
+                  </td>
                 </tr>
               </div>
-            </div>
-            <div style="float:right;margin-top:65px" v-show="!!user.refundTx">
-              <el-button style="color:red" @click="del(user.refundId)">删除</el-button>
             </div>
             </tbody>
           </div>
@@ -114,17 +105,15 @@
 
 <script>
 import store from '@/store/index';
-// eslint-disable-next-line no-unused-vars
-import {mapState, mapActions} from 'vuex';
+import {mapState} from 'vuex';
 
 export default {
-  name: 'Receipt',
+  name: 'orders',
   methods: {
+
     onSubmits (admin) {
       admin.customerId = this.id;
       this.product = admin;
-      // eslint-disable-next-line no-unused-vars
-      let _this = this;
       // eslint-disable-next-line no-undef
       axios
         .post('http://localhost:8888/img/add', this.product)
@@ -135,7 +124,7 @@ export default {
 
     lode () {
       // eslint-disable-next-line no-undef
-      axios.get('http://localhost:8888/refund/finds/' + this.id, {
+      axios.get('http://localhost:8888/master/findDismiss/' + this.id, {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -148,25 +137,19 @@ export default {
       });
     },
 
-    // 设置表格行的样式
     tableRowStyle ({row, rowIndex}) {
       return 'background-color:pink;font-size:15px;';
     },
-    // 设置表头行的样式
     tableHeaderColor ({row, column, rowIndex, columnIndex}) {
       return 'background-color:lightblue;color:#fff;font-wight:500;font-size:20px;text-align:center';
     },
-
-    // 添加
     add () {
       this.$router.push('/adduser');
     },
-    // 修改
     edit (row) {
       this.$router.push('/edituser?userId=' + row.userId);
     },
-    // 删除
-    del (refundId) {
+    del (masterId) {
       let _this = this;
       this.$confirm('是否确定要删除', {
         confirmButtonText: '确定',
@@ -174,12 +157,39 @@ export default {
         type: 'warning'
       })
         .then(() => {
+          console.error(this.user);
           // eslint-disable-next-line no-undef
           axios
-            .delete('http://localhost:8888/refund/delete/' + refundId)
+            .delete('http://localhost:8888/master/delete/' + masterId)
             .then(function (response) {
               if (response.data) {
-                _this.$alert('删除成功!', '删除退款/退货记录', {
+                _this.$alert('删除成功!', '删除记录', {
+                  confirmButtonText: '确定',
+                  callback: (action) => {
+                    // 跳转到 /table
+                    location.reload();
+                  }
+                });
+              }
+            });
+        })
+        .catch(() => {
+        });
+    },
+    userDelete (row) {
+      let _this = this;
+      this.$confirm('是否确定要删除' + ' ' + row.userName + '?', '删除数据', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          // eslint-disable-next-line no-undef
+          axios
+            .delete('http://localhost:8888/userinfo/delete/' + row.userId)
+            .then(function (response) {
+              if (response.data) {
+                _this.$alert(row.userName + '删除成功!', '删除数据', {
                   confirmButtonText: '确定',
                   callback: (action) => {
                     // 跳转到 /table
@@ -214,8 +224,8 @@ export default {
   },
   data () {
     return {
-      id: this.$store.state.userInfo.id,
       product: [],
+      id: this.$store.state.userInfo.id,
       currentPage: 1,
       pageSize: 7,
       total: 0,
@@ -257,21 +267,19 @@ export default {
 }
 
 .userindex-queryInfo-li {
+  border: 3px solid rgb(192, 223, 238);
+  background: rgb(192, 223, 238);
   margin-left: 975px;
   width: 100%;
   height: auto;
-  border: 3px solid rgb(192, 223, 238);
-  background: rgb(192, 223, 238);
 }
 
-/* 列表 */
 .userindex-list {
   width: 100%;
   height: auto;
   margin-bottom: 20px;
 }
 
-/* 分页 */
 .userindex-page-box {
   width: 100%;
   height: auto;
@@ -296,7 +304,6 @@ td {
 }
 
 .kk2 {
-
   width: 100px;
 }
 
@@ -322,16 +329,10 @@ td {
   padding-top: 11px;
 }
 
-.sa {
-  width: 50px;
-}
-
 .vs {
   margin-bottom: 20px;
   border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, .22), 0 0 12px rgba(0, 0, 0, .14);
-  float: left;
-
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .22), 0 0 12px rgba(0, 0, 0, .14)
 }
 
 .cfs {
@@ -339,9 +340,9 @@ td {
 }
 
 .shopping-cart-null {
-  height: 500px;
   padding: 15px;
   display: flex;
+  height: 500px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -363,7 +364,7 @@ td {
   box-shadow: 0 4px 8px #ee7546, 0 0 12px #ee7546
 }
 
-.kg2 {
+.juy {
 
   height: 100%;
   width: 100%;

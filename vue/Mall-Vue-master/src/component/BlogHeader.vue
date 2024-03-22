@@ -14,8 +14,8 @@
         </router-link>
       </el-menu-item>
       <el-menu-item index="2">
-        <router-link to="orders">失效订单
-          <el-badge :value="total" class="item"></el-badge>
+        <router-link to="orderDismiss">失效订单
+          <el-badge :value="totalsssss" class="item"></el-badge>
         </router-link>
       </el-menu-item>
       <el-menu-item index="3">
@@ -53,7 +53,8 @@ export default {
       totals: 0,
       totalss: 0,
       totalsss: 0,
-      totalssss: 0
+      totalssss: 0,
+      totalsssss: 0,
     };
   },
   methods: {
@@ -64,6 +65,12 @@ export default {
         console.log(res);
 
         this.total = res.data.data.total;
+      });
+      // eslint-disable-next-line no-undef
+      axios.get('http://localhost:8888/master/findDismiss/' + this.id, {}).then(res => {
+        console.log('111');
+        console.log(res);
+        this.totalsssss = res.data.data.total;
       });
     },
 
