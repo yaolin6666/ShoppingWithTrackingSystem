@@ -31,7 +31,7 @@ public class Share implements Serializable {
     private String shareImg9;
     private String shareVideo;
     private Integer productId;
-    private Integer customerId;
+    private Integer accountId;
 
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
