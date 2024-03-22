@@ -42,6 +42,16 @@ public class MasterController {
         return Result.success(page);
     }
 
+    @GetMapping("/findDismiss/{customerId}")
+    public Result<?> findDismissCustomerId(@RequestParam(defaultValue = "1") Integer pageNum,
+                                    @RequestParam(defaultValue = "5") Integer pageSize,
+                                    @PathVariable Integer customerId){
+        Page<Master> page = masterMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Master>lambdaQuery()
+                .eq(Master::getCustomerId, customerId)
+                .eq(Master::getStatus,1000));
+        return Result.success(page);
+    }
+
     @DeleteMapping("/delete/{id}")
     public Result<?> delete(@PathVariable("id") Integer id){
         masterMapper.deleteById(id);
@@ -62,6 +72,9 @@ public class MasterController {
     @PostMapping("/add")
     public Result<?> insert(@RequestBody Master master){
         masterMapper.insert(master);
+        /**
+         * 减少库存动作
+         * */
         return Result.success();
     }
 

@@ -73,6 +73,12 @@ export default new Router({
           name: 'orders'
         },
         {
+          path: '/orderDismiss',
+
+          component: () => import('@/component/orderDismiss.vue'),
+          name: 'orderDismiss'
+        },
+        {
           path: '/Consignment',
 
           component: () => import('@/component/Consignment.vue'),
