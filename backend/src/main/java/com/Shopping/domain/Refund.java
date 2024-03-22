@@ -49,7 +49,7 @@ public class Refund implements Serializable {
 
     private String shippingCompName;
 
-    private BigInteger shippingSn;
+    private String shippingSn;
 
     private String productImage;
 
@@ -80,6 +80,7 @@ public class Refund implements Serializable {
 
     @TableField(value = "shop_id")
     private Integer shopCustomerId;
+    private Integer teamId;
 
 
     @TableField(fill = FieldFill.INSERT)

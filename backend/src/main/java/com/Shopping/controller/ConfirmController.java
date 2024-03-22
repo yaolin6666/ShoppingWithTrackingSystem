@@ -1,13 +1,17 @@
 package com.Shopping.controller;
 
+import cn.hutool.core.lang.generator.SnowflakeGenerator;
 import cn.hutool.core.util.StrUtil;
 import com.Shopping.common.lang.Result;
+import com.Shopping.domain.DeliverinfoOrigin;
 import com.Shopping.domain.Master;
+import com.Shopping.mapper.DeliverinfoOriginMapper;
 import com.Shopping.mapper.MasterMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.joda.time.LocalDateTime;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -20,6 +24,8 @@ import java.util.stream.Collectors;
 public class ConfirmController {
     @Resource
     private MasterMapper masterMapper;
+    @Resource
+    DeliverinfoOriginMapper deliverinfoOriginMapper;
 
     @GetMapping("/findAll")
     public List<Master> findAll() {
@@ -56,10 +62,18 @@ public class ConfirmController {
         return Result.success();
     }
 
+    @Transactional
     @PostMapping("/add")
     public Result insert(@RequestBody Master master) {
         master.setStatus(200);
         master.setShippingTime(LocalDateTime.now().toDate());
+        DeliverinfoOrigin deliverinfoOrigin=new DeliverinfoOrigin();
+        deliverinfoOrigin.setDeliverInfoOriginId(new SnowflakeGenerator().next().toString());
+        deliverinfoOrigin.setShippingSn(master.getShippingSn());
+        deliverinfoOriginMapper.insert(deliverinfoOrigin);
+        /**
+         * 区块链
+         * */
         masterMapper.updateById(master);
         return Result.success();
     }
