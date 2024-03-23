@@ -18,7 +18,7 @@ public class ShareController {
     @Resource
     ShareMapper shareMapper;
 
-    @PostMapping("/add")//添加货源
+    @PostMapping("/add")//添加
     public Result insert(@RequestBody Share share) {
         shareMapper.insert(share);
         return Result.success();
@@ -30,6 +30,10 @@ public class ShareController {
                 .eq(Share::getAccountId, accountId));
         LambdaQueryWrapper<Share> query = Wrappers.<Share>lambdaQuery().orderByDesc(Share::getShareId);
         return shares;
+    }
+    @GetMapping("/find/{id}")
+    public Share findById(@PathVariable("id") Integer id) {
+        return this.shareMapper.selectById(id);
     }
 
     @DeleteMapping("/delete/{id}")

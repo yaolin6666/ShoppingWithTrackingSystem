@@ -70,7 +70,7 @@ public class Master implements Serializable {
     private Integer productNum;
 
     /**
-     *   状态 100表示单独购买未发货 101表示团购成功未发货 150表示团购未达成人数订单 1000失效订单
+     *   状态 100表示单独购买未发货 180表示团购未达成人数订单 1000失效订单
      *       200表示已发货未收货
      *       300表示已收货
     */
