@@ -17,15 +17,15 @@ public class Arginfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
     @TableId(value = "arginfo_id", type = IdType.AUTO)
     private Integer arginfoId;
 
     private Integer productId;
 
     private Integer shopId;
-    //状态0 未上架 1上架 2售罄
+    //状态1 未上架 2上架 0售罄
     private Integer status;
+
     private Integer count;
 
     /**

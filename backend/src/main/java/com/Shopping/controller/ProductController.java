@@ -31,6 +31,11 @@ public class ProductController {
         List<Product> products = productMapper.selectList(null);
         return products;
     }
+    @GetMapping("/findAllAdmin")
+    public List<Product> findAllAdmin(@RequestParam Integer accountId){
+        List<Product> products = productMapper.selectList(Wrappers.<Product>lambdaQuery().eq(Product::getCustomerId,accountId));
+        return products;
+    }
     @GetMapping("/{cid}")
     public Result<?> find(@RequestParam(defaultValue = "1") Integer pageNum,
                           @RequestParam(defaultValue = "10") Integer pageSize,

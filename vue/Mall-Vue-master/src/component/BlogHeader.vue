@@ -14,11 +14,16 @@
         </router-link>
       </el-menu-item>
       <el-menu-item index="2">
+        <router-link to="orderUndone">等待拼团
+          <el-badge :value="totalssssss" class="item"></el-badge>
+        </router-link>
+      </el-menu-item>
+      <el-menu-item index="3">
         <router-link to="orderDismiss">失效订单
           <el-badge :value="totalsssss" class="item"></el-badge>
         </router-link>
       </el-menu-item>
-      <el-menu-item index="3">
+      <el-menu-item index="4">
         <router-link to="consignment">已发货
           <el-badge :value="totals" class="item"></el-badge>
         </router-link>
@@ -55,6 +60,7 @@ export default {
       totalsss: 0,
       totalssss: 0,
       totalsssss: 0,
+      totalssssss: 0
     };
   },
   methods: {
@@ -68,9 +74,13 @@ export default {
       });
       // eslint-disable-next-line no-undef
       axios.get('http://localhost:8888/master/findDismiss/' + this.id, {}).then(res => {
-        console.log('111');
         console.log(res);
         this.totalsssss = res.data.data.total;
+      });
+      // eslint-disable-next-line no-undef
+      axios.get('http://localhost:8888/master/findUndone/' + this.id, {}).then(res => {
+        console.log(res);
+        this.totalssssss = res.data.data.total;
       });
     },
 

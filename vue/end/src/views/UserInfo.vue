@@ -181,7 +181,7 @@ export default {
 
     },
     save() {
-      if (this.form.customerId) {
+      if (this.form.accountId) {
         request.put("/account/update", this.form).then(res => {
           console.log(res);
           if (res.code === 200) {
@@ -197,6 +197,7 @@ export default {
           }
           this.lode()
           this.dialogVisible = false
+          location.reload();
         })
       } else {
         request.post("/account", this.form).then(res => {

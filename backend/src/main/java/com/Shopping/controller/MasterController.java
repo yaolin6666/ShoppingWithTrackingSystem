@@ -38,7 +38,7 @@ public class MasterController {
                                     @PathVariable Integer customerId){
         Page<Master> page = masterMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Master>lambdaQuery()
                 .eq(Master::getCustomerId, customerId)
-                .lt(Master::getStatus,200));
+                .lt(Master::getStatus,150));
         return Result.success(page);
     }
 
@@ -49,6 +49,16 @@ public class MasterController {
         Page<Master> page = masterMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Master>lambdaQuery()
                 .eq(Master::getCustomerId, customerId)
                 .eq(Master::getStatus,1000));
+        return Result.success(page);
+    }
+
+    @GetMapping("/findUndone/{customerId}")
+    public Result<?> findUndoneCustomerId(@RequestParam(defaultValue = "1") Integer pageNum,
+                                           @RequestParam(defaultValue = "5") Integer pageSize,
+                                           @PathVariable Integer customerId){
+        Page<Master> page = masterMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Master>lambdaQuery()
+                .eq(Master::getCustomerId, customerId)
+                .eq(Master::getStatus,180));
         return Result.success(page);
     }
 
@@ -73,7 +83,7 @@ public class MasterController {
     public Result<?> insert(@RequestBody Master master){
         masterMapper.insert(master);
         /**
-         * 减少库存动作
+         * 减少库存动作 设置状态
          * */
         return Result.success();
     }
@@ -91,6 +101,7 @@ public class MasterController {
                 .eq(Master::getShopCustomerId,shopId)
                 .ge(Master::getCreateTime,yesterday)
                 .lt(Master::getCreateTime,today)
+                .ne(Master::getStatus,180)
         );
         return Result.success(count);
     }

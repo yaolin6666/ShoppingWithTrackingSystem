@@ -3,55 +3,58 @@
     <div style="margin: 10px 0;display: flex;">
       <el-input v-model="search" placeholder="请输入" style="width: 20%;" clearable/>
       <el-button type="primary" style="margin-left: 5px" @click="lode">查询</el-button>
+      <el-button type="primary" @click="adds">新增</el-button>
       <el-popconfirm title="确认删除吗?" @confirm="deleteBatch">
         <template #reference>
           <el-button type="danger">批量删除</el-button>
         </template>
       </el-popconfirm>
+      <el-button class="el-icon-bottom" @click="index1">降序</el-button>
+      <el-button class="el-icon-top"  @click="index">升序</el-button>
     </div>
-    <el-dialog title="修改" v-model="dialogVisible">
+    <el-dialog title="添加货源" v-model="dialogVisible">
+      <el-form
+          ref="fruitRules"
+          :model="originProductId"
+          label-width="120px">
+        <el-form-item>
+        <el-select v-model="originProductId" filterable placeholder="请选择">
+          <el-option
+              v-for="item in productList"
+              :key="item.productId"
+              :label="item.productName"
+              :value="item.productId">
+            <div>
+              <div>{{item.productName}}</div>
+              <img style="width: 16px;height: 16px;vertical-align: text-bottom;" :src="item.productImg" :preview-src-list="[item.productImg]">
+          </div>
+          </el-option>
+        </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="create">确定</el-button>
+          <el-button @click="dialogVisible = false">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+
+    <el-dialog title="修改库存状态" v-model="dialogVisible1">
       <el-form
           ref="fruitRules"
           :model="admins"
           label-width="120px">
-        <el-form-item label="商品描述" prop="descript">
-          <el-input v-model="admins.descript"></el-input>
+        <el-form-item label="货源状态">
+          <el-select v-model="admins.status" filterable placeholder="请选择">
+            <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="商品描述图1" prop="productMd">
-          <el-upload
-              ref="uplode"
-              action="http://localhost:8888/files/uplode"
-              :on-success="filesUplodeSeccessd">
-            <el-button type="primary">点击上传</el-button>
-            <div solt="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="商品描述图2" prop="productMf">
-          <el-upload
-              ref="uplode"
-              action="http://localhost:8888/files/uplode"
-              :on-success="filesUplodeSeccessf">
-            <el-button type="primary">点击上传</el-button>
-            <div solt="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="商品描述图3" prop="productMg">
-          <el-upload
-              ref="uplode"
-              action="http://localhost:8888/files/uplode"
-              :on-success="filesUplodeSeccessg">
-            <el-button type="primary">点击上传</el-button>
-            <div solt="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="商家二维码" prop="productErm">
-          <el-upload
-              ref="uplode"
-              action="http://localhost:8888/files/uplode"
-              :on-success="filesUplodeSeccessh">
-            <el-button type="primary">点击上传</el-button>
-            <div solt="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
+        <el-form-item label="货源库存">
+          <el-input v-model="admins.count"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">确定</el-button>
@@ -59,61 +62,43 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <!-- 检索结果 -->
+
     <el-row :gutter="0" class="userindex-list">
       <el-col :span="21">
         <el-table :data="admin" border style="width: 100%" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55"/>
-          <el-table-column  prop="productId" label="商品ID" width="80"/>
-          <el-table-column prop="productImage" label="商品图片" width="120">
+          <el-table-column  prop="arginfoId" label="溯源ID" width="120"/>
+          <el-table-column prop="productName" label="名称" width="150">
             <template #default="scope">
-              <el-image style="width: 100px; height: 100px" :src="scope.row.productImage" :preview-src-list="[scope.row.productImage]">
+            <div>{{productMap[scope.row.productId].productName}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="productImage" label="商品图片" width="150">
+            <template #default="scope">
+              <el-image style="width: 100px; height: 100px" :src="productMap[scope.row.productId].productImg" :preview-src-list="[productMap[scope.row.productId].productImg]">
               </el-image>
             </template>
           </el-table-column>
-          <el-table-column prop="productName" label="商品名称" width="250"/>
-           <el-table-column prop="descript" label="商品描述" width="200"/>
-          <el-table-column prop="productMd" label="商品描述图片1" width="120">
-             <template #default="scope">
-          <el-image style="width: 100px; height: 100px" :src="scope.row.productMd" :preview-src-list="[scope.row.productMd]">
-            <div solt="error" class="image-slot">
-              <i class="el-icon-picture-outline"></i>
-            </div>
-          </el-image>
-        </template>
+          <el-table-column prop="status" label="状态" width="150">
+          <template #default="scope">
+            <div v-if="scope.row.status==0">已售罄</div>
+            <div v-if="scope.row.status==1">未上架</div>
+            <div v-if="scope.row.status==2">已上架</div>
+          </template>
           </el-table-column>
-           <el-table-column prop="productMf" label="商品描述图片2" width="120">
-              <template #default="scope">
-          <el-image style="width: 100px; height: 100px" :src="scope.row.productMf" :preview-src-list="[scope.row.productMf]">
-            <div solt="error" class="image-slot">
-              <i class="el-icon-picture-outline"></i>
-            </div>
-          </el-image>
-        </template>
+          <el-table-column prop="count" label="库存(kg)" width="150"/>
+          <el-table-column prop="createTime" label="创建时间" width="150">
           </el-table-column>
-          <el-table-column prop="productMg" label="商品描述图片3" width="120">
-             <template #default="scope">
-          <el-image style="width: 100px; height: 100px" :src="scope.row.productMg" :preview-src-list="[scope.row.productMg]">
-            <div solt="error" class="image-slot">
-              <i class="el-icon-picture-outline"></i>
-            </div>
-          </el-image>
-        </template>
+          <el-table-column prop="updateTime" label="最后修改时间" width="150">
           </el-table-column>
-          <el-table-column prop="productErm" label="商家二维码" width="120">
-             <template #default="scope">
-              <el-image style="width: 100px; height: 100px" :src="scope.row.productErm" :preview-src-list="[scope.row.productErm]">
-                <div solt="error" class="image-slot">
-                  <i class="el-icon-picture-outline"></i>
-                </div>
-              </el-image>
+          <el-table-column label="详细" width="150">
+            <template #default="scope">
+            <router-link v-bind:to="'/OriginInfo/'+scope.row.arginfoId">
+              <p style="margin-left: 21px;margin-top: 18px;color:deepskyblue">查看详细</p>
+            </router-link>
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" width="120">
-          </el-table-column>
-          <el-table-column prop="updateTime" label="最后修改时间" width="120">
-          </el-table-column>
-          <el-table-column fixed="right" label="操作" width="150" align="center">
+          <el-table-column  label="操作" width="120" align="center">
             <template #default="scope">
               <el-button
                 type="primary"
@@ -123,7 +108,6 @@
                 @click="edit(scope.row)"
               >
               </el-button>
-
               <el-button
                 type="danger"
                 icon="el-icon-delete"
@@ -155,32 +139,76 @@ import request from "@/utils/request.js"
 import {ElMessage} from 'element-plus'
 export default {
   created() {
+    this.id=JSON.parse(sessionStorage.getItem('userInfo')).id;
     this.lode()
   },
   methods: {
     lode() {
-      request.get("/product/page", {
+      request.get("/argInfo/page", {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          search: this.search,
+          shopId: this.id,
         }
       }).then(res => {
         console.log(res);
         this.admin = res.data.records
         this.total = res.data.total
       })
+      request.get("/product/findAllAdmin", {
+        params: {
+          accountId: this.id
+        }
+      }).then(res => {
+        console.log(res);
+        this.productList = res
+        this.productList.forEach(item=>{
+          this.productMap[item.productId]={
+            productImg:item.productImg,
+            productName:item.productName
+          }
+        })
+      })
     },
     edit(row) {
       this.admins = JSON.parse(JSON.stringify(row))
-      this.dialogVisible = true
+      this.dialogVisible1 = true
       this.$nextTick(() =>{
         this.$refs['uplode'].clearFiles()
       })
     },
+    adds() {
+      this.dialogVisible = true
+      this.admins = {}
+      if (this.$refs['upload']) {
+        this.$refs['upload'].clearFiles()  // 清除历史文件列表
+      }
+    },
+    create(){
+      request.post("/argInfo/add",{
+          productId: this.originProductId,
+          shopId: this.id,
+        }).then(res => {
+        console.log(res);
+        if (res.code === 200) {
+          ElMessage({
+            type: 'success',
+            message: '添加成功',
+          })
+        } else {
+          ElMessage({
+            type: 'error',
+            message: res.msg
+          })
+        }
+        this.lode()
+        this.dialogVisible = false
+        location.reload();
+      });
+    },
       //修改
     onSubmit() {
-      request.put("/product/update", this.admins).then(res => {
+      request.put("/argInfo/update", this.admins).then(res => {
         console.log(res);
         if (res.code === 200) {
           ElMessage({
@@ -194,7 +222,7 @@ export default {
           })
         }
         this.lode()
-        this.dialogVisible = false
+        this.dialogVisible1 = false
       })
     },
     //删除
@@ -206,7 +234,7 @@ export default {
       })
         .then(() => {
           request
-              .delete("/product/delete/" + row.productId)
+              .delete("/argInfo/delete/" + row.arginfoId)
               .then(res => {
                 if (res.code === 200) {
                   ElMessage({
@@ -232,7 +260,7 @@ export default {
         })
         return
       }
-      request.post("/product/deleteBatch",this.ids).then(res => {
+      request.post("/argInfo/deleteBatch",this.ids).then(res => {
         if (res.code === 200) {
           ElMessage({
             type: 'success',
@@ -268,31 +296,70 @@ export default {
 
     },
     handleSelectionChange(val){
-      this.ids = val.map(v => v.productId)
+      this.ids = val.map(v => v.arginfoId)
     },
     handleSizeChange(pageSize) {//改变每页的个数触发
       this.pageSize = pageSize
       this.lode()
-
+    },
+    index () {
+      // 排序
+      this.sort = !this.sort;
+      if (this.sort) {
+        this.admin.sort((a, b) => {
+          return a.status - b.status;
+        });
+      } else {
+        this.admin.sort((a, b) => {
+          return a.status - b.status;
+        });
+      }
+    },
+    index1 () {
+      this.sort = !this.sort;
+      if (this.sort) {
+        this.admin.sort((a, b) => {
+          return b.status - a.status;
+        });
+      } else {
+        this.admin.sort((a, b) => {
+          return b.status - a.status;
+        });
+      }
     },
     handleCurrentChange(pageNum) {//改变当前页码触发
       this.currentPage = pageNum
       this.lode()
-
     },
   },
 
   data() {
     return {
+      originProductId:'',
       admins:{},
+      productList:[],
       search: '',
       dialogVisible:false,
+      dialogVisible1:false,
       currentPage: 1,
       pageSize: 5,
       total: 0,
       tableData: [],
       admin: [],
       ids: [],
+      id: '',
+      sort: true,
+      productMap:{},
+      options: [{
+        value: 0,
+        label: '已售罄'
+      }, {
+        value: '1',
+        label: '未上架'
+      }, {
+        value: '2',
+        label: '已上架'
+      }],
     };
   },
 

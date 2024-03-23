@@ -34,7 +34,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/product">商品信息管理</el-menu-item>
-          <el-menu-item index="/team">团购优惠管理</el-menu-item>
+          <el-menu-item index="/template">团购优惠管理</el-menu-item>
           <el-menu-item index="/origin">商品货源管理</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
