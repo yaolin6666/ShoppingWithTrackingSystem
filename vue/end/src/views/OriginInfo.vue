@@ -4,15 +4,10 @@
       <el-input v-model="search" placeholder="请输入" style="width: 20%;" clearable/>
       <el-button type="primary" style="margin-left: 5px" @click="lode">查询</el-button>
       <el-button type="primary" @click="adds">新增</el-button>
-      <el-popconfirm title="确认删除吗?" @confirm="deleteBatch">
-        <template #reference>
-          <el-button type="danger">批量删除</el-button>
-        </template>
-      </el-popconfirm>
       <el-button class="el-icon-bottom" @click="index1">降序</el-button>
       <el-button class="el-icon-top"  @click="index">升序</el-button>
     </div>
-    <el-dialog title="添加货源" v-model="dialogVisible">
+    <el-dialog title="添加货源详细" v-model="dialogVisible">
       <el-form
           ref="fruitRules"
           :model="originProductId"
@@ -38,85 +33,18 @@
       </el-form>
     </el-dialog>
 
-    <el-dialog title="修改库存状态" v-model="dialogVisible1">
-      <el-form
-          ref="fruitRules"
-          :model="admins"
-          label-width="120px">
-        <el-form-item label="货源状态">
-          <el-select v-model="admins.status" filterable placeholder="请选择">
-            <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="货源库存">
-          <el-input v-model="admins.count"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">确定</el-button>
-          <el-button @click="dialogVisible = false">取消</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-
     <el-row :gutter="0" class="userindex-list">
       <el-col :span="21">
         <el-table :data="admin" border style="width: 100%" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55"/>
-          <el-table-column  prop="arginfoId" label="溯源ID" width="120"/>
-          <el-table-column prop="productName" label="名称" width="150">
-            <template #default="scope">
-            <div>{{productMap[scope.row.productId].productName}}</div>
-            </template>
+          <el-table-column  prop="arginfoId" label="溯源详细ID" width="150"/>
+          <el-table-column  prop="arginfoId" label="溯源ID" width="150"/>
+          <el-table-column prop="productImage" label="溯源信息" width="400"/>
+          <el-table-column prop="productImage" label="溯源额外信息" width="440">
           </el-table-column>
-          <el-table-column prop="productImage" label="商品图片" width="150">
-            <template #default="scope">
-              <el-image style="width: 100px; height: 100px" :src="productMap[scope.row.productId].productImg" :preview-src-list="[productMap[scope.row.productId].productImg]">
-              </el-image>
-            </template>
+          <el-table-column prop="createTime" label="创建时间" width="140">
           </el-table-column>
-          <el-table-column prop="status" label="状态" width="150">
-          <template #default="scope">
-            <div v-if="scope.row.status==0">已售罄</div>
-            <div v-if="scope.row.status==1">未上架</div>
-            <div v-if="scope.row.status==2">已上架</div>
-          </template>
-          </el-table-column>
-          <el-table-column prop="count" label="库存(kg)" width="150"/>
-          <el-table-column prop="createTime" label="创建时间" width="150">
-          </el-table-column>
-          <el-table-column prop="updateTime" label="最后修改时间" width="150">
-          </el-table-column>
-          <el-table-column label="详细" width="150">
-            <template #default="scope">
-            <router-link v-bind:to="'/OriginInfo/'+scope.row.arginfoId">
-              <p style="margin-left: 21px;margin-top: 18px;color:deepskyblue">查看详细</p>
-            </router-link>
-            </template>
-          </el-table-column>
-          <el-table-column  label="操作" width="120" align="center">
-            <template #default="scope">
-              <el-button
-                type="primary"
-                icon="el-icon-edit"
-                circle
-                size="small"
-                @click="edit(scope.row)"
-              >
-              </el-button>
-              <el-button
-                type="danger"
-                icon="el-icon-delete"
-                circle
-                size="small"
-                @click="del(scope.row)"
-              >
-              </el-button>
-            </template>
+          <el-table-column prop="updateTime" label="最后修改时间" width="140">
           </el-table-column>
         </el-table>
       </el-col>

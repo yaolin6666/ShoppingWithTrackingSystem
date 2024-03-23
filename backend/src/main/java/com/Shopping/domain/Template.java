@@ -24,6 +24,7 @@ public class Template implements Serializable {
     private Integer shopId;
 
     private Integer teamNeed;
+
     private Integer teamMax;
 
     private Integer discount;

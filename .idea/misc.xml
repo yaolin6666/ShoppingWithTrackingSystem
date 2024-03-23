@@ -6,6 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/backend/pom.xml" />
         <option value="$PROJECT_DIR$/FabricChainCode/pom.xml" />
+        <option value="$PROJECT_DIR$/fabric/pom.xml" />
       </list>
     </option>
   </component>

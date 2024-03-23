@@ -47,9 +47,28 @@ public class ArgInfoController {
         return null;
     }
 
+    @DeleteMapping("/delete/{id}")
+    public Result<?> delete(@PathVariable("id") Integer id) {
+        arginfoMapper.deleteById(id);
+        return Result.success();
+    }
+
+    @PostMapping("/deleteBatch")
+    public Result<?> deleteBatch(@RequestBody List<Integer> ids) {
+        arginfoMapper.deleteBatchIds(ids);
+        return Result.success();
+    }
+
     @PostMapping("/add")//添加货源
     public Result insert(@RequestBody Arginfo arginfo) {
+        arginfo.setStatus(1);
+        arginfo.setCount(-1);
         arginfoMapper.insert(arginfo);
+        return Result.success();
+    }
+    @PutMapping("/update")
+    public Result update(@RequestBody Arginfo arginfo){
+        arginfoMapper.updateById(arginfo);
         return Result.success();
     }
 
@@ -68,13 +87,13 @@ public class ArgInfoController {
     @GetMapping("/page")
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String productId,
+                              @RequestParam(defaultValue = "-1") Integer productId,
                               @RequestParam(defaultValue = "") Integer shopId) {
         new Page<>(pageNum, pageSize);
         Page<Arginfo> arginfoPage = arginfoMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Arginfo>lambdaQuery().eq(Arginfo::getShopId, shopId));
         LambdaQueryWrapper<Arginfo> query = Wrappers.<Arginfo>lambdaQuery().orderByDesc(Arginfo::getArginfoId);
-        if (StrUtil.isNotBlank(productId)) {
-            query.like(Arginfo::getShopId, productId);
+        if (productId>0) {
+            query.eq(Arginfo::getProductId, productId);
         }
         return Result.success(arginfoPage);
     }

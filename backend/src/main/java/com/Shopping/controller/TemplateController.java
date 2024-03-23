@@ -34,6 +34,11 @@ public class TemplateController {
         templateMapper.updateById(template);
         return Result.success();
     }
+    @PostMapping("/deleteBatch")
+    public Result<?> deleteBatch(@RequestBody List<Integer> ids) {
+        templateMapper.deleteBatchIds(ids);
+        return Result.success();
+    }
 
     @PostMapping("/add")
     public Result<?> insert(@RequestBody Template template) {

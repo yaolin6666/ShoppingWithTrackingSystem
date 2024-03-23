@@ -66,6 +66,11 @@ const routes = [
         component: () => import("@/views/Origin")
       },
       {
+        path: 'originInfo/:id',
+        name: 'originInfo',
+        component: () => import("@/views/OriginInfo")
+      },
+      {
         path: 'order',
         name: 'order',
         component: () => import("@/views/Order")
@@ -74,6 +79,11 @@ const routes = [
         path: 'product',
         name: 'Product',
         component: () => import("@/views/Product")
+      },
+      {
+        path: 'template',
+        name: 'template',
+        component: () => import("@/views/Template")
       },
       {
         path: 'useraddr',
