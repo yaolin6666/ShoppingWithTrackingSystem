@@ -17,7 +17,7 @@
           ref="fruitRules"
           :model="originProductId"
           label-width="120px">
-        <el-form-item>
+        <el-form-item label="选择商品">
         <el-select v-model="originProductId" filterable placeholder="请选择">
           <el-option
               v-for="item in productList"

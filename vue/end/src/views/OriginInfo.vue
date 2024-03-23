@@ -4,27 +4,20 @@
       <el-input v-model="search" placeholder="请输入" style="width: 20%;" clearable/>
       <el-button type="primary" style="margin-left: 5px" @click="lode">查询</el-button>
       <el-button type="primary" @click="adds">新增</el-button>
-      <el-button class="el-icon-bottom" @click="index1">降序</el-button>
-      <el-button class="el-icon-top"  @click="index">升序</el-button>
     </div>
     <el-dialog title="添加货源详细" v-model="dialogVisible">
       <el-form
           ref="fruitRules"
-          :model="originProductId"
+          :model="admins"
           label-width="120px">
-        <el-form-item>
-        <el-select v-model="originProductId" filterable placeholder="请选择">
-          <el-option
-              v-for="item in productList"
-              :key="item.productId"
-              :label="item.productName"
-              :value="item.productId">
-            <div>
-              <div>{{item.productName}}</div>
-              <img style="width: 16px;height: 16px;vertical-align: text-bottom;" :src="item.productImg" :preview-src-list="[item.productImg]">
-          </div>
-          </el-option>
-        </el-select>
+        <el-form-item label="溯源信息">
+          <el-input v-model="admins.argInfo"></el-input>
+        </el-form-item>
+        <el-form-item label="溯源信息视频" prop="extraArgInfo">
+          <el-upload class="upload-demo" action="http://localhost:8888/files/uplode" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :on-success="filesUplodeSuccess" list-type="video">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">不超过1gb</div>
+          </el-upload>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="create">确定</el-button>
@@ -36,11 +29,10 @@
     <el-row :gutter="0" class="userindex-list">
       <el-col :span="21">
         <el-table :data="admin" border style="width: 100%" @selection-change="handleSelectionChange">
-          <el-table-column type="selection" width="55"/>
           <el-table-column  prop="arginfoId" label="溯源详细ID" width="150"/>
           <el-table-column  prop="arginfoId" label="溯源ID" width="150"/>
-          <el-table-column prop="productImage" label="溯源信息" width="400"/>
-          <el-table-column prop="productImage" label="溯源额外信息" width="440">
+          <el-table-column prop="productImage" label="溯源信息" width="430"/>
+          <el-table-column prop="productImage" label="溯源额外信息" width="450">
           </el-table-column>
           <el-table-column prop="createTime" label="创建时间" width="140">
           </el-table-column>
@@ -203,24 +195,9 @@ export default {
         }
       })
     },
-    filesUplodeSeccessd(res){
+    filesUplodeSuccess(res){
       console.log(res)
-      this.admins.productMd = res.data
-
-    },
-    filesUplodeSeccessf(res){
-      console.log(res)
-      this.admins.productMf = res.data
-
-    },
-    filesUplodeSeccessg(res){
-      console.log(res)
-      this.admins.productMg = res.data
-
-    },
-    filesUplodeSeccessh(res){
-      console.log(res)
-      this.admins.productErm = res.data
+      this.admins.extraArgInfo = res.data
 
     },
     handleSelectionChange(val){
@@ -229,31 +206,6 @@ export default {
     handleSizeChange(pageSize) {//改变每页的个数触发
       this.pageSize = pageSize
       this.lode()
-    },
-    index () {
-      // 排序
-      this.sort = !this.sort;
-      if (this.sort) {
-        this.admin.sort((a, b) => {
-          return a.status - b.status;
-        });
-      } else {
-        this.admin.sort((a, b) => {
-          return a.status - b.status;
-        });
-      }
-    },
-    index1 () {
-      this.sort = !this.sort;
-      if (this.sort) {
-        this.admin.sort((a, b) => {
-          return b.status - a.status;
-        });
-      } else {
-        this.admin.sort((a, b) => {
-          return b.status - a.status;
-        });
-      }
     },
     handleCurrentChange(pageNum) {//改变当前页码触发
       this.currentPage = pageNum
@@ -264,6 +216,7 @@ export default {
   data() {
     return {
       originProductId:'',
+      id: this.$route.params.id,
       admins:{},
       productList:[],
       search: '',
@@ -275,7 +228,6 @@ export default {
       tableData: [],
       admin: [],
       ids: [],
-      id: '',
       sort: true,
       productMap:{},
       options: [{
@@ -301,21 +253,11 @@ export default {
   padding: 15px;
   box-sizing: border-box;
 }
-/* 搜索 */
-.userindex-queryInfo {
-  margin-bottom: 10px;
-}
-.userindex-queryInfo-li {
-  width: 100%;
-  height: auto;
-}
-/* 列表 */
 .userindex-list {
   width: 100%;
   height: auto;
   margin-bottom: 20px;
 }
-/* 分页 */
 .userindex-page-box {
   width: 100%;
   height: auto;
