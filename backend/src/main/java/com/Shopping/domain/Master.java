@@ -25,13 +25,12 @@ public class Master implements Serializable {
     private String orderSn;
 
     private Integer customerId;
+
     private String productErm;
 
     private String shippingUser;
 
-
     private String province;
-
 
     private String city;
 
@@ -46,13 +45,15 @@ public class Master implements Serializable {
     private BigDecimal shippingMoney;
 
     private Integer productId;
-//
+
     private BigDecimal paymentMoney;
 
     private String shippingCompName;
 
     private String shippingSn;
+
     private Date shippingTime;
+
     private Date receiveTime;
 
     private String productImage;
@@ -70,10 +71,10 @@ public class Master implements Serializable {
     private Integer productNum;
 
     /**
-     *   状态 100表示单独购买未发货 180表示团购未达成人数订单 1000失效订单
-     *       200表示已发货未收货
-     *       300表示已收货
-    */
+     * 状态 100表示单独购买未发货 180表示团购未达成人数订单 1000失效订单
+     * 200表示已发货未收货
+     * 300表示已收货
+     */
     private Integer status;
 
     //表示优惠比率 整数数值
@@ -95,6 +96,4 @@ public class Master implements Serializable {
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
-
-
 }
