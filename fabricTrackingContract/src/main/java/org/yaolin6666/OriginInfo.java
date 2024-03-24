@@ -9,16 +9,12 @@ import org.hyperledger.fabric.contract.annotation.Property;
 
 @DataType
 @Data
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
-public class ArgInfo {
+public class OriginInfo {
     @Property
-    private String argInfoID;
+    private String originInfoID;
     @Property
-    private String argId;
-    @Property
-    private String argInfo;
-    @Property
-    private String extraArgInfo;
+    private String originInfo;
 }

@@ -16,8 +16,8 @@ import java.util.UUID;
 @Component
 public class TencentCOSUtil {
 
-    private static String secretId = "AKIDt35b0FI7mHa1UyT0Qgsz027CLPL5mKjz";
-    private static String secretKey = "VrLirmWEoG7tUyIOMLOXekmeaq4NZbWJ";
+    private static String secretId = "AKIDMsXYVNDLRdlpz8UmGnMGJF3mLnfR8iAW";
+    private static String secretKey = "HLFvOdeWowuiLrGWgdNvJWWacklfWIxj";
     private static String rootSrc = "https://shopping-1254803835.cos.ap-shanghai.myqcloud.com/";
     private static String bucketAddr = "ap-shanghai";
     private static String bucketName = "shopping-1254803835";

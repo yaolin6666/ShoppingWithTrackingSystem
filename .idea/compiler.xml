@@ -7,9 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="fabricTrackingContract" />
         <module name="backend" />
-        <module name="fabric" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="fabricTrackContract" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

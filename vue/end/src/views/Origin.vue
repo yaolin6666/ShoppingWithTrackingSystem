@@ -17,7 +17,7 @@
           ref="fruitRules"
           :model="originProductId"
           label-width="120px">
-        <el-form-item>
+        <el-form-item label="选择商品">
         <el-select v-model="originProductId" filterable placeholder="请选择">
           <el-option
               v-for="item in productList"
@@ -144,7 +144,7 @@ export default {
   },
   methods: {
     lode() {
-      request.get("/argInfo/page", {
+      request.get("/originInfo/page", {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -185,7 +185,7 @@ export default {
       }
     },
     create(){
-      request.post("/argInfo/add",{
+      request.post("/originInfo/add",{
           productId: this.originProductId,
           shopId: this.id,
         }).then(res => {
@@ -208,7 +208,7 @@ export default {
     },
       //修改
     onSubmit() {
-      request.put("/argInfo/update", this.admins).then(res => {
+      request.put("/originInfo/update", this.admins).then(res => {
         console.log(res);
         if (res.code === 200) {
           ElMessage({
@@ -234,7 +234,7 @@ export default {
       })
         .then(() => {
           request
-              .delete("/argInfo/delete/" + row.arginfoId)
+              .delete("/originInfo/delete/" + row.arginfoId)
               .then(res => {
                 if (res.code === 200) {
                   ElMessage({
@@ -260,7 +260,7 @@ export default {
         })
         return
       }
-      request.post("/argInfo/deleteBatch",this.ids).then(res => {
+      request.post("/originInfo/deleteBatch",this.ids).then(res => {
         if (res.code === 200) {
           ElMessage({
             type: 'success',
