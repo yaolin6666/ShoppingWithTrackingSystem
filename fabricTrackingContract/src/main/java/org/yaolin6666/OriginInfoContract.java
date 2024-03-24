@@ -9,9 +9,9 @@ import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 
 @Contract(
-        name = "ArgInfo",
+        name = "OriginInfoContract",
         info = @Info(
-                title = "ArgInfo contract",
+                title = "OriginInfo contract",
                 description = "The hyperlegendary asset transfer",
                 version = "0.0.1-SNAPSHOT",
                 license = @License(
@@ -22,13 +22,13 @@ import org.hyperledger.fabric.shim.ChaincodeStub;
                         name = "Adrian Transfer",
                         url = "https://hyperledger.example.com")))
 @Default
-public class ArgInfoContract implements ContractInterface {
+public class OriginInfoContract implements ContractInterface {
     @Transaction
     public void initLedger(final Context ctx) {
         ChaincodeStub stub = ctx.getStub();
         for (int i = 0; i < 10; i++) {
-            ArgInfo argInfo = new ArgInfo().setArgInfoID(Integer.toString(i));
-            stub.putStringState(argInfo.getArgInfoID(), JSON.toJSONString(argInfo));
+            OriginInfo originInfo = new OriginInfo().setOriginInfoID(Integer.toString(i));
+            stub.putStringState(originInfo.getOriginInfoID(), JSON.toJSONString(originInfo));
         }
     }
 
@@ -36,53 +36,52 @@ public class ArgInfoContract implements ContractInterface {
      * key 使用uuid生成
      */
     @Transaction
-    public ArgInfo queryArgInfo(final Context ctx, final String key) {
+    public OriginInfo queryOriginInfo(final Context ctx, final String key) {
         ChaincodeStub stub = ctx.getStub();
         String argInfoState = stub.getStringState(key);
         if (StringUtils.isBlank(argInfoState)) {
-            String errorMessage = String.format("ArgInfo %s does not exist", key);
+            String errorMessage = String.format("OriginInfo %s does not exist", key);
             throw new ChaincodeException(errorMessage);
         }
 
-        return JSON.parseObject(argInfoState, ArgInfo.class);
+        return JSON.parseObject(argInfoState, OriginInfo.class);
     }
 
     @Transaction
-    public ArgInfo createArgInfo(final Context ctx, final String key, String argId, String argInfo, String extraArgInfo) {
+    public OriginInfo createOriginInfo(final Context ctx, final String key, String originInfo) {
         ChaincodeStub stub = ctx.getStub();
         String argInfoState = stub.getStringState(key);
         if (StringUtils.isNotBlank(argInfoState)) {
-            String errorMessage = String.format("ArgInfo %s already exists", key);
+            String errorMessage = String.format("OriginInfo %s already exists", key);
             throw new ChaincodeException(errorMessage);
         }
-        ArgInfo input = new ArgInfo().setArgInfoID(key).setArgId(argId).setArgInfo(argInfo).setExtraArgInfo(extraArgInfo);
+        OriginInfo input = new OriginInfo().setOriginInfoID(key).setOriginInfo(originInfo);
         stub.putStringState(key, JSON.toJSONString(input));
         return input;
     }
 
     @Transaction
-    public ArgInfo updateArgInfo(final Context ctx, final String key, String argId, String argInfo, String extraArgInfo) {
+    public OriginInfo updateOriginInfo(final Context ctx, final String key, String originInfo) {
         ChaincodeStub stub = ctx.getStub();
         String argInfoState = stub.getStringState(key);
         if (StringUtils.isBlank(argInfoState)) {
-            String errorMessage = String.format("ArgInfo %s does not exist", key);
+            String errorMessage = String.format("OriginInfo %s does not exist", key);
             throw new ChaincodeException(errorMessage);
         }
-        ArgInfo input = new ArgInfo().setArgInfoID(key).setArgId(argId).setArgInfo(argInfo).setExtraArgInfo(extraArgInfo);
+        OriginInfo input = new OriginInfo().setOriginInfoID(key).setOriginInfo(originInfo);
         stub.putStringState(key, JSON.toJSONString(input));
         return input;
     }
 
     @Transaction
-    public ArgInfo deleteArgInfo(final Context ctx, final String key) {
+    public OriginInfo deleteOriginInfo(final Context ctx, final String key) {
         ChaincodeStub stub = ctx.getStub();
         String argInfoState = stub.getStringState(key);
         if (StringUtils.isBlank(argInfoState)) {
-            String errorMessage = String.format("ArgInfo %s does not exist", key);
+            String errorMessage = String.format("OriginInfo %s does not exist", key);
             throw new ChaincodeException(errorMessage);
         }
         stub.delState(key);
-
-        return JSON.parseObject(argInfoState, ArgInfo.class);
+        return JSON.parseObject(argInfoState, OriginInfo.class);
     }
 }
