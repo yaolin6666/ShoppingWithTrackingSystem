@@ -1,11 +1,8 @@
 package org.yaolin6666;
 
-import com.alibaba.fastjson2.JSON;
-import org.apache.commons.lang3.StringUtils;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.*;
-import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 
 @Contract(
@@ -27,8 +24,8 @@ public class OriginInfoContract implements ContractInterface {
     public void initLedger(final Context ctx) {
         ChaincodeStub stub = ctx.getStub();
         for (int i = 0; i < 10; i++) {
-            OriginInfo originInfo = new OriginInfo().setOriginInfoID(Integer.toString(i));
-            stub.putStringState(originInfo.getOriginInfoID(), JSON.toJSONString(originInfo));
+            OriginInfo originInfo = new OriginInfo().setOriginInfo(Integer.toString(i));
+            stub.putStringState(Integer.toString(i),new String("Test"+Integer.toString(i)));
         }
     }
 
@@ -36,52 +33,35 @@ public class OriginInfoContract implements ContractInterface {
      * key 使用uuid生成
      */
     @Transaction
-    public OriginInfo queryOriginInfo(final Context ctx, final String key) {
+    public String queryOriginInfo(final Context ctx, final String key) {
         ChaincodeStub stub = ctx.getStub();
         String argInfoState = stub.getStringState(key);
-        if (StringUtils.isBlank(argInfoState)) {
-            String errorMessage = String.format("OriginInfo %s does not exist", key);
-            throw new ChaincodeException(errorMessage);
-        }
-
-        return JSON.parseObject(argInfoState, OriginInfo.class);
+        return argInfoState;
     }
 
     @Transaction
     public OriginInfo createOriginInfo(final Context ctx, final String key, String originInfo) {
         ChaincodeStub stub = ctx.getStub();
         String argInfoState = stub.getStringState(key);
-        if (StringUtils.isNotBlank(argInfoState)) {
-            String errorMessage = String.format("OriginInfo %s already exists", key);
-            throw new ChaincodeException(errorMessage);
-        }
         OriginInfo input = new OriginInfo().setOriginInfoID(key).setOriginInfo(originInfo);
-        stub.putStringState(key, JSON.toJSONString(input));
+        stub.putStringState(key, originInfo);
         return input;
     }
 
     @Transaction
-    public OriginInfo updateOriginInfo(final Context ctx, final String key, String originInfo) {
+    public String updateOriginInfo(final Context ctx, final String key, String originInfo) {
         ChaincodeStub stub = ctx.getStub();
         String argInfoState = stub.getStringState(key);
-        if (StringUtils.isBlank(argInfoState)) {
-            String errorMessage = String.format("OriginInfo %s does not exist", key);
-            throw new ChaincodeException(errorMessage);
-        }
         OriginInfo input = new OriginInfo().setOriginInfoID(key).setOriginInfo(originInfo);
-        stub.putStringState(key, JSON.toJSONString(input));
-        return input;
+        stub.putStringState(key,originInfo);
+        return argInfoState;
     }
 
     @Transaction
-    public OriginInfo deleteOriginInfo(final Context ctx, final String key) {
+    public String deleteOriginInfo(final Context ctx, final String key) {
         ChaincodeStub stub = ctx.getStub();
         String argInfoState = stub.getStringState(key);
-        if (StringUtils.isBlank(argInfoState)) {
-            String errorMessage = String.format("OriginInfo %s does not exist", key);
-            throw new ChaincodeException(errorMessage);
-        }
         stub.delState(key);
-        return JSON.parseObject(argInfoState, OriginInfo.class);
+        return argInfoState;
     }
 }
