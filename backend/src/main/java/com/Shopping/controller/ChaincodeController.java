@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,22 +45,26 @@ public class ChaincodeController {
     final Gateway gateway;
     final Contract contract;
 
-    @GetMapping("/{key}")
-    public Map<String, Object> queryOriginInfoByKey(@PathVariable String key) throws GatewayException {
-        Map<String, Object> result = Maps.newConcurrentMap();
-        byte[] output = contract.evaluateTransaction("queryOriginInfo", key);
-        result.put("payload", StringUtils.newStringUtf8(output));
-        result.put("status", "ok");
-        return result;
+    private OriginInfo queryOriginInfoById(String Id) throws GatewayException{
+        byte[] output = contract.evaluateTransaction("queryOriginInfo", Id);
+        OriginInfo originInfo=new OriginInfo();
+        originInfo.setOriginInfoId(Id);
+        originInfo.setOriginInfo(StringUtils.newStringUtf8(output));
+        return originInfo;
     }
-
-    @PostMapping ("/create")
-    public Result createOriginInfo(@RequestBody OriginInfo originInfo) throws Exception {
-        Map<String, Object> result = Maps.newConcurrentMap();
-        byte[] bytes = contract.submitTransaction("createOriginInfo", JSON.toJSONString(originInfo));
-        result.put("payload", StringUtils.newStringUtf8(bytes));
-        result.put("status", "ok");
-        return Result.success();
+    private List<OriginInfo> queryOriginInfoByIdList(List<String> IdList) throws GatewayException{
+        List<OriginInfo> originInfoList=new ArrayList<>();
+        for (int i =0;i< IdList.size();i++){
+            byte[] output = contract.evaluateTransaction("queryOriginInfo", IdList.get(i));
+            OriginInfo originInfo=new OriginInfo();
+            originInfo.setOriginInfoId(IdList.get(i));
+            originInfo.setOriginInfo(StringUtils.newStringUtf8(output));
+            originInfoList.add(originInfo);
+        }
+        return originInfoList;
+    }
+    private void createOriginInfo(OriginInfo originInfo) throws Exception{
+        contract.submitTransaction("createOriginInfo", originInfo.getOriginInfoId(),JSON.toJSONString(originInfo));
     }
 
     @DeleteMapping("/{key}")
