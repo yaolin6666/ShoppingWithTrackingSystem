@@ -9,10 +9,8 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArgInfoVo implements Serializable {
+public class OriginInfo implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String argInfoID;
-    private String argId;
-    private String argInfo;
-    private String extraArgInfo;
+    private String originInfoId;
+    private String originInfo;
 }
