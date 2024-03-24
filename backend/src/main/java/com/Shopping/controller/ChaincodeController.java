@@ -1,5 +1,6 @@
 package com.Shopping.controller;
 
+import com.Shopping.common.lang.Result;
 import com.Shopping.vo.OriginInfo;
 import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Maps;
@@ -31,105 +32,20 @@ public class ChaincodeController {
     }
 
     @PostMapping ("/create")
-    public Map<String, Object> createOriginInfo(@RequestBody OriginInfo originInfo) throws Exception {
+    public Result createOriginInfo(@RequestBody OriginInfo originInfo) throws Exception {
         Map<String, Object> result = Maps.newConcurrentMap();
         byte[] bytes = contract.submitTransaction("createOriginInfo", JSON.toJSONString(originInfo));
         result.put("payload", StringUtils.newStringUtf8(bytes));
         result.put("status", "ok");
-        return result;
+        return Result.success();
     }
 
-//    @PutMapping("/async")
-//    public Map<String, Object> createCatAsync(@RequestBody CatDTO cat) throws Exception {
-//        Map<String, Object> result = Maps.newConcurrentMap();
-//
-//        contract.newProposal("createCat")
-//                .addArguments(cat.getKey(), cat.getName(), String.valueOf(cat.getAge()), cat.getColor(), cat.getBreed())
-//                .build()
-//                .endorse()
-//                .submitAsync();
-//
-//        result.put("status", "ok");
-//
-//        return result;
-//    }
-//
-//    @DeleteMapping("/{key}")
-//    public Map<String, Object> deleteCatByKey(@PathVariable String key) throws Exception {
-//
-//        Map<String, Object> result = Maps.newConcurrentMap();
-//
-//        byte[] cat = contract.submitTransaction("deleteCat" , key);
-//
-//        result.put("payload", StringUtils.newStringUtf8(cat));
-//        result.put("status", "ok");
-//
-//        return result;
-//    }
-//
-//    @GetMapping("/private/{collection}/{key}")
-//    public Map<String, Object> queryPrivateCatByKey(@PathVariable String collection , @PathVariable String key) throws Exception {
-//
-//        Map<String, Object> result = Maps.newConcurrentMap();
-//        byte[] cat = contract.evaluateTransaction("queryPrivateCat", collection , key);
-//
-//        result.put("payload", StringUtils.newStringUtf8(cat));
-//        result.put("status", "ok");
-//
-//        return result;
-//    }
-//
-//    @GetMapping("/private/hash/{collection}/{key}")
-//    public Map<String, Object> queryPrivateCatHashByKey(@PathVariable String collection , @PathVariable String key) throws Exception {
-//
-//        Map<String, Object> result = Maps.newConcurrentMap();
-//        byte[] hash = contract.evaluateTransaction("queryPrivateCatHash", collection , key);
-//
-//        result.put("payload", StringUtils.newStringUtf8(hash));
-//        result.put("status", "ok");
-//
-//        return result;
-//    }
-//
-//    @PutMapping("private/")
-//    public Map<String, Object> createPrivateCat(@RequestBody PrivateCatDTO privateCat) throws Exception {
-//
-//        Map<String, Object> result = Maps.newConcurrentMap();
-//
-//        CatDTO cat = privateCat.getCat();
-//
-//        byte[] bytes = contract.submitTransaction("createPrivateCat" , privateCat.getCollection() , cat.getKey(), cat.getName(), String.valueOf(cat.getAge()), cat.getColor(), cat.getBreed());
-//
-//        result.put("payload", StringUtils.newStringUtf8(bytes));
-//        result.put("status", "ok");
-//        return result;
-//    }
-//
-//    @PostMapping("private/")
-//    public Map<String, Object> updatePrivateCat(@RequestBody PrivateCatDTO privateCat) throws Exception {
-//
-//        Map<String, Object> result = Maps.newConcurrentMap();
-//
-//        CatDTO cat = privateCat.getCat();
-//        byte[] bytes = contract.submitTransaction("updatePrivateCat" ,privateCat.getCollection() , cat.getKey(), cat.getName(), String.valueOf(cat.getAge()), cat.getColor(), cat.getBreed());
-//
-//        result.put("payload", StringUtils.newStringUtf8(bytes));
-//        result.put("status", "ok");
-//
-//        return result;
-//    }
-//
-//    @DeleteMapping("/private/{collection}/{key}")
-//    public Map<String, Object> deletePrivateCatByKey(@PathVariable String collection , @PathVariable String key) throws Exception {
-//
-//        Map<String, Object> result = Maps.newConcurrentMap();
-//        byte[] cat = contract.evaluateTransaction("deletePrivateCat", collection , key);
-//        contract.submitTransaction("deletePrivateCat" ,collection , key);
-//
-//        result.put("payload", StringUtils.newStringUtf8(cat));
-//        result.put("status", "ok");
-//
-//        return result;
-//    }
-
+    @DeleteMapping("/{key}")
+    public Result deleteCatByKey(@PathVariable String key) throws Exception {
+        Map<String, Object> result = Maps.newConcurrentMap();
+        byte[] cat = contract.submitTransaction("deleteCat" , key);
+        result.put("payload", StringUtils.newStringUtf8(cat));
+        result.put("status", "ok");
+        return Result.success();
+    }
 }

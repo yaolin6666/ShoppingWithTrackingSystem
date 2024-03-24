@@ -25,7 +25,7 @@ public class OrderOriginController {
                 .eq(OrderOrigin::getOrderId,orderId))
                 .stream().map(e->e.getOrderOriginId()).collect(Collectors.toList());
         /**
-         * 区块链动作
+         * 区块链
          * */
         return null;
     }
@@ -35,7 +35,7 @@ public class OrderOriginController {
         orderOrigin.setOrderOriginId(new SnowflakeGenerator().next().toString());
         orderOrigin.setOrderId(master.getOrderId());
         /**
-         * 区块链动作
+         * 区块链
          * */
         orderOriginMapper.insert(orderOrigin);
         return Result.success();
@@ -46,7 +46,7 @@ public class OrderOriginController {
         orderOrigin.setOrderOriginId(new SnowflakeGenerator().next().toString());
         orderOrigin.setOrderId(master.getOrderId());
         /**
-         * 区块链动作
+         * 区块链
          * */
         orderOriginMapper.insert(orderOrigin);
         return Result.success();
@@ -57,7 +57,7 @@ public class OrderOriginController {
         orderOrigin.setOrderOriginId(new SnowflakeGenerator().next().toString());
         orderOrigin.setOrderId(master.getOrderId());
         /**
-         * 区块链动作
+         * 区块链
          * */
         orderOriginMapper.insert(orderOrigin);
         return Result.success();
@@ -68,7 +68,7 @@ public class OrderOriginController {
         orderOrigin.setOrderOriginId(new SnowflakeGenerator().next().toString());
         orderOrigin.setOrderId(refund.getRefundId());
         /**
-         * 区块链动作
+         * 区块链
          * */
         orderOriginMapper.insert(orderOrigin);
         return Result.success();
@@ -79,7 +79,7 @@ public class OrderOriginController {
         orderOrigin.setOrderOriginId(new SnowflakeGenerator().next().toString());
         orderOrigin.setOrderId(master.getOrderId());
         /**
-         * 区块链动作
+         * 区块链
          * */
         orderOriginMapper.insert(orderOrigin);
         return Result.success();
@@ -90,7 +90,7 @@ public class OrderOriginController {
         orderOrigin.setOrderOriginId(new SnowflakeGenerator().next().toString());
         orderOrigin.setOrderId(master.getOrderId());
         /**
-         * 区块链动作
+         * 区块链
          * */
         orderOriginMapper.insert(orderOrigin);
         return Result.success();

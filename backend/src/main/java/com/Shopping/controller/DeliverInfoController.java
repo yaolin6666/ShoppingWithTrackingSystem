@@ -24,7 +24,7 @@ public class DeliverInfoController {
                         .eq(DeliverinfoOrigin::getShippingSn,shippingSn))
                 .stream().map(e->e.getDeliverInfoOriginId()).collect(Collectors.toList());
         /**
-         * 查询区块链 返回数据到voList
+         * 区块链
          * */
         return null;
     }
@@ -38,7 +38,7 @@ public class DeliverInfoController {
         deliverinfoOrigin.setShippingSn(shippingSn);
         deliverinfoOriginMapper.insert(deliverinfoOrigin);
         /**
-         * 添加到区块链上
+         * 区块链
          * */
         return Result.success();
     }

@@ -42,7 +42,7 @@ public class ArgInfoController {
                 .eq(ArginfoOrigin::getArginfoId,argInfoId))
                 .stream().map(e->e.getArginfoOriginId()).collect(Collectors.toList());
         /**
-         * 查询区块链 返回数据到voList
+         * 区块链
          * */
         return null;
     }
@@ -80,7 +80,7 @@ public class ArgInfoController {
         arginfoOrigin.setArginfoId(argInfoId);
         arginfoOriginMapper.insert(arginfoOrigin);
         /**
-         * 添加到区块链上
+         * 区块链
          * */
         return Result.success();
     }
