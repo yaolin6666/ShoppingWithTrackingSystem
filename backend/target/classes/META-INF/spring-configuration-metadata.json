@@ -6,6 +6,11 @@
       "sourceType": "com.Shopping.config.AliPayConfig"
     },
     {
+      "name": "fabric",
+      "type": "com.Shopping.common.dto.HyperLedgerFabricProperties",
+      "sourceType": "com.Shopping.common.dto.HyperLedgerFabricProperties"
+    },
+    {
       "name": "markerhub.jwt",
       "type": "com.Shopping.util.JwtUtils",
       "sourceType": "com.Shopping.util.JwtUtils"
@@ -31,6 +36,11 @@
       "name": "alipay.notify-url",
       "type": "java.lang.String",
       "sourceType": "com.Shopping.config.AliPayConfig"
+    },
+    {
+      "name": "fabric.channel",
+      "type": "java.lang.String",
+      "sourceType": "com.Shopping.common.dto.HyperLedgerFabricProperties"
     },
     {
       "name": "markerhub.jwt.expire",

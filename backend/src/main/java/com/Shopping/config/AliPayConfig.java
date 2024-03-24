@@ -3,11 +3,12 @@ package com.Shopping.config;
 import com.alipay.easysdk.factory.Factory;
 import com.alipay.easysdk.kernel.Config;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-
+@Slf4j
 @Data
 @Component
 @ConfigurationProperties(prefix = "alipay")
@@ -27,7 +28,7 @@ public class AliPayConfig {
         options.alipayPublicKey = this.alipayPublicKey;
         options.notifyUrl = this.notifyUrl;
         Factory.setOptions(options);
-        System.out.println("========支付宝SDK初始化成功=======");
+        log.info("支付宝SDK初始化成功");
     }
 
     private Config getOptions() {
