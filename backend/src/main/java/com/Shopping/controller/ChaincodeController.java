@@ -8,6 +8,8 @@ import com.Shopping.mapper.ArginfoMapper;
 import com.Shopping.mapper.ArginfoOriginMapper;
 import com.Shopping.mapper.DeliverinfoOriginMapper;
 import com.Shopping.mapper.OrderOriginMapper;
+import com.Shopping.service.ChaincodeService;
+import com.Shopping.vo.ArginfoOriginVo;
 import com.Shopping.vo.OriginInfo;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -24,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +45,23 @@ public class ChaincodeController {
     ArginfoMapper arginfoMapper;
     @Autowired
     ArginfoOriginMapper arginfoOriginMapper;
+    @Autowired
+    ChaincodeService chaincodeService;
     final Gateway gateway;
     final Contract contract;
+    @GetMapping("/chaincode/{id}")
+    public String testQueryChainCode(@PathVariable String id) throws GatewayException {
+        byte[] output = contract.evaluateTransaction("queryOriginInfo", id);
+        return StringUtils.newStringUtf8(output);
+    }
+    @DeleteMapping("/chaincode/{id}")
+    public Result deleteByKey(@PathVariable String id) throws Exception {
+        Map<String, Object> result = Maps.newConcurrentMap();
+        byte[] output = contract.submitTransaction("deleteOriginInfo" , id);
+        result.put("payload", StringUtils.newStringUtf8(output));
+        result.put("status", "ok");
+        return Result.success();
+    }
 
     private OriginInfo queryOriginInfoById(String Id) throws GatewayException{
         byte[] output = contract.evaluateTransaction("queryOriginInfo", Id);
@@ -67,14 +85,6 @@ public class ChaincodeController {
         contract.submitTransaction("createOriginInfo", originInfo.getOriginInfoId(),JSON.toJSONString(originInfo));
     }
 
-    @DeleteMapping("/{key}")
-    public Result deleteCatByKey(@PathVariable String key) throws Exception {
-        Map<String, Object> result = Maps.newConcurrentMap();
-        byte[] cat = contract.submitTransaction("deleteCat" , key);
-        result.put("payload", StringUtils.newStringUtf8(cat));
-        result.put("status", "ok");
-        return Result.success();
-    }
 
     @GetMapping("/deliverInfo/queryDeliverInfo")
     public ArginfoOrigin queryDeliverOrigin(@RequestParam Integer shippingSn){
@@ -116,14 +126,31 @@ public class ChaincodeController {
     }
 
     @GetMapping("/argInfo/queryArgOrigin")
-    public ArginfoOrigin queryArgOrigin(@RequestParam Integer argInfoId){
+    public List<ArginfoOriginVo> queryArgOrigin(@RequestParam Integer argInfoId) throws GatewayException {
         List<String> argInfoOriginIdList=arginfoOriginMapper.selectList(Wrappers.<ArginfoOrigin>lambdaQuery()
                         .eq(ArginfoOrigin::getArginfoId,argInfoId))
                 .stream().map(e->e.getArginfoOriginId()).collect(Collectors.toList());
         /**
          * 区块链
          * */
-        return null;
+        List<OriginInfo> originInfoList=this.queryOriginInfoByIdList(argInfoOriginIdList);
+        return this.chaincodeService.convertOriginToArgList(originInfoList);
+    }
+    @PostMapping("/argInfo/addArgOrigin")//添加货源详细
+    public Result insertOrigin(@RequestBody ArginfoOriginVo arginfoOriginVo) throws Exception {
+        ArginfoOrigin arginfoOrigin = new ArginfoOrigin();
+        String argInfoOriginKey = new SnowflakeGenerator().next().toString();
+        arginfoOriginVo.setId(argInfoOriginKey);
+        arginfoOriginVo.setCreateTime(LocalDateTime.now());
+        arginfoOriginVo.setUpdateTime(arginfoOriginVo.getCreateTime());
+        arginfoOrigin.setArginfoOriginId(argInfoOriginKey);
+        arginfoOrigin.setArginfoId(Integer.valueOf(arginfoOriginVo.getArginfoId()));
+        arginfoOriginMapper.insert(arginfoOrigin);
+        /**
+         * 区块链
+         * */
+        this.createOriginInfo(chaincodeService.convertArgInfoOrigin(arginfoOriginVo));
+        return Result.success();
     }
 
     @DeleteMapping("/argInfo/delete/{id}")
@@ -151,18 +178,6 @@ public class ChaincodeController {
         return Result.success();
     }
 
-    @PostMapping("/argInfo/addArgOrigin")//添加货源详细
-    public Result insertOrigin(@RequestParam Integer argInfoId, @RequestParam String content) {
-        ArginfoOrigin arginfoOrigin = new ArginfoOrigin();
-        String argInfoOriginKey = new SnowflakeGenerator().next().toString();
-        arginfoOrigin.setArginfoOriginId(argInfoOriginKey);
-        arginfoOrigin.setArginfoId(argInfoId);
-        arginfoOriginMapper.insert(arginfoOrigin);
-        /**
-         * 区块链
-         * */
-        return Result.success();
-    }
     @GetMapping("/argInfo/page")
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
@@ -177,7 +192,23 @@ public class ChaincodeController {
         return Result.success(arginfoPage);
     }
 
+    @GetMapping("/argInfo/pageUser")
+    public Result<?> findPageUser(@RequestParam(defaultValue = "1") Integer pageNum,
+                              @RequestParam(defaultValue = "10") Integer pageSize,
+                              @RequestParam(defaultValue = "-1") Integer productId
+                              ) {
+        new Page<>(pageNum, pageSize);
+        Page<Arginfo> arginfoPage = arginfoMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Arginfo>lambdaQuery().eq(Arginfo::getProductId, productId).eq(Arginfo::getStatus,2));
+        LambdaQueryWrapper<Arginfo> query = Wrappers.<Arginfo>lambdaQuery().orderByDesc(Arginfo::getArginfoId);
+        return Result.success(arginfoPage);
+    }
 
+    @GetMapping("/argInfo/findAllUser")
+    public Result<?> findAllUser(@RequestParam(defaultValue = "-1") Integer productId) {
+        List<Arginfo> arginfoList = arginfoMapper.selectList( Wrappers.<Arginfo>lambdaQuery().eq(Arginfo::getProductId, productId).eq(Arginfo::getStatus,2));
+        LambdaQueryWrapper<Arginfo> query = Wrappers.<Arginfo>lambdaQuery().orderByDesc(Arginfo::getArginfoId);
+        return Result.success(arginfoList);
+    }
 
 
     @GetMapping("/OrderOrigin/queryOrderOrigin")

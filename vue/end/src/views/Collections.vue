@@ -29,7 +29,7 @@
         <el-form-item label="商品名称">
           <el-input v-model="form.productName"></el-input>
         </el-form-item>
-        <el-form-item label="商品颜色">
+        <el-form-item label="商品货源号">
           <el-input v-model="form.productColor"></el-input>
         </el-form-item>
         <el-form-item label="商品价格">
@@ -59,7 +59,7 @@
         </template>
           </el-table-column>
           <el-table-column prop="productName" label="商品名称"/>
-          <el-table-column prop="productColor" label="商品颜色"/>
+          <el-table-column prop="productColor" label="商品货源号"/>
           <el-table-column prop="productPrice" label="商品价格"/>
           <el-table-column prop="createTime" label="创建时间"/>
           <el-table-column prop="updateTime" label="最后修改时间"/>

@@ -37,7 +37,7 @@
 <div class="bb">
   <div class="ff">
 <span style="margin-left: 162px;">宝贝</span>
-<span style="margin-left: 163px;">颜色</span>
+<span style="margin-left: 163px;">货源号</span>
 <span style="margin-left: 106px;">单价</span>
 <span style="margin-left: 131px;">数量</span>
 <span style="margin-left: 116px;">实付款</span>
@@ -82,12 +82,6 @@
 
 <el-dialog title="商品评价" :visible.sync="dialogFormVisible">
   <el-form :model="admins" ref="fruitRules" :rules="rules">
-    <!-- <el-form-item label="评价名称" :label-width="formLabelWidth" prop="customerName">
-      <el-select v-model="admins.customerName" placeholder="请选择名称" >
-        <el-option :label="adminss.username" :value="adminss.username">用户名 ：{{adminss.username}}</el-option>
-        <el-option :label="adminss.customerName" :value="adminss.customerName">用户昵称 ：{{adminss.customerName}}</el-option>
-      </el-select>
-    </el-form-item> -->
       <el-form-item
       label="商品图片"
       prop="commentPic"

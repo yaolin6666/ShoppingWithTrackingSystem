@@ -12,7 +12,7 @@
       <el-button class="el-icon-bottom" @click="index1">降序</el-button>
       <el-button class="el-icon-top"  @click="index">升序</el-button>
     </div>
-    <el-dialog title="添加货源" v-model="dialogVisible">
+    <el-dialog title="添加货源号" v-model="dialogVisible">
       <el-form
           ref="fruitRules"
           :model="originProductId"
@@ -43,7 +43,7 @@
           ref="fruitRules"
           :model="admins"
           label-width="120px">
-        <el-form-item label="货源状态">
+        <el-form-item label="货源号状态">
           <el-select v-model="admins.status" filterable placeholder="请选择">
             <el-option
                 v-for="item in options"
@@ -53,7 +53,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="货源库存">
+        <el-form-item label="货源号库存">
           <el-input v-model="admins.count"></el-input>
         </el-form-item>
         <el-form-item>
@@ -144,7 +144,7 @@ export default {
   },
   methods: {
     lode() {
-      request.get("/originInfo/page", {
+      request.get("/argInfo/page", {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -185,7 +185,7 @@ export default {
       }
     },
     create(){
-      request.post("/originInfo/add",{
+      request.post("/argInfo/add",{
           productId: this.originProductId,
           shopId: this.id,
         }).then(res => {
@@ -208,7 +208,7 @@ export default {
     },
       //修改
     onSubmit() {
-      request.put("/originInfo/update", this.admins).then(res => {
+      request.put("/argInfo/update", this.admins).then(res => {
         console.log(res);
         if (res.code === 200) {
           ElMessage({
@@ -234,7 +234,7 @@ export default {
       })
         .then(() => {
           request
-              .delete("/originInfo/delete/" + row.arginfoId)
+              .delete("/argInfo/delete/" + row.arginfoId)
               .then(res => {
                 if (res.code === 200) {
                   ElMessage({
@@ -260,7 +260,7 @@ export default {
         })
         return
       }
-      request.post("/originInfo/deleteBatch",this.ids).then(res => {
+      request.post("/argInfo/deleteBatch",this.ids).then(res => {
         if (res.code === 200) {
           ElMessage({
             type: 'success',

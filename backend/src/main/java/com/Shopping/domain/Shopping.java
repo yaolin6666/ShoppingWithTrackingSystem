@@ -56,6 +56,7 @@ public class Shopping implements Serializable {
     private Integer paymentMoney;
 
     private String shippingCompName;
+    private Integer discount;
 
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;

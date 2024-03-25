@@ -68,7 +68,7 @@
     <div class="vv1">
       <span class="qq">商品图片</span>
       <span class="n1">商品名称</span>
-      <span>颜色</span>
+      <span>货源号</span>
       <span>价格</span>
       <span>数量</span>
       <span>优惠方式</span>
@@ -250,7 +250,7 @@
               <el-radio-button :label="item.goodPhone"></el-radio-button>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="颜色" prop="productColor">
+          <el-form-item label="货源号" prop="productColor">
             <el-input v-model="notice.productColor"></el-input>
           </el-form-item>
           <el-form-item label="数量" prop="productNum">

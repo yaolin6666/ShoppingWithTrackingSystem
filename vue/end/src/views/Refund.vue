@@ -40,7 +40,7 @@
               </el-image>
             </template>
           </el-table-column>
-          <el-table-column prop="productColor" label="商品颜色" width="75"/>
+          <el-table-column prop="productColor" label="商品货源号" width="75"/>
           <el-table-column prop="productPrice" label="商品价格" width="80"/>
           <el-table-column prop="productNum" label="商品数量" width="75"/>
           <el-table-column prop="paymentMethod" label="付款方式" width="90"/>

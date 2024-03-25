@@ -13,7 +13,7 @@
 
     <el-dialog v-model="dialogVisible" title="修改" width="30%">
       <el-form :model="form" label-width="120px">
-        <el-form-item label="商品颜色" prop="productColor">
+        <el-form-item label="商品货源号" prop="productColor">
           <el-input v-model="form.productColor"></el-input>
         </el-form-item>
         <el-form-item label="商品价格" prop="productPrice">
@@ -48,7 +48,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="productName" label="商品名称" width="220"/>
-          <el-table-column prop="productColor" label="商品颜色" width="100"/>
+          <el-table-column prop="productColor" label="商品货源号" width="100"/>
           <el-table-column prop="productPrice" label="商品价格" width="100"/>
           <el-table-column prop="productNum" label="商品数量" width="100"/>
           <el-table-column prop="createTime" label="创建时间" width="180"/>

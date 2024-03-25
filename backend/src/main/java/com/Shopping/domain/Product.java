@@ -56,7 +56,7 @@ public class Product implements Serializable {
     private String productNum;
 
     private String productImage;
-//颜色
+//货源号
     private String productCs;
     private String productCd;
     private String productCf;

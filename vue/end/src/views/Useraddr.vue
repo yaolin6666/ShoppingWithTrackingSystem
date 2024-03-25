@@ -25,7 +25,7 @@
           </el-table-column>
           <el-table-column prop="productName" label="商品名称" width="200">
           </el-table-column>
-          <el-table-column prop="productColor" label="商品颜色" width="75">
+          <el-table-column prop="productColor" label="货源号" width="75">
           </el-table-column>
           <el-table-column prop="productPrice" label="商品价格" width="90">
           </el-table-column>
@@ -75,7 +75,7 @@
         <el-form-item label="电话号码" style="width: 550px;">
           <el-input v-model="form.productPhones" :disabled="true"/>
         </el-form-item>
-        <el-form-item label="颜色">
+        <el-form-item label="货源号">
           <el-input v-model="form.productColor" :disabled="true" style="width: 100px;"/>
         </el-form-item>
         <el-form-item label="数量">

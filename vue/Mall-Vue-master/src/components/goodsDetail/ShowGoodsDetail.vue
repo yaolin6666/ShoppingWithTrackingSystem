@@ -2,58 +2,39 @@
   <div>
     <div class="item-intro-show">
       <div class="item-intro-recommend">
-        <div class="item-recommend-title">
-          <p>商品推荐</p>
-        </div>
-        <div class="item-intro-recommend-column">
-          <div
-            class="item-recommend-column"
-            v-for="(item, index) in adminss"
-            :key="index"
-            @click="jh"
-          >
-            <router-link
-              v-bind:to="'/goodsDetail/' + item.productId"
-              v-if="index"
-            >
-              <div class="item-recommend-img">
-                <img :src="item.productImage" alt="" />
-              </div>
-              <div class="item-recommend-intro">
-                <span>
-                  <span class="item-recommend-top-num"
-                    >{{ item.productName.substr(0, 45) }}...</span
-                  >
+<!--        <div class="item-recommend-title">-->
+<!--          <p>商品推荐</p>-->
+<!--        </div>-->
+<!--        <div class="item-intro-recommend-column">-->
+<!--          <div-->
+<!--            class="item-recommend-column"-->
+<!--            v-for="(item, index) in adminss"-->
+<!--            :key="index"-->
+<!--            @click="jh"-->
+<!--          >-->
+<!--            <router-link-->
+<!--              v-bind:to="'/goodsDetail/' + item.productId"-->
+<!--              v-if="index"-->
+<!--            >-->
+<!--              <div class="item-recommend-img">-->
+<!--                <img :src="item.productImage" alt="" />-->
+<!--              </div>-->
+<!--              <div class="item-recommend-intro">-->
+<!--                <span>-->
+<!--                  <span class="item-recommend-top-num"-->
+<!--                    >{{ item.productName.substr(0, 45) }}...</span-->
+<!--                  >-->
 
-                  <p class="item-recommend-price">￥{{ item.productPrice }}</p>
-                </span>
-              </div>
-            </router-link>
-          </div>
-        </div>
+<!--                  <p class="item-recommend-price">￥{{ item.productPrice }}</p>-->
+<!--                </span>-->
+<!--              </div>-->
+<!--            </router-link>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
       <div class="item-intro-detail" ref="itemIntroDetail" :data="admin">
         <div class="item-intro-nav item-tabs">
           <Tabs>
-            <TabPane label="商品介绍">
-              <div class="remarks-title">
-                <span>商品介绍</span>
-              </div>
-              <div class="item-intro-img" ref="itemIntroGoods">
-                <div style="margin-top: 35px">
-                  <img :src="admin.productIm" width="900px" height="300" />
-                </div>
-                <div style="margin-top: 35px">
-                  <img :src="admin.productImd" width="900px" height="700" />
-                </div>
-                <div style="margin-top: 35px">
-                  <img :src="admin.productImf" width="900px" height="700" />
-                </div>
-                <div style="margin-top: 35px">
-                  <img :src="admin.productImg" width="900px" height="700" />
-                </div>
-              </div>
-            </TabPane>
             <TabPane label="规格参数">
               <div class="remarks-title">
                 <span>规格参数</span>
@@ -99,7 +80,7 @@
                     color: #999;
                   "
                 >
-                  {{ admin.weight }}g
+                  {{ admin.weight }}g/份
                 </p>
               </div>
               <div style="margin-top: 35px">
@@ -112,8 +93,27 @@
                 <img :src="admin.productMg" width="900px" height="700" />
               </div>
             </TabPane>
-            <TabPane label="售后保障">
+            <TabPane label="货源列表">
               <ShowProductWarranty></ShowProductWarranty>
+            </TabPane>
+            <TabPane label="团购列表">
+              <div class="remarks-title">
+                <span>商品介绍</span>
+              </div>
+              <div class="item-intro-img" ref="itemIntroGoods">
+                <div style="margin-top: 35px">
+                  <img :src="admin.productIm" width="900px" height="300" />
+                </div>
+                <div style="margin-top: 35px">
+                  <img :src="admin.productImd" width="900px" height="700" />
+                </div>
+                <div style="margin-top: 35px">
+                  <img :src="admin.productImf" width="900px" height="700" />
+                </div>
+                <div style="margin-top: 35px">
+                  <img :src="admin.productImg" width="900px" height="700" />
+                </div>
+              </div>
             </TabPane>
             <TabPane label="商品评价">
               <div class="remarks-container">
@@ -222,7 +222,7 @@
                       </div>
                       <div class="kk">
                         <span class="remarks-item"
-                          >购买颜色：{{ item.productColor }}</span
+                          >购买货源号：{{ item.productColor }}</span
                         >
 
                         <span class="remarks-time"

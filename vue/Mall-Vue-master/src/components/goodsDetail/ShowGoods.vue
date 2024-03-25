@@ -42,7 +42,7 @@
         </div>
         <div class="item-select">
           <div class="item-select-title">
-            <p>选择颜色</p>
+            <p>选择货源号</p>
           </div>
           <div class="item-select-column">
             <el-radio-group v-model="admin.productColor" size="medium">
@@ -61,7 +61,10 @@
         <br/>
         <div class="add-buy-car-box">
           <div class="add-buy-car">
+            <Button type="error" size="large" @click="onBuy('fruitRules')">购买</Button>
+            <span style="margin-left: 30px;">
             <Button type="error" size="large" @click="onSubmit('fruitRules')">加入购物车</Button>
+            </span>
             <span style="margin-left: 30px;">
             <Button type="error" size="large" @click="onSubmits('fruitRules')">收藏</Button>
             </span>
@@ -78,7 +81,7 @@
             <el-form-item label="商品总数量" prop="productMnum">
               <el-input v-model="admin.productMnum">{{admin.productMnum}}</el-input>
             </el-form-item>
-            <el-form-item label="颜色">
+            <el-form-item label="货源号">
               <el-radio-group v-model="admin.productColor" size="medium">
                 <el-radio border :label="admin.productCs"></el-radio>
                 <el-radio border :label="admin.productCd"></el-radio>
@@ -113,6 +116,7 @@
 
 import store from '@/store/index';
 import {mapState} from 'vuex';
+import request from '@/utils/request';
 
 export default {
   name: 'ShowGoods',
@@ -121,6 +125,7 @@ export default {
       inject: ['reload'],
       total: 0,
       blogs: [],
+      detailId: '',
       admin: [],
       price: 0,
       admins: [],
@@ -158,6 +163,15 @@ export default {
       console.log(value);
     },
 
+    onBuy (fromName) {
+      this.admin.customerId = this.ids;
+      request.post('/shopping/addData',
+        this.admin
+      ).then(res => {
+        console.log(res);
+        this.$router.push({ path: '/order', query: { orderDetailId: res } });
+      });
+    },
     onSubmit (formName) {
       this.admin.customerId = this.ids;
       this.$refs[formName].validate((valid) => {

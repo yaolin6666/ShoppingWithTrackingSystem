@@ -81,7 +81,7 @@
                     </div>
                     <div class="shopping-cart-detail">
                       <p>
-                        颜色:
+                        货源号:
                         <span class="shopping-cart-text">
                           {{item.productColor}}
                         </span>

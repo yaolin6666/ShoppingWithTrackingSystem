@@ -1,11 +1,6 @@
 <template>
   <div class="userindex">
-    <div style="margin: 10px 0;display: flex;">
-      <el-input v-model="search" placeholder="请输入" style="width: 20%;" clearable/>
-      <el-button type="primary" style="margin-left: 5px" @click="lode">查询</el-button>
-      <el-button type="primary" @click="adds">新增</el-button>
-    </div>
-    <el-dialog title="添加货源详细" v-model="dialogVisible">
+    <el-dialog title="添加货源号详细" v-model="dialogVisible">
       <el-form
           ref="fruitRules"
           :model="admins"
@@ -29,26 +24,23 @@
     <el-row :gutter="0" class="userindex-list">
       <el-col :span="21">
         <el-table :data="admin" border style="width: 100%" @selection-change="handleSelectionChange">
-          <el-table-column  prop="arginfoId" label="溯源详细ID" width="150"/>
+          <el-table-column  prop="id" label="溯源详细ID" width="180"/>
           <el-table-column  prop="arginfoId" label="溯源ID" width="150"/>
-          <el-table-column prop="productImage" label="溯源信息" width="430"/>
-          <el-table-column prop="productImage" label="溯源额外信息" width="450">
+          <el-table-column prop="argInfo" label="溯源信息" width="430"/>
+          <el-table-column prop="mediaInfo" label="溯源额外信息" width="450">
+            <template #default="scope">
+              <el-image style="width: 200px; height: 200px" :src="scope.row.mediaInfo" :preview-src-list="[scope.row.mediaInfo]">
+                <div solt="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+            </template>
           </el-table-column>
           <el-table-column prop="createTime" label="创建时间" width="140">
           </el-table-column>
           <el-table-column prop="updateTime" label="最后修改时间" width="140">
           </el-table-column>
         </el-table>
-      </el-col>
-    </el-row>
-
-    <!-- 分页 -->
-    <el-row :gutter="20" class="userindex-list">
-      <el-col :span="24" class="userindex-page-box">
-         <el-pagination v-model:currentPage="currentPage" :page-sizes="[5, 10, 20, 30]" :page-size="pageSize"
-                     layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
-                     @current-change="handleCurrentChange">
-      </el-pagination>
       </el-col>
     </el-row>
   </div>
@@ -64,37 +56,13 @@ export default {
   },
   methods: {
     lode() {
-      request.get("/originInfo/page", {
+      request.get("/argInfo/queryArgOrigin", {
         params: {
-          pageNum: this.currentPage,
-          pageSize: this.pageSize,
-          shopId: this.id,
+          argInfoId: this.idOrigin,
         }
       }).then(res => {
         console.log(res);
-        this.admin = res.data.records
-        this.total = res.data.total
-      })
-      request.get("/product/findAllAdmin", {
-        params: {
-          accountId: this.id
-        }
-      }).then(res => {
-        console.log(res);
-        this.productList = res
-        this.productList.forEach(item=>{
-          this.productMap[item.productId]={
-            productImg:item.productImg,
-            productName:item.productName
-          }
-        })
-      })
-    },
-    edit(row) {
-      this.admins = JSON.parse(JSON.stringify(row))
-      this.dialogVisible1 = true
-      this.$nextTick(() =>{
-        this.$refs['uplode'].clearFiles()
+        this.admin = res
       })
     },
     adds() {
@@ -105,9 +73,10 @@ export default {
       }
     },
     create(){
-      request.post("/originInfo/add",{
-          productId: this.originProductId,
-          shopId: this.id,
+      request.post("/argInfo/addArgOrigin",{
+          arginfoId: this.idOrigin,
+          argInfo: this.admins.originInfo,
+          mediaInfo: this.admins.extraArgInfo,
         }).then(res => {
         console.log(res);
         if (res.code === 200) {
@@ -216,7 +185,8 @@ export default {
   data() {
     return {
       originProductId:'',
-      id: this.$route.params.id,
+      id: '',
+      idOrigin: this.$route.params.id,
       admins:{},
       productList:[],
       search: '',

@@ -14,6 +14,7 @@ const SignUpDone = resolve => require(['@/components/signUp/SignUpDone'], resolv
 const GoodsList = resolve => require(['@/components/GoodsList'], resolve);
 const GoodssList = resolve => require(['@/components/GoodssList'], resolve);
 const GoodsDetail = resolve => require(['@/components/GoodsDetail'], resolve);
+const originInfo = resolve => require(['@/components/originInfo'], resolve);
 const ShoppingCart = resolve => require(['@/components/ShoppingCart'], resolve);
 const Order = resolve => require(['@/components/Order'], resolve);
 const Pay = resolve => require(['@/components/Pay'], resolve);
@@ -193,6 +194,11 @@ export default new Router({
       path: '/goodsDetail/:id', // 商品详情
       name: 'GoodsDetail',
       component: GoodsDetail
+    },
+    {
+      path: '/originInfo/:id', // 商品详情
+      name: 'originInfo',
+      component: originInfo
     },
     {
       path: '/shoppingCart', // 商品详情

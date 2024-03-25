@@ -15,7 +15,7 @@
           <div class="ff">
             <span style="margin-left: 98px;">图片</span>
             <span style="margin-left: 152px;">名称</span>
-            <span style="margin-left: 163px;">颜色</span>
+            <span style="margin-left: 163px;">货源号</span>
             <span style="margin-left: 146px;">单价</span>
             <span style="margin-left: 131px;">数量</span>
             <span style="margin-left: 119px;">实付款</span>
@@ -148,7 +148,7 @@
             <el-radio-button :label="item.goodPhone"></el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="颜色" prop="productColor">
+        <el-form-item label="货源号" prop="productColor">
           <el-input v-model="admin.productColor"></el-input>
         </el-form-item>
         <el-form-item label="数量" prop="productNum">

@@ -38,7 +38,7 @@
           <div class="bb">
             <div class="ff">
               <span style="margin-left: 162px;">宝贝</span>
-              <span style="margin-left: 163px;">颜色</span>
+              <span style="margin-left: 163px;">货源号</span>
               <span style="margin-left: 106px;">单价</span>
               <span style="margin-left: 131px;">数量</span>
               <span style="margin-left: 116px;">实付款</span>

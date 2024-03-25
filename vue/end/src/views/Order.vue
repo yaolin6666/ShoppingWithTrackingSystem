@@ -30,7 +30,7 @@
           </el-table-column>
           <el-table-column prop="productName" label="商品名称" width="150">
           </el-table-column>
-          <el-table-column prop="productColor" label="商品颜色" width="75">
+          <el-table-column prop="productColor" label="货源号" width="75">
           </el-table-column>
           <el-table-column prop="productPrice" label="商品价格" width="80">
           </el-table-column>
