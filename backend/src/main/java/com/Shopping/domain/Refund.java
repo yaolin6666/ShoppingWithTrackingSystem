@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 
 
@@ -22,7 +21,7 @@ public class Refund implements Serializable {
     @TableId(value = "refund_id", type = IdType.AUTO)
     private Integer refundId;
 
-    private BigInteger orderSn;
+    private Integer orderId;
 
     private Integer customerId;
     private String productErm;

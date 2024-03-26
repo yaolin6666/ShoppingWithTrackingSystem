@@ -5,10 +5,13 @@ import cn.hutool.core.util.StrUtil;
 import com.Shopping.common.lang.Result;
 import com.Shopping.domain.DeliverinfoOrigin;
 import com.Shopping.domain.Master;
+import com.Shopping.domain.OrderOrigin;
 import com.Shopping.mapper.DeliverinfoOriginMapper;
 import com.Shopping.mapper.MasterMapper;
+import com.Shopping.mapper.OrderOriginMapper;
 import com.Shopping.service.ChaincodeService;
 import com.Shopping.vo.DeliverinfoOriginVo;
+import com.Shopping.vo.OrderOriginVo;
 import com.Shopping.vo.OriginInfo;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -18,6 +21,7 @@ import lombok.AllArgsConstructor;
 import org.hyperledger.fabric.client.Contract;
 import org.hyperledger.fabric.client.Gateway;
 import org.joda.time.LocalDateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -37,6 +41,8 @@ public class ConfirmController {
     DeliverinfoOriginMapper deliverinfoOriginMapper;
     @Resource
     ChaincodeService chaincodeService;
+    @Autowired
+    OrderOriginMapper orderOriginMapper;
 
     @GetMapping("/findAll")
     public List<Master> findAll() {
@@ -88,11 +94,23 @@ public class ConfirmController {
         masterMapper.updateById(master);
         DeliverinfoOriginVo deliverinfoOriginVo=new DeliverinfoOriginVo();
         deliverinfoOriginVo.setId(deliverinfoOrigin.getDeliverInfoOriginId());
-        String content=master.getOrderId().toString()+"发货 物流编号"+master.getShippingSn()+"使用快递名称"+master.getShippingCompName();
+        String content="编号为"+master.getOrderId().toString()+"的订单发货 物流编号为"+master.getShippingSn()+" 使用快递公司"+master.getShippingCompName();
         deliverinfoOriginVo.setDeliverInfo(content);
         deliverinfoOriginVo.setCreateTime(java.time.LocalDateTime.now());
         deliverinfoOriginVo.setUpdateTime(java.time.LocalDateTime.now());
         this.createOriginInfo(chaincodeService.convertDeliverInfo(deliverinfoOriginVo));
+
+        OrderOrigin orderOrigin=new OrderOrigin();
+        orderOrigin.setOrderId(master.getOrderId());
+        orderOrigin.setOrderOriginId(new SnowflakeGenerator().next().toString());
+        OrderOriginVo orderOriginVo=new OrderOriginVo();
+        orderOriginVo.setId(orderOrigin.getOrderOriginId());
+        orderOriginVo.setOrderId(String.valueOf(master.getOrderId()));
+        orderOriginVo.setOrderInfo(content);
+        orderOriginVo.setCreateTime(java.time.LocalDateTime.now());
+        orderOriginVo.setUpdateTime(java.time.LocalDateTime.now());
+        this.createOriginInfo(this.chaincodeService.convertOrderInfo(orderOriginVo));
+        orderOriginMapper.insert(orderOrigin);
         return Result.success(deliverinfoOrigin);
     }
 

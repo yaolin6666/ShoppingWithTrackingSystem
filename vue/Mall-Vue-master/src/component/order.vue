@@ -104,13 +104,12 @@
 
     <div class="lj1"></div>
     <div class="q0">
-      <div class="g4" v-rainbow><span style="margin-left: 127px;font-size:16px;font-weight:bold;">- 0.00</span>
+      <div class="g4" v-rainbow><span style="margin-left: 127px;font-size:16px;font-weight:bold;">-{{ notice.productNum * notice.productPrice*(notice.discount)/100 }}</span>
         <div class="g8" style="margin-left: 97px;font-size:14px;font-weight:bold;">{{gender}}</div>
-        <div class="g8" style="margin-left: 138px;font-size:14px;font-weight:bold;">0.00</div>
         <div class="fu1">
           <span style="color: black;">店铺合计(含运费)</span>
           <span style="color: rgba(19, 18, 18, 0.575);font-size:14px;"></span>
-          <span style="margin-right: 150px;font-size:17px;font-weight:bold;">￥{{notice.productNum * notice.productPrice + notice.shippingMoney}}.00</span>
+          <span style="margin-right: 150px;font-size:17px;font-weight:bold;">￥{{notice.productNum * notice.productPrice*(100-notice.discount)/100 + notice.shippingMoney}}.00</span>
         </div>
       </div>
       <div class="g5">
@@ -462,6 +461,11 @@ export default {
           if (response.data) {
             // eslint-disable-next-line no-undef
             axios.put('http://localhost:8888/teamInfo/update/' + response.data.data.orderId);
+            // eslint-disable-next-line no-undef
+            axios.post('http://localhost:8888/OrderOrigin/add', {
+              orderId: response.data.data.orderId,
+              content: '创建订单'
+            });
             _this.$alert('请等待商家发货！', '购买商品', {
               confirmButtonText: '确定',
               callback: (action) => {

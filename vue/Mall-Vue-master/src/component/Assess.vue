@@ -2,6 +2,10 @@
 <template>
 
   <div class="userindex">
+    <div align="center" style="font-size: 20px" v-if="this.user.length<1">
+      暂无此分类下订单
+    </div>
+    <div v-if="this.user.length>0">
     <el-backtop  :bottom="10" :right="0">
   <div
      class="uyu"
@@ -61,13 +65,14 @@
 <div style="float:left;margin-left: 35px;word-wrap:break-word;word-break: break-all; width:60px"><span>{{user.productColor}}</span></div>
 <div style="float:left;margin-left: 70px;word-wrap:break-word;word-break: break-all; width:85px;color:red;"><span >￥{{user.productPrice}}</span></div>
 <div style="float:right;margin-right: 18px;word-wrap:break-word;word-break: break-all; width:85px"><span >{{user.productNum}}</span></div></td>
-<td class="kk2"><p style="margin-left: 26px;font-weight:bold;color: red;">￥{{user.productPrice}}</p>
+<td class="kk2"><p style="margin-left: 26px;font-weight:bold;color: red;">￥{{user.productPrice*user.productNum*(100-user.discount)/100}}</p>
 <p style="margin-left: 20px;margin-top: 5px;">({{user.paymentMethod}})</p>
 </td>
 <td class="kk2"><p style="margin-left: 26px;">付款成功</p>
-<p style="margin-left: 26px;margin-top: 5px;">订单详情</p>
+  <el-button  @click="getDetail(user.orderId)">订单详情</el-button>
 </td>
-<td class="kk2"><p style="margin-left: 25px;margin-top: 27px;">等待评价</p></td>
+<td class="kk2"><p style="margin-left: 25px;margin-top: 27px;">等待评价</p>
+</td>
 </tr>
 </div>
 </div>
@@ -127,6 +132,7 @@
     </el-row>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -136,6 +142,9 @@ export default {
   name: 'Assess',
 
   methods: {
+    getDetail (orderId) {
+      window.open('/orderDetail/' + orderId);
+    },
     ju () {
       const _this = this;
 
@@ -242,26 +251,6 @@ export default {
 
         .catch(() => {});
     },
-
-    // page(currentPage){
-    //         const _this=this;
-    //         axios.get('http://localhost:8888/userinfo/findAll/'+(currentPage-1)+'/3').then(function (resp) {
-    //             _this.tableData=resp.data.content;
-    //             _this.pageSize=resp.data.size;
-    //             _this.total=resp.data.totalElements;
-    //         })
-    //     }
-    // page(currentPage) {
-    //   switch (currentPage) {
-    //     case 1:
-    //       this.tableData = [
-    //         {
-    //           id: goodId,
-    //           name: good_name,
-    //         },
-    //       ];
-    //   }
-    // },
     handleSizeChange (pageSize) { // 改变每页的个数触发
       this.pageSize = pageSize;
       this.lode();
@@ -324,14 +313,6 @@ export default {
       user: [],
       dialogFormVisible: false,
       form: {
-        // name: "",
-        // region: "",
-        // date1: "",
-        // date2: "",
-        // delivery: false,
-        // type: [],
-        // resource: "",
-        // desc: "",
       },
       formLabelWidth: '120px'
     };

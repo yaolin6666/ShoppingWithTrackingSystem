@@ -131,7 +131,11 @@ export default {
     },
     onSubmit(){
       request.put("/refund/update", this.form).then(res => {
-        console.log(res);
+        // eslint-disable-next-line no-undef
+        axios.post('http://localhost:8888/OrderOrigin/add', {
+          orderId: this.admin.orderId,
+          content: '处理退款申请'
+        });
         if (res.code === 200) {
           ElMessage({
             type: 'success',

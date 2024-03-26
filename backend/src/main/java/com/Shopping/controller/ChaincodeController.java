@@ -90,7 +90,7 @@ public class ChaincodeController {
 
 
     @GetMapping("/deliverInfo/queryDeliverInfo")
-    public List<DeliverinfoOriginVo> queryDeliverOrigin(@RequestParam Integer shippingSn) throws GatewayException {
+    public List<DeliverinfoOriginVo> queryDeliverOrigin(@RequestParam String shippingSn) throws GatewayException {
         List<String> deliverInfoOriginIdList=deliverinfoOriginMapper.selectList(Wrappers.<DeliverinfoOrigin>lambdaQuery()
                         .eq(DeliverinfoOrigin::getShippingSn,shippingSn))
                 .stream().map(e->e.getDeliverInfoOriginId()).collect(Collectors.toList());
@@ -265,13 +265,15 @@ public class ChaincodeController {
         Integer orderId=jsonObject.getInteger("orderId");
         String content=jsonObject.getString("content");
         OrderOrigin orderOrigin=new OrderOrigin();
+        orderOrigin.setOrderId(orderId);
         orderOrigin.setOrderOriginId(new SnowflakeGenerator().next().toString());
         /**
          * 区块链
          * */
         OrderOriginVo orderOriginVo=new OrderOriginVo();
+        orderOriginVo.setId(orderOrigin.getOrderOriginId());
         orderOriginVo.setOrderId(String.valueOf(orderId));
-        orderOriginVo.setOrderInfo(orderId.toString()+content);
+        orderOriginVo.setOrderInfo("订单编号"+orderId.toString()+"的订单 "+content);
         orderOriginVo.setCreateTime(LocalDateTime.now());
         orderOriginVo.setUpdateTime(LocalDateTime.now());
         this.createOriginInfo(this.chaincodeService.convertOrderInfo(orderOriginVo));

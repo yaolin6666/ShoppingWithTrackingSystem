@@ -31,10 +31,32 @@
         </el-table>
       </el-col>
     </el-row>
-  <Tabs style="margin-left: 40%">
+  <Tabs style="margin-left: 10%">
     <TabPane label="订单详细">
+      <el-row :gutter="0" class="userindex-list">
+        <el-col :span="21">
+          <el-table :data="orderInfo" border style="width: 100%">
+            <el-table-column prop="orderInfo" label="订单信息" width="1000"/>
+            <el-table-column prop="createTime" label="创建时间" >
+            </el-table-column>
+            <el-table-column prop="updateTime" label="修改时间" >
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
     </TabPane>
     <TabPane label="物流信息">
+      <el-row :gutter="0" class="userindex-list">
+        <el-col :span="21">
+          <el-table :data="shippingInfo" border style="width: 100%">
+            <el-table-column prop="deliverInfo" label="订单信息" width="1000"/>
+            <el-table-column prop="createTime" label="创建时间" >
+            </el-table-column>
+            <el-table-column prop="updateTime" label="修改时间" >
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
     </TabPane>
   </Tabs>
 </div>
@@ -45,6 +67,7 @@ import store from '@/store/index';
 import { mapState } from 'vuex';
 import Search from '@/components/Search';
 import GoodsListNav from '@/components/nav/GoodsListNav';
+import request from '../utils/request';
 export default {
   name: 'Notice',
 
@@ -55,21 +78,42 @@ export default {
   methods: {
     lode () {
       // eslint-disable-next-line no-undef
-      axios.get('http://localhost:8888/refund/find/' + this.id, {
+      axios.get('http://localhost:8888/master/find/' + this.id, {
       }).then(res => {
         // eslint-disable-next-line eqeqeq
         if (res.data != '') {
           res.data.money = res.data.productNum * res.data.productPrice * (100 - res.data.discount) / 100;
+          this.shippingSn = res.data.shippingSn;
+          this.orderId = res.data.orderId;
           this.notice.push(res.data);
         }
-      });
-      // eslint-disable-next-line no-undef
-      axios.get('http://localhost:8888/master/find/' + this.id, {
-      }).then(res => {
-        if (res.data != null) {
-          res.data.money = res.data.productNum * res.data.productPrice * (100 - res.data.discount) / 100;
-          this.notice.push(res.data);
-        }
+        // eslint-disable-next-line no-undef
+        axios.get('http://localhost:8888/refund/find/' + this.id, {
+        }).then(res => {
+          // eslint-disable-next-line eqeqeq
+          if (res.data != '') {
+            res.data.money = res.data.productNum * res.data.productPrice * (100 - res.data.discount) / 100;
+            this.shippingSn = res.data.shippingSn;
+            this.orderId = res.data.orderId;
+            this.notice.push(res.data);
+          }
+          // eslint-disable-next-line no-undef
+          request.get('http://localhost:8888/OrderOrigin/queryOrderOrigin', {
+            params: {
+              orderId: this.orderId
+            }
+          }).then(res => {
+            this.orderInfo = res;
+          });
+          if (this.notice[0].shippingSn) {
+            // eslint-disable-next-line no-undef
+            request.get('http://localhost:8888/deliverInfo/queryDeliverInfo', {
+              params: {shippingSn: this.shippingSn}
+            }).then(res => {
+              this.shippingInfo = res;
+            });
+          }
+        });
       });
     },
     hh () {
@@ -96,12 +140,16 @@ export default {
         type: ''
 
       },
+      orderId: 0,
+      shippingsn: '',
       currentPage: 1,
       pageSize: 12,
       total: 0,
       tableData: [],
       notice: [],
       ids: [],
+      shippingInfo: [],
+      orderInfo: [],
       dialogFormVisible: false,
       form: {
 
