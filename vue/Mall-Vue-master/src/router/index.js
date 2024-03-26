@@ -38,6 +38,11 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
+      path: '/share', // 订单页面
+      name: 'share',
+      component: () => import('@/component/sharelist.vue')
+    },
+    {
       path: '/hh',
 
       component: () => import('@/component/HH.vue'),
@@ -168,28 +173,6 @@ export default new Router({
       path: '/SignUp', // 注册
       name: 'SignUp',
       component: SignUp
-      // children: [
-      //   {
-      //     path: '/',
-      //     name: 'index',
-      //     component: CheckPhone
-      //   },
-      //   {
-      //     path: 'checkPhone',
-      //     name: 'CheckPhone',
-      //     component: CheckPhone
-      //   },
-      //   {
-      //     path: 'inputInfo',
-      //     name: 'InputInfo',
-      //     component: InputInfo
-      //   },
-      //   {
-      //     path: 'signUpDone',
-      //     name: 'SignUpDone',
-      //     component: SignUpDone
-      //   }
-      // ]
     },
     {
       path: '/goodsList/:id/:ids', // 商品列表

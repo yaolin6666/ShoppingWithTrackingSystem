@@ -54,7 +54,7 @@ public class ShareController {
                 .like(Share::getShareTitle, search));
         LambdaQueryWrapper<Share> query = Wrappers.<Share>lambdaQuery().orderByDesc(Share::getShareId);
         if (StrUtil.isNotBlank(productId)) {
-            query.like(Share::getProductId, productId);
+            query.eq(Share::getProductId, productId);
         }
         return Result.success(sharePage);
     }

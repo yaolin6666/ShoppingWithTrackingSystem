@@ -128,7 +128,7 @@
       <router-link to="/orders">我的订单</router-link>
     </li>
     <li>
-      <router-link to="/orders">社群交流</router-link>
+      <router-link to="/share">社群交流</router-link>
     </li>
     <li>
       <router-link to="/origin">查询货源信息</router-link>

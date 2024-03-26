@@ -21,13 +21,13 @@
 
 ~~fabric应用层编写~~
 
-confrimController
+~~confrimController~~
 
-DeliverInfoController
+~~DeliverInfoController~~
 
 ~~ArgInfoController~~
 
-order相关controller
+~~order相关controller~~
 
 ### 商家审核机制 Done
 
@@ -41,7 +41,7 @@ order相关controller
 
 ~~数据库~~
 
-### 团购功能 WIP
+### 团购功能 Done
 
 ~~购物流程优化~~
 
@@ -63,9 +63,9 @@ order相关controller
 
 ~~team template~~
 
-### 订单 WIP
+### 订单 Done
 
-订单详情
+~~订单详情~~
 
 ~~创建订单 选择货源号~~
 

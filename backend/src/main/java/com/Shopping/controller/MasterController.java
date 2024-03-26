@@ -157,6 +157,12 @@ public class MasterController {
         }
         return Result.success(masterPage);
     }
+    @GetMapping("/buyList/{id}")
+    public List<Product> getBuyingProduct(@PathVariable Integer id){
+        List<Integer> productIdList= masterMapper.selectList(Wrappers.<Master>lambdaQuery().eq(Master::getCustomerId,id)).stream().map(e->e.getProductId()).distinct().collect(Collectors.toList());
+        List<Product> productList=productMapper.selectList(Wrappers.<Product>lambdaQuery().in(Product::getProductId,productIdList));
+        return productList;
+    }
 
 }
 
