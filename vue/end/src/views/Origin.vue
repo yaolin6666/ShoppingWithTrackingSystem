@@ -18,17 +18,17 @@
           :model="originProductId"
           label-width="120px">
         <el-form-item label="选择商品">
-        <el-select v-model="originProductId" filterable placeholder="请选择">
-          <el-option
-              v-for="item in productList"
-              :key="item.productId"
-              :label="item.productName"
-              :value="item.productId">
-            <div>
-              <div>{{item.productName}}</div>
-              <img style="width: 16px;height: 16px;vertical-align: text-bottom;" :src="item.productImg" :preview-src-list="[item.productImg]">
-          </div>
-          </el-option>
+          <el-select v-model="originProductId" filterable placeholder="请选择">
+            <el-option
+                v-for="item in productList"
+                :key="item.productId"
+                :label="item.productName"
+                :value="item.productId">
+              <div>
+                <div>{{item.productName}}</div>
+                <img style="width: 16px;height: 16px;vertical-align: text-bottom;" :src="item.productImg" :preview-src-list="[item.productImg]">
+            </div>
+            </el-option>
         </el-select>
         </el-form-item>
         <el-form-item>

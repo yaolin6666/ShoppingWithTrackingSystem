@@ -117,7 +117,7 @@ public class ChaincodeController {
         List<Arginfo> argInfos = arginfoMapper.selectList(Wrappers.<Arginfo>lambdaQuery()
                 .eq(Arginfo::getProductId, productId)
                 .gt(Arginfo::getCount,0)
-                .eq(Arginfo::getStatus,1));
+                .eq(Arginfo::getStatus,2));
         LambdaQueryWrapper<Arginfo> query = Wrappers.<Arginfo>lambdaQuery().orderByDesc(Arginfo::getArginfoId);
         if (StrUtil.isNotBlank(productId)) {
             query.like(Arginfo::getShopId, productId);
@@ -172,6 +172,14 @@ public class ChaincodeController {
         arginfoMapper.insert(arginfo);
         return Result.success();
     }
+    @GetMapping("/argInfo/limit")
+    public List<Arginfo> getArgInfoLimit(@RequestParam Integer productId){
+        List<Arginfo> arginfoList=arginfoMapper.selectList(Wrappers.<Arginfo>lambdaQuery()
+                .eq(Arginfo::getProductId,productId)
+                .eq(Arginfo::getStatus,2)
+                .orderByDesc(Arginfo::getCount)).stream().limit(4).collect(Collectors.toList());
+        return arginfoList;
+    }
     @PutMapping("/argInfo/update")
     public Result update(@RequestBody Arginfo arginfo){
         arginfoMapper.updateById(arginfo);
@@ -199,6 +207,21 @@ public class ChaincodeController {
                               ) {
         new Page<>(pageNum, pageSize);
         Page<Arginfo> arginfoPage = arginfoMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Arginfo>lambdaQuery().eq(Arginfo::getProductId, productId).eq(Arginfo::getStatus,2));
+        LambdaQueryWrapper<Arginfo> query = Wrappers.<Arginfo>lambdaQuery().orderByDesc(Arginfo::getArginfoId);
+        return Result.success(arginfoPage);
+    }
+
+    @GetMapping("/argInfo/pageUserAll")
+    public Result<?> findPageAll(@RequestParam(defaultValue = "1") Integer pageNum,
+                              @RequestParam(defaultValue = "10") Integer pageSize,
+                                 @RequestParam(defaultValue = "") String search) {
+        new Page<>(pageNum, pageSize);
+        Page<Arginfo> arginfoPage;
+        if(org.apache.commons.lang3.StringUtils.isNotBlank(search)){
+            arginfoPage = arginfoMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Arginfo>lambdaQuery().eq(Arginfo::getArginfoId,search));
+        }else{
+            arginfoPage = arginfoMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Arginfo>lambdaQuery());
+        }
         LambdaQueryWrapper<Arginfo> query = Wrappers.<Arginfo>lambdaQuery().orderByDesc(Arginfo::getArginfoId);
         return Result.success(arginfoPage);
     }

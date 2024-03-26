@@ -43,7 +43,6 @@
         </el-table>
       </el-col>
     </el-row>
-
     <!-- 分页 -->
     <el-row :gutter="20" class="userindex-list">
       <el-col :span="20" class="userindex-page-box">
@@ -53,8 +52,6 @@
       </el-pagination>
       </el-col>
     </el-row>
-
-
   </div>
 </template>
 

@@ -10,7 +10,6 @@ axios.interceptors.request.use(config =>{
 })
 axios.interceptors.response.use(respone =>{
     let res = respone.data;
-    console.log(res)
     if (res.code === 200){
         return respone
     }else {

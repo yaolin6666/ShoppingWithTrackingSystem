@@ -63,7 +63,6 @@ export default {
       .get('http://localhost:8888/brand/' + this.id)
       .then(function (resp) {
         _this.admin = resp.data.data;
-        console.log(resp);
       });
   },
   methods: {
@@ -89,8 +88,6 @@ export default {
 
         })
         .then((res) => {
-          console.log(res);
-
           this.list = res.data.data;
         });
     },
@@ -98,16 +95,6 @@ export default {
     gt () {
 
     }
-  //   gt(){
-  //     const _this = this;
-  //      this.$axios
-  //     .get("http://localhost:8888/product/"+this.id,"/"+this.brandId)
-  //     .then(function (resp) {
-  //       _this.admins = resp.data.data;
-
-  //       console.log(resp);
-  //     });
-  //   }
   },
   mounted () {
   }

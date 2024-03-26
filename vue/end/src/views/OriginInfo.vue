@@ -61,7 +61,6 @@ export default {
           argInfoId: this.idOrigin,
         }
       }).then(res => {
-        console.log(res);
         this.admin = res
       })
     },
@@ -78,7 +77,6 @@ export default {
           argInfo: this.admins.originInfo,
           mediaInfo: this.admins.extraArgInfo,
         }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           ElMessage({
             type: 'success',
@@ -98,7 +96,6 @@ export default {
       //修改
     onSubmit() {
       request.put("/originInfo/update", this.admins).then(res => {
-        console.log(res);
         if (res.code === 200) {
           ElMessage({
             type: 'success',
@@ -165,7 +162,6 @@ export default {
       })
     },
     filesUplodeSuccess(res){
-      console.log(res)
       this.admins.extraArgInfo = res.data
 
     },

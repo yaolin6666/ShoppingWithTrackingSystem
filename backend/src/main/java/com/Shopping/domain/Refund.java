@@ -53,6 +53,7 @@ public class Refund implements Serializable {
 
     private String productImage;
 
+    @TableField(value = "product_origin")
     private String productColor;
 
     private String productName;

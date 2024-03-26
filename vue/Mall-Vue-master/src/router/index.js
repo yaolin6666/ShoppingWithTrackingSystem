@@ -120,13 +120,6 @@ export default new Router({
     },
 
     {
-      path: '/notice',
-
-      component: () => import('@/component/Notice.vue'),
-      name: 'notice'
-    },
-
-    {
       path: '/show',
 
       component: () => import('@/component/ShowBlogs.vue'),
@@ -138,6 +131,18 @@ export default new Router({
       component: () => import('@/component/SingBlogs.vue')
     },
 
+    {
+      path: '/origin',
+
+      component: () => import('@/component/origin.vue'),
+      name: 'origin'
+    },
+    {
+      path: '/notice',
+
+      component: () => import('@/component/Notice.vue'),
+      name: 'notice'
+    },
     {
       path: '/Index', // 首页
       name: 'Index',

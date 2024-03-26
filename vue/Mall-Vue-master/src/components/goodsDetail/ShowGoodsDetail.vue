@@ -2,35 +2,6 @@
   <div>
     <div class="item-intro-show">
       <div class="item-intro-recommend">
-<!--        <div class="item-recommend-title">-->
-<!--          <p>商品推荐</p>-->
-<!--        </div>-->
-<!--        <div class="item-intro-recommend-column">-->
-<!--          <div-->
-<!--            class="item-recommend-column"-->
-<!--            v-for="(item, index) in adminss"-->
-<!--            :key="index"-->
-<!--            @click="jh"-->
-<!--          >-->
-<!--            <router-link-->
-<!--              v-bind:to="'/goodsDetail/' + item.productId"-->
-<!--              v-if="index"-->
-<!--            >-->
-<!--              <div class="item-recommend-img">-->
-<!--                <img :src="item.productImage" alt="" />-->
-<!--              </div>-->
-<!--              <div class="item-recommend-intro">-->
-<!--                <span>-->
-<!--                  <span class="item-recommend-top-num"-->
-<!--                    >{{ item.productName.substr(0, 45) }}...</span-->
-<!--                  >-->
-
-<!--                  <p class="item-recommend-price">￥{{ item.productPrice }}</p>-->
-<!--                </span>-->
-<!--              </div>-->
-<!--            </router-link>-->
-<!--          </div>-->
-<!--        </div>-->
       </div>
       <div class="item-intro-detail" ref="itemIntroDetail" :data="admin">
         <div class="item-intro-nav item-tabs">
@@ -97,23 +68,25 @@
               <ShowProductWarranty></ShowProductWarranty>
             </TabPane>
             <TabPane label="团购列表">
-              <div class="remarks-title">
-                <span>商品介绍</span>
-              </div>
-              <div class="item-intro-img" ref="itemIntroGoods">
-                <div style="margin-top: 35px">
-                  <img :src="admin.productIm" width="900px" height="300" />
-                </div>
-                <div style="margin-top: 35px">
-                  <img :src="admin.productImd" width="900px" height="700" />
-                </div>
-                <div style="margin-top: 35px">
-                  <img :src="admin.productImf" width="900px" height="700" />
-                </div>
-                <div style="margin-top: 35px">
-                  <img :src="admin.productImg" width="900px" height="700" />
-                </div>
-              </div>
+              <el-row :gutter="0" class="userindex-list">
+                <el-col :span="21">
+                  <el-table :data="teamList" border style="width: 100%" @selection-change="handleSelectionChange">
+                    <el-table-column  prop="teamId" label="拼单队伍ID" width="100"/>
+                    <el-table-column  prop="teamNow" label="当前人数" width="50"/>
+                    <el-table-column prop="teamNeed" label="所需人数" width="50"/>
+                    <el-table-column prop="teamAttendId" label="参与者Id" width="300">
+                    </el-table-column>
+                    <el-table-column prop="teamAttendName" label="参与者名称" width="300">
+                    </el-table-column>
+                    <el-table-column prop="discount" label="折扣(%)" width="60">
+                    </el-table-column>
+                    <el-table-column prop="createTime" label="创建时间" width="200">
+                    </el-table-column>
+                    <el-table-column prop="updateTime" label="最后修改时间" width="200">
+                    </el-table-column>
+                  </el-table>
+                </el-col>
+              </el-row>
             </TabPane>
             <TabPane label="商品评价">
               <div class="remarks-container">
@@ -136,14 +109,6 @@
                     </i-circle>
                   </div>
                   <div class="remarks-analyse-tags">
-                    <!-- <Tag
-                      checkable
-                      :color="tagsColor[index % 4]"
-                      v-for="(item, index) in tog"
-                      :key="item.name"
-
-                      ><span @click="ki(item.name);">{{ item.name }}</span></Tag
-                    > -->
                     <Tag
                       checkable
                       :color="tagsColor[index % 4]"
@@ -185,22 +150,6 @@
                       >
                     </div>
                     <div class="ee">{{ item.createTime }}</div>
-                    <!-- <div class="remarks-content-box">
-                    <p>
-                      <Rate
-                        disabled
-                        :value="item.values"
-                        allow-half
-                        class="remarks-star"
-                      ></Rate>
-                    </p>
-                    <p class="remarks-content">{{ item.commentNr }}</p>
-                    <p class="remarks-sub">
-                      <span class="remarks-item">{{ item.productColor }}</span>
-                      <span class="remarks-time">{{ item.productNum }}</span>
-                    </p>
-                  </div> -->
-
                     <div class="jj">
                       <p class="remarks-sub"></p>
                       <p v-show="!item.commentNr">该用户默认好评！</p>
@@ -224,7 +173,6 @@
                         <span class="remarks-item"
                           >购买货源号：{{ item.productColor }}</span
                         >
-
                         <span class="remarks-time"
                           >购买数量：{{ item.productNum }}</span
                         >
@@ -257,6 +205,30 @@
                 </div>
               </div>
             </TabPane>
+            <el-dialog title="" v-model="dialogVisible" width="800px">
+              <el-card>
+                <el-form ref="fruitRules" :model="admins" :rules="rules" label-width="120px" class="demo-ruleForm">
+                  <el-row>
+                    <el-col :span="10">
+                      <el-form-item label="需求人数" prop="teamNeed">
+                        <el-input v-model="admins.teamNeed"></el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row>
+                    <el-col :span="10">
+                      <el-form-item label="优惠率" prop="discount">
+                        <el-input v-model="admins.discount"></el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-form-item>
+                    <el-button type="primary" @click="onSubmit('fruitRules')">立即创建</el-button>
+                    <el-button>取消</el-button>
+                  </el-form-item>
+                </el-form>
+              </el-card>
+            </el-dialog>
           </Tabs>
         </div>
       </div>
@@ -273,35 +245,21 @@ export default {
   data () {
     return {
       adminss: [],
+      dialogVisible: false,
       search: '',
       currentPage: 1,
-
       pageSize: 12,
       total: 0,
       id: this.$route.params.id,
       admin: [],
       admins: [],
+      teamList: [],
       srcList: [],
       tagsColor: ['blue', 'green', 'red', 'yellow'],
-
       tog: [{ name: 'ni' }, { name: 'hh' }]
     };
   },
   computed: {
-    //  totalxt(){
-    //    let totalxt =0;
-    //     for (var i=0; i<this.admins.length; i++) {
-    //       for (var j=i+1; j<this.admins.length; j++) {
-    //           if (this.admins[i].customerName == this.admins.customerName) {
-    //               totalxt++
-
-    //           }
-
-    //       }
-    //       return totalxt;
-    //   }
-    //  },
-
     filteredBlogs: function () {
       return this.admins.filter((admins) => {
         return admins.customerName.match(this.search);
@@ -363,7 +321,6 @@ export default {
   },
   methods: {
     ki (name) {
-      console.log(name);
       this.search = name;
     },
 
@@ -374,7 +331,6 @@ export default {
     lodes () {
       // eslint-disable-next-line no-undef
       axios.get('http://localhost:8888/product/page').then((res) => {
-        console.log(res);
         this.adminss = res.data.data.records;
       });
     },
@@ -400,49 +356,30 @@ export default {
           }
         })
         .then((res) => {
-          console.log(res);
           this.admins = res.data.data.records;
           this.total = res.data.data.total;
         });
+      // eslint-disable-next-line no-undef
+      axios
+        .get('http://localhost:8888/teamInfo/findAll', {
+          params: {
+            productId: this.id
+          }
+        })
+        .then((res) => {
+          this.teamList = res.data;
+        });
     }
-
-    //   vbs() {
-    //          this.srcList = this.admins;
-    //      console.log('sli',this.srcList);
-    //      },
-    // changeHeight() {
-    //   let heightCss = window.getComputedStyle(this.$refs.itemIntroGoods).height;
-    //   console.log(heightCss);
-    //   heightCss = parseInt(heightCss.substr(0, heightCss.length - 2)) + 89;
-    //   this.$refs.itemIntroDetail.style.height = heightCss + "px";
-    // },
   },
   created () {
-    // let sum = 0;
-    // this.admins.forEach((item) => {
-    //    //遍历prodAllPrice这个字段，并累加
-    //    sum += item.commentPf;
-    //  });
-    // //返回
-    // this.sum = sum;
     this.lodes();
     this.lode();
     const _this = this;
-
     this.$axios
       .get('http://localhost:8888/product/find/' + this.id)
       .then(function (resp) {
         _this.admin = resp.data;
-
-        console.log(resp);
       });
-    // this.$axios
-    // .get("http://localhost:8888/comment/find/" + this.id)
-    // .then(function (resp) {
-    //   _this.admins = resp.data.data;
-
-    //   console.log(resp);
-    // });
   },
   updated () {
     this.$nextTick(() => {

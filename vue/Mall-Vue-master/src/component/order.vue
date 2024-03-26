@@ -71,7 +71,7 @@
       <span>货源号</span>
       <span>价格</span>
       <span>数量</span>
-      <span>优惠方式</span>
+      <span>优惠率</span>
       <span>订单金额</span>
     </div>
     <div class="lj"></div>
@@ -84,7 +84,7 @@
     </span>
         </div>
       </router-link>
-      <div class="m2"><span style="word-wrap:break-word;word-break:break-all;width:120px;margin-left: 50px;">{{notice.productName.substring(0, 32)}}...
+      <div class="m2"><span style="word-wrap:break-word;word-break:break-all;width:135px;margin-left: 50px;">{{notice.productName.substring(0, 32)}}...
     <img src="@/assets/bv2.png">
   </span>
 
@@ -93,10 +93,10 @@
         <span
           style="word-wrap:break-word;word-break:break-all;width:50px;margin-left: 162px;">{{notice.productPrice}}</span>
 
-        <span style="word-wrap:break-word;word-break:break-all;width:50px;margin-left: 108px;"><el-input-number
+        <span style="word-wrap:break-word;word-break:break-all;width:80px;margin-left: 108px;"><el-input-number
           v-model="notice.productNum" @change="handleChange" :min="1" :max="notice.productMnum" size="mini"
           style="width:105px"></el-input-number></span>
-        <span style="word-wrap:break-word;word-break:break-all;width:120px;margin-left: 172px;">省205:超值优惠</span>
+        <span style="word-wrap:break-word;word-break:break-all;width:70px;margin-left: 172px;">{{notice.discount}}</span>
         <span style="font-size:16px;font-weight:bold;width:20px;margin-left: 132px;" class="font-weight-black"
               v-rainbow>{{notice.productNum * notice.productPrice}}.00</span>
         </div>
@@ -308,8 +308,6 @@ export default {
     const _this = this;
     this.$axios.get('http://localhost:8888/address/finds/' + this.ids).then(function (resp) {
       _this.addressList = resp.data.data.records;
-
-      console.log(resp);
     });
     let orderDetailId = this.$route.query.orderDetailId;
 
@@ -385,7 +383,6 @@ export default {
       axios
         .post('http://localhost:8888/img/add', this.product)
         .then(function (response) {
-          console.log(this.product);
         });
     },
     next () {
@@ -463,6 +460,8 @@ export default {
         .post('http://localhost:8888/master/add', this.notice)
         .then(function (response) {
           if (response.data) {
+            // eslint-disable-next-line no-undef
+            axios.put('http://localhost:8888/teamInfo/update/' + response.data.data.orderId);
             _this.$alert('请等待商家发货！', '购买商品', {
               confirmButtonText: '确定',
               callback: (action) => {

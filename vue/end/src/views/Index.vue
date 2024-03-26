@@ -63,7 +63,6 @@ export default {
     methods: {
       lode(){
         request.get("/account/count").then(res =>{
-          console.log(res)
           this.user = res.data
         })
         request.get("/product/count",{
@@ -72,7 +71,6 @@ export default {
           }
         }
         ).then(res =>{
-          console.log(res)
           this.product = res.data
         })
         request.get("/master/count",{
@@ -80,7 +78,6 @@ export default {
             shopId: this.customerId
           }
         }).then(res =>{
-          console.log(res)
           this.order = res.data
         })
         request.get("/comment/findAll",{
@@ -88,11 +85,9 @@ export default {
             shopId: this.customerId
           }
         }).then(res =>{
-          console.log(res)
           this.tableData = res.data
         })
         request.get("/confirm/count").then(res =>{
-          console.log(res)
           this.confirm = res.data
         })
         request.get("/refund/count",{
@@ -100,12 +95,10 @@ export default {
             shopId: this.customerId
           }
         }).then(res =>{
-          console.log(res)
           this.refund = res.data
           this.refundSize=JSON.parse(this.refund)
         })
         request.get("/comment/count").then(res =>{
-          console.log(res)
           this.comment = res.data
         })
       },

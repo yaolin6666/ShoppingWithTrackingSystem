@@ -410,13 +410,9 @@ import { mapState } from 'vuex';
 export default {
   name: 'Promptly',
   created () {
-    console.log(this.ids);
-
     const _this = this;
     this.$axios.get('http://localhost:8888/address/finds/' + this.ids).then(function (resp) {
       _this.admin = resp.data.data.records;
-
-      console.log(resp);
     });
 
     // eslint-disable-next-line no-undef
@@ -475,7 +471,6 @@ export default {
       axios
         .post('http://localhost:8888/img/add', this.product)
         .then(function (response) {
-          console.log(this.product);
         });
     },
     buy (productId) {

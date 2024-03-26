@@ -77,7 +77,6 @@ export default {
             const token = res.headers['authorization']
             this.$store.commit('SET_TOKEN', token)
             this.$store.commit('SET_USERINFO', res.data.data)
-            console.log(res.data.data);
             sessionStorage.setItem("user", JSON.stringify(res.data))
             this.$router.push("/index")
             ElMessage({

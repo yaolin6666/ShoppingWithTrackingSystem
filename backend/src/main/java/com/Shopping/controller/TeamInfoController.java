@@ -10,6 +10,7 @@ import com.Shopping.mapper.TeamMapper;
 import com.Shopping.mapper.TemplateMapper;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.joda.time.LocalDateTime;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,10 @@ public class TeamInfoController {
         return this.teamMapper.selectById(id);
     }
     @PostMapping("/add")
-    public Result insert(@RequestParam Integer templateId,@RequestParam Integer productId,@RequestParam Integer userId) {
+    public Result insert(@RequestBody JSONObject jsonObject) {
+        Integer templateId=jsonObject.getInteger("templateId");
+        Integer userId=jsonObject.getInteger("userId");
+        Integer productId=jsonObject.getInteger("productId");
         Team team=new Team();
         List<Integer> accountList=new ArrayList<>();
         List<String> accountNameList=new ArrayList<>();
@@ -49,18 +53,21 @@ public class TeamInfoController {
         team.setTeamNeed(template.getTeamNeed());
         team.setDiscount(template.getDiscount());
         team.setStatus(1);
+        team.setTemplateId(templateId);
         team.setTeamNow(1);
         team.setProductId(productId);
-        team.setExpireTime(LocalDateTime.now().plusDays(1).toDateTime());
+        team.setExpireTime(LocalDateTime.now().plusDays(1).toDate());
         accountList.add(userId);
         team.setTeamAttendId(JSON.toJSONString(accountList));
         accountNameList.add(accountMapper.selectById(userId).getCustomerName());
         team.setTeamAttendName(JSON.toJSONString(accountNameList));
         teamMapper.insert(team);
-        return Result.success();
+        return Result.success(team);
     }
-    @PutMapping("/update")
-    public Result update(@RequestParam Integer teamId,@RequestParam Integer userId){
+    @PutMapping("/attend")
+    public Result attend(@RequestBody JSONObject jsonObject){
+        Integer teamId=jsonObject.getInteger("teamId");
+        Integer userId=jsonObject.getInteger("userId");
         //分布式锁 限流
         Team team=teamMapper.selectById(teamId);
         List<Integer> accountList= JSONArray.parseArray(team.getTeamAttendId(),Integer.TYPE);
@@ -70,14 +77,26 @@ public class TeamInfoController {
         team.setTeamAttendId(JSON.toJSONString(accountList));
         team.setTeamAttendName(JSON.toJSONString(accountNameList));
         team.setTeamNow((team.getTeamNow()+1));
-        if(team.getTeamNow()>=team.getTeamNeed()){
-            team.setStatus(0);
-            List<Integer> masterIdList=masterMapper.selectList(Wrappers.<Master>lambdaQuery()
-                    .eq(Master::getStatus,180)
-                    .eq(Master::getProductId,team.getProductId())
-                    .in(Master::getCustomerId,accountList))
-                    .stream().map(e->e.getOrderId()).collect(Collectors.toList());
-                    masterMapper.update(null,Wrappers.<Master>lambdaUpdate().in(Master::getOrderId,masterIdList).set(Master::getStatus,100));
+        teamMapper.updateById(team);
+        return Result.success();
+    }
+    @PutMapping("/update/{id}")
+    public Result updateTeam(@PathVariable Integer id){
+        Master master=masterMapper.selectById(id);
+        Integer teamId=master.getTeamId();
+        if(teamId!=null) {
+            Team team = teamMapper.selectById(teamId);
+            List<Integer> accountList = JSONArray.parseArray(team.getTeamAttendId(), Integer.TYPE);
+            if (team.getTeamNow() >= team.getTeamNeed()) {
+                team.setStatus(0);
+                List<Integer> masterIdList = masterMapper.selectList(Wrappers.<Master>lambdaQuery()
+                                .eq(Master::getStatus, 180)
+                                .eq(Master::getProductId, team.getProductId())
+                                .in(Master::getCustomerId, accountList))
+                        .stream().map(e -> e.getOrderId()).collect(Collectors.toList());
+                teamMapper.updateById(team);
+                masterMapper.update(null, Wrappers.<Master>lambdaUpdate().in(Master::getOrderId, masterIdList).set(Master::getStatus, 100));
+            }
         }
         return Result.success();
     }

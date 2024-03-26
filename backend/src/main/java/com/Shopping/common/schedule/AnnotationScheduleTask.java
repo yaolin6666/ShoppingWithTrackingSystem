@@ -1,8 +1,10 @@
 package com.Shopping.common.schedule;
 
 import com.Shopping.domain.Master;
+import com.Shopping.domain.Shopping;
 import com.Shopping.domain.Team;
 import com.Shopping.mapper.MasterMapper;
+import com.Shopping.mapper.ShoppingMapper;
 import com.Shopping.mapper.TeamMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,8 @@ public class AnnotationScheduleTask {
     private MasterMapper masterMapper;
     @Autowired
     private TeamMapper teamMapper;
+    @Autowired
+    private ShoppingMapper shoppingMapper;
     @Async
     @Scheduled(cron = "0 0/30 * * * ? ")
     public void expireOrder(){
@@ -41,5 +45,20 @@ public class AnnotationScheduleTask {
                 .set(Team::getStatus,0));
         log.info("结束时间:{}",LocalDateTime.now());
         log.info("任务结束 已清除过期团购 数量为{}",expireTeamIdList.size());
+    }
+
+    @Async
+    @Scheduled(cron = "0 0/30 * * * ? ")
+    public void expireShopping(){
+        log.info("自动任务开始 清除超时购物车");
+        log.info("开始时间:{}",LocalDateTime.now());
+        LocalDateTime now=LocalDateTime.now().minusDays(1);
+        List<Integer> expireShopping=shoppingMapper.selectList(Wrappers.<Shopping>lambdaQuery()
+                        .le(Shopping::getCreateTime,now))
+                .stream().map(e->e.getOrderDetailId())
+                .collect(Collectors.toList());
+        shoppingMapper.deleteBatchIds(expireShopping);
+        log.info("结束时间:{}",LocalDateTime.now());
+        log.info("任务结束 已清除时购物车 数量为{}",expireShopping.size());
     }
 }

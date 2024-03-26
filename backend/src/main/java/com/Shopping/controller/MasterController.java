@@ -81,11 +81,14 @@ public class MasterController {
 
     @PostMapping("/add")
     public Result<?> insert(@RequestBody Master master){
+        if(master.getTeamId()!=null){
+            master.setStatus(180);
+        }
         masterMapper.insert(master);
         /**
          * 减少库存动作 设置状态
          * */
-        return Result.success();
+        return Result.success(master);
     }
 
     @PostMapping("/deleteBatch")

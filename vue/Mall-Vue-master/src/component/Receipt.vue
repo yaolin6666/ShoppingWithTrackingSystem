@@ -115,7 +115,6 @@ export default {
       axios
         .post('http://localhost:8888/img/add', this.product)
         .then(function (response) {
-          console.log(this.product);
         });
     },
 
@@ -128,7 +127,6 @@ export default {
           search: this.search
         }
       }).then(res => {
-        console.log(res);
         this.user = res.data.data.records;
         this.total = res.data.data.total;
       });

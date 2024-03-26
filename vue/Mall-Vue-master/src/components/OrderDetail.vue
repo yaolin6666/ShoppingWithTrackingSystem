@@ -213,14 +213,10 @@ export default {
     const _this = this;
     this.$axios.get('http://localhost:8888/address/findAll').then(function (resp) {
       _this.admins = resp.data;
-
-      console.log(resp);
     });
 
     this.$axios.get('http://localhost:8888/master/find/' + this.id).then(function (resp) {
       _this.admin = resp.data;
-
-      console.log(resp);
     });
   },
   data () {
@@ -337,7 +333,6 @@ export default {
   },
   methods: {
     filesUplodeSeccess (res) {
-      console.log(res);
       this.admin.refundImg = res.data;
     },
 
@@ -351,7 +346,6 @@ export default {
       axios
         .post('http://localhost:8888/img/add', this.product)
         .then(function (response) {
-          console.log(this.product);
         });
     },
 
@@ -380,7 +374,6 @@ export default {
     },
 
     select (selection, row) {
-      console.log(selection);
       this.goodsCheckList = selection;
     },
     changeAddress (data) {

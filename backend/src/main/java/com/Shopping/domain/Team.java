@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.joda.time.DateTime;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -30,7 +29,7 @@ public class Team implements Serializable {
     private String teamAttendName;
     private Integer templateId;
     private Integer discount;
-    private DateTime expireTime;
+    private Date expireTime;
 
     //结束生命周期0 使用中1
     private Integer status;

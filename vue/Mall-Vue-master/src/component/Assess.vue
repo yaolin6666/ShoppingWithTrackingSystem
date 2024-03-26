@@ -9,10 +9,7 @@
       返回顶部
     </div>
  </el-backtop>
-    <!-- <div class="ff"><input v-model="search" placeholder="请输入内容" /></div> -->
-    <!-- 搜索条件 -->
     <el-row :gutter="20" class="userindex-queryInfo">
-      <!-- 商品名称搜索 -->
       <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4">
         <el-input
           class="userindex-queryInfo-li"
@@ -146,8 +143,6 @@ export default {
         .get('http://localhost:8888/account/find/' + this.id)
         .then(function (resp) {
           _this.admind = resp.data;
-
-          console.log(resp);
         });
     },
 
@@ -158,12 +153,10 @@ export default {
       axios
         .post('http://localhost:8888/img/add', this.product)
         .then(function (response) {
-          console.log(this.product);
         });
     },
 
     filesUplodeSeccess (res) {
-      console.log(res);
       this.admins.commentPic = res.data;
     },
 
@@ -176,7 +169,6 @@ export default {
           search: this.search
         }
       }).then(res => {
-        console.log(res);
         this.user = res.data.data.records;
         this.total = res.data.data.total;
       });
@@ -199,8 +191,6 @@ export default {
         .get('http://localhost:8888/assess/find/' + assessId)
         .then(function (resp) {
           _this.admins = resp.data;
-
-          console.log(resp);
         });
     },
     // 修改
@@ -218,6 +208,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let _this = this;
+          // eslint-disable-next-line no-undef
           axios
             .post('http://localhost:8888/comment/add', this.admins)
             .then(function (response) {
@@ -296,20 +287,9 @@ export default {
       .get('http://localhost:8888/account/find/' + this.id)
       .then(function (resp) {
         _this.adminss = resp.data;
-
-        console.log(resp);
       });
     this.ju();
     this.lode();
-    // const _this = this;
-    // axios.get("http://localhost:8888/master/findAll").then(function (resp) {
-    //   _this.user = resp.data;
-    //   console.log(resp);
-    //   //   alert(resp);
-    //   _this.tableData = resp.data.content;
-    //   _this.pageSize = resp.data.size;
-    //   _this.total = resp.data.totalElements;
-    // });
   },
   data () {
     return {
@@ -324,20 +304,12 @@ export default {
       ],
 
       dialogTableVisible: false,
-      dialogFormVisible: false,
       dialogTableVisibles: false,
       dialogFormVisibles: false,
       adminss: {},
       currentPage: 1,
       pageSize: 7,
       total: 0,
-      search: '',
-      // queryInfo: {
-      //   // name: "",
-      //   // type: "",
-      //   // page: 1,
-      //   // pageSize: 10,
-      // },
       options: [
         {
           label: 1,
@@ -364,10 +336,6 @@ export default {
       formLabelWidth: '120px'
     };
   },
-  // mounted(){
-  //   this.admins.avatar=this.avatar
-  //   console.log(this.admins.avatar)
-  // },
   store
 };
 </script>
