@@ -85,7 +85,6 @@ export default {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           request.post('/register', this.ruleForm).then((res) => {
-            console.log(res);
             if (res.code === 200) {
               this.$message.success('注册成功');
               this.$router.push('/');
@@ -96,7 +95,6 @@ export default {
             }
           });
         } else {
-          console.log('error submit!!');
           return false;
         }
       });

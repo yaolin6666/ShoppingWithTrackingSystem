@@ -2,11 +2,13 @@ package com.Shopping.controller;
 
 import com.Shopping.common.lang.Result;
 import com.Shopping.domain.Template;
+import com.Shopping.mapper.ProductMapper;
 import com.Shopping.mapper.TeamMapper;
 import com.Shopping.mapper.TemplateMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,8 +21,16 @@ public class TemplateController {
     TeamMapper teamMapper;
     @Resource
     TemplateMapper templateMapper;
+    @Autowired
+    ProductMapper productMapper;
     @GetMapping("/findAll")
     public List<Template> findAll(@RequestParam Integer shopId) {
+        List<Template> templates = templateMapper.selectList( Wrappers.<Template>lambdaQuery().eq(Template::getShopId,shopId));
+        return templates;
+    }
+    @GetMapping("/findAllUser")
+    public List<Template> findAllUser(@RequestParam Integer productId) {
+        Integer shopId=productMapper.selectById(productId).getCustomerId();
         List<Template> templates = templateMapper.selectList( Wrappers.<Template>lambdaQuery().eq(Template::getShopId,shopId));
         return templates;
     }

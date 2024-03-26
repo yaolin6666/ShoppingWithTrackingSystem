@@ -56,6 +56,11 @@ public class ShoppingController {
         shoppingMapper.insert(shopping);
         return Result.success();
     }
+    @PostMapping("/addData")
+    public Integer insertData(@RequestBody Shopping shopping) {
+        shoppingMapper.insert(shopping);
+        return shopping.getOrderDetailId();
+    }
 
     @PostMapping("/deleteBatch")
     public Result<?> deleteBatch(@RequestBody List<Integer> ids) {

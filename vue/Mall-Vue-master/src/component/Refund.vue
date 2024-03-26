@@ -2,6 +2,10 @@
 <template>
 
   <div class="userindex">
+    <div align="center" style="font-size: 20px" v-if="this.user.length<1">
+      暂无此分类下订单
+    </div>
+    <div v-if="this.user.length>0">
     <el-backtop :bottom="10" :right="0">
       <div
           class="kg2"
@@ -38,7 +42,7 @@
           <div class="bb">
             <div class="ff">
               <span style="margin-left: 162px;">宝贝</span>
-              <span style="margin-left: 163px;">颜色</span>
+              <span style="margin-left: 163px;">货源号</span>
               <span style="margin-left: 106px;">单价</span>
               <span style="margin-left: 131px;">数量</span>
               <span style="margin-left: 116px;">实付款</span>
@@ -75,11 +79,11 @@
                     <div style="float:right;margin-right: 18px;word-wrap:break-word;word-break: break-all; width:85px">
                       <span>{{ user.productNum }}</span></div>
                   </td>
-                  <td class="kk2"><p style="margin-left: 26px;font-weight:bold;color: red;">￥{{ user.productPrice }}</p>
+                  <td class="kk2"><p style="margin-left: 26px;font-weight:bold;color: red;">￥{{user.productPrice*user.productNum*(100-user.discount)/100}}</p>
                     <p style="margin-left: 20px;margin-top: 5px;">({{ user.paymentMethod }})</p>
                   </td>
-                  <td class="kk2"><p style="margin-left: 26px;">付款成功</p>
-                    <p style="margin-left: 26px;margin-top: 5px;">订单详情</p>
+                  <td class="kk2">
+                    <el-button  @click="getDetail(user.refundId)">订单详情</el-button>
                   </td>
                   <td class="kk2"><p style="margin-left: 12px;margin-top: 27px;">
                     <span style="color:red" v-show="!user.refundTx">等待退款/退货</span>
@@ -110,6 +114,7 @@
       </el-row>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -120,6 +125,9 @@ import {mapState, mapActions} from 'vuex';
 export default {
   name: 'Receipt',
   methods: {
+    getDetail (orderId) {
+      window.open('/orderDetail/' + orderId);
+    },
     onSubmits (admin) {
       admin.customerId = this.id;
       this.product = admin;
@@ -129,7 +137,6 @@ export default {
       axios
         .post('http://localhost:8888/img/add', this.product)
         .then(function (response) {
-          console.log(this.product);
         });
     },
 
@@ -142,7 +149,6 @@ export default {
           search: this.search
         }
       }).then(res => {
-        console.log(res);
         this.user = res.data.data.records;
         this.total = res.data.data.total;
       });

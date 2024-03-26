@@ -97,7 +97,7 @@
 <div class="vv1">
   <span class="qq">商品图片</span>
   <span class="n1">商品名称</span>
-  <span>颜色</span>
+  <span>货源号</span>
   <span>价格</span>
   <span>数量</span>
   <span>优惠方式</span>
@@ -320,7 +320,7 @@
 </el-radio-group>
     </el-form-item>
     <el-form-item
-      label="颜色"
+      label="货源号"
       prop="productColor"
     >
       <el-input v-model="notice.productColor"></el-input>
@@ -410,13 +410,9 @@ import { mapState } from 'vuex';
 export default {
   name: 'Promptly',
   created () {
-    console.log(this.ids);
-
     const _this = this;
     this.$axios.get('http://localhost:8888/address/finds/' + this.ids).then(function (resp) {
       _this.admin = resp.data.data.records;
-
-      console.log(resp);
     });
 
     // eslint-disable-next-line no-undef
@@ -475,7 +471,6 @@ export default {
       axios
         .post('http://localhost:8888/img/add', this.product)
         .then(function (response) {
-          console.log(this.product);
         });
     },
     buy (productId) {

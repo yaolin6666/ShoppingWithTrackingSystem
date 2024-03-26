@@ -81,11 +81,14 @@ public class MasterController {
 
     @PostMapping("/add")
     public Result<?> insert(@RequestBody Master master){
+        if(master.getTeamId()!=null){
+            master.setStatus(180);
+        }
         masterMapper.insert(master);
         /**
          * 减少库存动作 设置状态
          * */
-        return Result.success();
+        return Result.success(master);
     }
 
     @PostMapping("/deleteBatch")
@@ -153,6 +156,12 @@ public class MasterController {
             query.like(Master::getProductName, search).lt(Master::getStatus,200);
         }
         return Result.success(masterPage);
+    }
+    @GetMapping("/buyList/{id}")
+    public List<Product> getBuyingProduct(@PathVariable Integer id){
+        List<Integer> productIdList= masterMapper.selectList(Wrappers.<Master>lambdaQuery().eq(Master::getCustomerId,id)).stream().map(e->e.getProductId()).distinct().collect(Collectors.toList());
+        List<Product> productList=productMapper.selectList(Wrappers.<Product>lambdaQuery().in(Product::getProductId,productIdList));
+        return productList;
     }
 
 }

@@ -40,10 +40,12 @@
               </el-image>
             </template>
           </el-table-column>
-          <el-table-column prop="productColor" label="商品颜色" width="75"/>
+          <el-table-column prop="productColor" label="商品货源号" width="75"/>
           <el-table-column prop="productPrice" label="商品价格" width="80"/>
           <el-table-column prop="productNum" label="商品数量" width="75"/>
           <el-table-column prop="paymentMethod" label="付款方式" width="90"/>
+          <el-table-column prop="discount" label="订单折扣(%)" width="75">
+          </el-table-column>
           <el-table-column prop="shippingUser" label="收货人" width="90"/>
           <el-table-column prop="address" label="收货人地址" width="90"/>
           <el-table-column prop="productPhones" label="收货人电话" width="90"/>
@@ -129,7 +131,11 @@ export default {
     },
     onSubmit(){
       request.put("/refund/update", this.form).then(res => {
-        console.log(res);
+        // eslint-disable-next-line no-undef
+        axios.post('http://localhost:8888/OrderOrigin/add', {
+          orderId: this.admin.orderId,
+          content: '处理退款申请'
+        });
         if (res.code === 200) {
           ElMessage({
             type: 'success',

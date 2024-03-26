@@ -37,7 +37,6 @@ export const loadSeckillsInfo = ({ commit }) => {
     const hours = date.getHours();
     const minute = date.getMinutes();
     const seconds = date.getSeconds();
-    console.log([hours, minute, seconds]);
     // 距离开始秒杀时间
     const deadline = {
       hours: 1,
@@ -724,7 +723,6 @@ export const login = ({ commit }, data) => {
       return true;
     }
     const userArr = localStorage.getItem('users');
-    console.log(userArr);
     if (userArr) {
       const users = JSON.parse(userArr);
       for (const item of users) {

@@ -133,7 +133,6 @@ export default {
   created() {
     this.accountId = JSON.parse(sessionStorage.getItem('userInfo')).id;
     request.get("/register/find/" + this.accountId).then(res => {
-      console.log(res);
       this.existData = res
       this.lode()
       this.dialogVisible = false
@@ -155,7 +154,6 @@ export default {
     submitData() {
       this.form.accountId = this.accountId;
       request.post("/register/add", this.form).then(res => {
-        console.log(res);
         if (res.code === 200) {
           ElMessage({
             type: 'success',

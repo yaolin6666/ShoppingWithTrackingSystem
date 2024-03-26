@@ -68,10 +68,10 @@
     <div class="vv1">
       <span class="qq">商品图片</span>
       <span class="n1">商品名称</span>
-      <span>颜色</span>
+      <span>货源号</span>
       <span>价格</span>
       <span>数量</span>
-      <span>优惠方式</span>
+      <span>优惠率</span>
       <span>订单金额</span>
     </div>
     <div class="lj"></div>
@@ -84,7 +84,7 @@
     </span>
         </div>
       </router-link>
-      <div class="m2"><span style="word-wrap:break-word;word-break:break-all;width:120px;margin-left: 50px;">{{notice.productName.substring(0, 32)}}...
+      <div class="m2"><span style="word-wrap:break-word;word-break:break-all;width:135px;margin-left: 50px;">{{notice.productName.substring(0, 32)}}...
     <img src="@/assets/bv2.png">
   </span>
 
@@ -93,10 +93,10 @@
         <span
           style="word-wrap:break-word;word-break:break-all;width:50px;margin-left: 162px;">{{notice.productPrice}}</span>
 
-        <span style="word-wrap:break-word;word-break:break-all;width:50px;margin-left: 108px;"><el-input-number
+        <span style="word-wrap:break-word;word-break:break-all;width:80px;margin-left: 108px;"><el-input-number
           v-model="notice.productNum" @change="handleChange" :min="1" :max="notice.productMnum" size="mini"
           style="width:105px"></el-input-number></span>
-        <span style="word-wrap:break-word;word-break:break-all;width:120px;margin-left: 172px;">省205:超值优惠</span>
+        <span style="word-wrap:break-word;word-break:break-all;width:70px;margin-left: 172px;">{{notice.discount}}</span>
         <span style="font-size:16px;font-weight:bold;width:20px;margin-left: 132px;" class="font-weight-black"
               v-rainbow>{{notice.productNum * notice.productPrice}}.00</span>
         </div>
@@ -104,13 +104,12 @@
 
     <div class="lj1"></div>
     <div class="q0">
-      <div class="g4" v-rainbow><span style="margin-left: 127px;font-size:16px;font-weight:bold;">- 0.00</span>
+      <div class="g4" v-rainbow><span style="margin-left: 127px;font-size:16px;font-weight:bold;">-{{ notice.productNum * notice.productPrice*(notice.discount)/100 }}</span>
         <div class="g8" style="margin-left: 97px;font-size:14px;font-weight:bold;">{{gender}}</div>
-        <div class="g8" style="margin-left: 138px;font-size:14px;font-weight:bold;">0.00</div>
         <div class="fu1">
           <span style="color: black;">店铺合计(含运费)</span>
           <span style="color: rgba(19, 18, 18, 0.575);font-size:14px;"></span>
-          <span style="margin-right: 150px;font-size:17px;font-weight:bold;">￥{{notice.productNum * notice.productPrice + notice.shippingMoney}}.00</span>
+          <span style="margin-right: 150px;font-size:17px;font-weight:bold;">￥{{notice.productNum * notice.productPrice*(100-notice.discount)/100 + notice.shippingMoney}}.00</span>
         </div>
       </div>
       <div class="g5">
@@ -250,7 +249,7 @@
               <el-radio-button :label="item.goodPhone"></el-radio-button>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="颜色" prop="productColor">
+          <el-form-item label="货源号" prop="productColor">
             <el-input v-model="notice.productColor"></el-input>
           </el-form-item>
           <el-form-item label="数量" prop="productNum">
@@ -308,8 +307,6 @@ export default {
     const _this = this;
     this.$axios.get('http://localhost:8888/address/finds/' + this.ids).then(function (resp) {
       _this.addressList = resp.data.data.records;
-
-      console.log(resp);
     });
     let orderDetailId = this.$route.query.orderDetailId;
 
@@ -385,7 +382,6 @@ export default {
       axios
         .post('http://localhost:8888/img/add', this.product)
         .then(function (response) {
-          console.log(this.product);
         });
     },
     next () {
@@ -463,6 +459,13 @@ export default {
         .post('http://localhost:8888/master/add', this.notice)
         .then(function (response) {
           if (response.data) {
+            // eslint-disable-next-line no-undef
+            axios.put('http://localhost:8888/teamInfo/update/' + response.data.data.orderId);
+            // eslint-disable-next-line no-undef
+            axios.post('http://localhost:8888/OrderOrigin/add', {
+              orderId: response.data.data.orderId,
+              content: '创建订单'
+            });
             _this.$alert('请等待商家发货！', '购买商品', {
               confirmButtonText: '确定',
               callback: (action) => {

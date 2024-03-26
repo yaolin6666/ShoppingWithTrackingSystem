@@ -43,6 +43,11 @@ public class UserInfoController {
         accountSerivce.updateById(account);
         return Result.success();
     }
+    @GetMapping("/findAll")
+    public List<Account> findAll(){
+        List<Account> accountList=accountSerivce.list();
+        return accountList;
+    }
     @DeleteMapping("/{customerId}")
     public Result<?> delete(@PathVariable Integer customerId){
         accountSerivce.removeById(customerId);

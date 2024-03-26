@@ -19,15 +19,15 @@
 
 ~~完成 修改商品数据库 绑定商家~~ 
 
-fabric应用层编写
+~~fabric应用层编写~~
 
-confrimController
+~~confrimController~~
 
-DeliverInfoController
+~~DeliverInfoController~~
 
-ArgInfoController
+~~ArgInfoController~~
 
-order相关controller
+~~order相关controller~~
 
 ### 商家审核机制 Done
 
@@ -41,7 +41,7 @@ order相关controller
 
 ~~数据库~~
 
-### 团购功能 WIP
+### 团购功能 Done
 
 ~~购物流程优化~~
 
@@ -51,7 +51,7 @@ order相关controller
 
 ~~后端管理~~
 
-前端处理
+~~前端处理~~
 
 ## 代码Dao Done
 
@@ -63,11 +63,11 @@ order相关controller
 
 ~~team template~~
 
-### 订单 WIP
+### 订单 Done
 
-订单详情
+~~订单详情~~
 
-创建订单 选择货源
+~~创建订单 选择货源号~~
 
 ---
 
@@ -102,4 +102,4 @@ f380bf5b2247   redis                                                            
 # 不足之处
 信息录入使用手动方式录入 应结合物联网设备进行上传或者其他形式进行
 
-用户操作便捷度不够
+用户操作便捷度不够 购物车与整个系统功能并不是很融洽

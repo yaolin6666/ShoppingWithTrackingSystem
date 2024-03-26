@@ -2,6 +2,10 @@
 <template>
 
   <div class="userindex">
+    <div align="center" style="font-size: 20px" v-if="this.user.length<1">
+      暂无此分类下订单
+    </div>
+    <div v-if="this.user.length>0">
     <el-backtop  :bottom="10" :right="0">
   <div
      class="uyu"
@@ -9,10 +13,7 @@
       返回顶部
     </div>
  </el-backtop>
-    <!-- <div class="ff"><input v-model="search" placeholder="请输入内容" /></div> -->
-    <!-- 搜索条件 -->
     <el-row :gutter="20" class="userindex-queryInfo">
-      <!-- 商品名称搜索 -->
       <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4">
         <el-input
           class="userindex-queryInfo-li"
@@ -37,7 +38,7 @@
 <div class="bb">
   <div class="ff">
 <span style="margin-left: 162px;">宝贝</span>
-<span style="margin-left: 163px;">颜色</span>
+<span style="margin-left: 163px;">货源号</span>
 <span style="margin-left: 106px;">单价</span>
 <span style="margin-left: 131px;">数量</span>
 <span style="margin-left: 116px;">实付款</span>
@@ -64,13 +65,14 @@
 <div style="float:left;margin-left: 35px;word-wrap:break-word;word-break: break-all; width:60px"><span>{{user.productColor}}</span></div>
 <div style="float:left;margin-left: 70px;word-wrap:break-word;word-break: break-all; width:85px;color:red;"><span >￥{{user.productPrice}}</span></div>
 <div style="float:right;margin-right: 18px;word-wrap:break-word;word-break: break-all; width:85px"><span >{{user.productNum}}</span></div></td>
-<td class="kk2"><p style="margin-left: 26px;font-weight:bold;color: red;">￥{{user.productPrice}}</p>
+<td class="kk2"><p style="margin-left: 26px;font-weight:bold;color: red;">￥{{user.productPrice*user.productNum*(100-user.discount)/100}}</p>
 <p style="margin-left: 20px;margin-top: 5px;">({{user.paymentMethod}})</p>
 </td>
 <td class="kk2"><p style="margin-left: 26px;">付款成功</p>
-<p style="margin-left: 26px;margin-top: 5px;">订单详情</p>
+  <el-button  @click="getDetail(user.orderId)">订单详情</el-button>
 </td>
-<td class="kk2"><p style="margin-left: 25px;margin-top: 27px;">等待评价</p></td>
+<td class="kk2"><p style="margin-left: 25px;margin-top: 27px;">等待评价</p>
+</td>
 </tr>
 </div>
 </div>
@@ -82,12 +84,6 @@
 
 <el-dialog title="商品评价" :visible.sync="dialogFormVisible">
   <el-form :model="admins" ref="fruitRules" :rules="rules">
-    <!-- <el-form-item label="评价名称" :label-width="formLabelWidth" prop="customerName">
-      <el-select v-model="admins.customerName" placeholder="请选择名称" >
-        <el-option :label="adminss.username" :value="adminss.username">用户名 ：{{adminss.username}}</el-option>
-        <el-option :label="adminss.customerName" :value="adminss.customerName">用户昵称 ：{{adminss.customerName}}</el-option>
-      </el-select>
-    </el-form-item> -->
       <el-form-item
       label="商品图片"
       prop="commentPic"
@@ -136,6 +132,7 @@
     </el-row>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -145,6 +142,9 @@ export default {
   name: 'Assess',
 
   methods: {
+    getDetail (orderId) {
+      window.open('/orderDetail/' + orderId);
+    },
     ju () {
       const _this = this;
 
@@ -152,8 +152,6 @@ export default {
         .get('http://localhost:8888/account/find/' + this.id)
         .then(function (resp) {
           _this.admind = resp.data;
-
-          console.log(resp);
         });
     },
 
@@ -164,12 +162,10 @@ export default {
       axios
         .post('http://localhost:8888/img/add', this.product)
         .then(function (response) {
-          console.log(this.product);
         });
     },
 
     filesUplodeSeccess (res) {
-      console.log(res);
       this.admins.commentPic = res.data;
     },
 
@@ -182,7 +178,6 @@ export default {
           search: this.search
         }
       }).then(res => {
-        console.log(res);
         this.user = res.data.data.records;
         this.total = res.data.data.total;
       });
@@ -205,8 +200,6 @@ export default {
         .get('http://localhost:8888/assess/find/' + assessId)
         .then(function (resp) {
           _this.admins = resp.data;
-
-          console.log(resp);
         });
     },
     // 修改
@@ -224,6 +217,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let _this = this;
+          // eslint-disable-next-line no-undef
           axios
             .post('http://localhost:8888/comment/add', this.admins)
             .then(function (response) {
@@ -257,26 +251,6 @@ export default {
 
         .catch(() => {});
     },
-
-    // page(currentPage){
-    //         const _this=this;
-    //         axios.get('http://localhost:8888/userinfo/findAll/'+(currentPage-1)+'/3').then(function (resp) {
-    //             _this.tableData=resp.data.content;
-    //             _this.pageSize=resp.data.size;
-    //             _this.total=resp.data.totalElements;
-    //         })
-    //     }
-    // page(currentPage) {
-    //   switch (currentPage) {
-    //     case 1:
-    //       this.tableData = [
-    //         {
-    //           id: goodId,
-    //           name: good_name,
-    //         },
-    //       ];
-    //   }
-    // },
     handleSizeChange (pageSize) { // 改变每页的个数触发
       this.pageSize = pageSize;
       this.lode();
@@ -302,20 +276,9 @@ export default {
       .get('http://localhost:8888/account/find/' + this.id)
       .then(function (resp) {
         _this.adminss = resp.data;
-
-        console.log(resp);
       });
     this.ju();
     this.lode();
-    // const _this = this;
-    // axios.get("http://localhost:8888/master/findAll").then(function (resp) {
-    //   _this.user = resp.data;
-    //   console.log(resp);
-    //   //   alert(resp);
-    //   _this.tableData = resp.data.content;
-    //   _this.pageSize = resp.data.size;
-    //   _this.total = resp.data.totalElements;
-    // });
   },
   data () {
     return {
@@ -330,20 +293,12 @@ export default {
       ],
 
       dialogTableVisible: false,
-      dialogFormVisible: false,
       dialogTableVisibles: false,
       dialogFormVisibles: false,
       adminss: {},
       currentPage: 1,
       pageSize: 7,
       total: 0,
-      search: '',
-      // queryInfo: {
-      //   // name: "",
-      //   // type: "",
-      //   // page: 1,
-      //   // pageSize: 10,
-      // },
       options: [
         {
           label: 1,
@@ -358,22 +313,10 @@ export default {
       user: [],
       dialogFormVisible: false,
       form: {
-        // name: "",
-        // region: "",
-        // date1: "",
-        // date2: "",
-        // delivery: false,
-        // type: [],
-        // resource: "",
-        // desc: "",
       },
       formLabelWidth: '120px'
     };
   },
-  // mounted(){
-  //   this.admins.avatar=this.avatar
-  //   console.log(this.admins.avatar)
-  // },
   store
 };
 </script>

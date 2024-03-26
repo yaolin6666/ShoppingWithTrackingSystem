@@ -38,7 +38,6 @@ export default {
 
   },
   created () {
-    console.log(this.$route.query.sps);
     this.admins = this.sps;
 
     this.lodess();
@@ -60,7 +59,6 @@ export default {
       axios
         .get('http://localhost:8888/productCategory/list', {})
         .then((res) => {
-          console.log(res);
           this.list = res.data.data;
         });
     },
@@ -70,7 +68,6 @@ export default {
       axios
         .get('http://localhost:8888/productCategory/list', {})
         .then((res) => {
-          console.log(res);
           this.lists = res.data.data.children[0];
         });
     }

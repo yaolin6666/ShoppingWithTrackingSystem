@@ -25,11 +25,13 @@
           </el-table-column>
           <el-table-column prop="productName" label="商品名称" width="200">
           </el-table-column>
-          <el-table-column prop="productColor" label="商品颜色" width="75">
+          <el-table-column prop="productColor" label="货源号" width="75">
           </el-table-column>
           <el-table-column prop="productPrice" label="商品价格" width="90">
           </el-table-column>
           <el-table-column prop="productNum" label="商品数量" width="75">
+          </el-table-column>
+          <el-table-column prop="discount" label="订单折扣(%)" width="75">
           </el-table-column>
           <el-table-column prop="paymentMethod" label="付款方式" width="90">
           </el-table-column>
@@ -75,7 +77,7 @@
         <el-form-item label="电话号码" style="width: 550px;">
           <el-input v-model="form.productPhones" :disabled="true"/>
         </el-form-item>
-        <el-form-item label="颜色">
+        <el-form-item label="货源号">
           <el-input v-model="form.productColor" :disabled="true" style="width: 100px;"/>
         </el-form-item>
         <el-form-item label="数量">
@@ -83,6 +85,9 @@
         </el-form-item>
         <el-form-item label="价格">
           <el-input v-model="form.productPrice" :disabled="true" style="width: 100px;"/>
+        </el-form-item>
+        <el-form-item label="订单折扣(%)">
+          <el-input v-model="form.discount" :disabled="true" style="width: 100px;"/>
         </el-form-item>
         <el-form-item label="付款方式">
           <el-input v-model="form.paymentMethod" :disabled="true"/>

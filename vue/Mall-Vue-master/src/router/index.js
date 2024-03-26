@@ -14,6 +14,7 @@ const SignUpDone = resolve => require(['@/components/signUp/SignUpDone'], resolv
 const GoodsList = resolve => require(['@/components/GoodsList'], resolve);
 const GoodssList = resolve => require(['@/components/GoodssList'], resolve);
 const GoodsDetail = resolve => require(['@/components/GoodsDetail'], resolve);
+const originInfo = resolve => require(['@/components/originInfo'], resolve);
 const ShoppingCart = resolve => require(['@/components/ShoppingCart'], resolve);
 const Order = resolve => require(['@/components/Order'], resolve);
 const Pay = resolve => require(['@/components/Pay'], resolve);
@@ -36,6 +37,11 @@ Vue.use(Router);
 
 export default new Router({
   routes: [
+    {
+      path: '/share', // 订单页面
+      name: 'share',
+      component: () => import('@/component/sharelist.vue')
+    },
     {
       path: '/hh',
 
@@ -78,6 +84,7 @@ export default new Router({
           component: () => import('@/component/orderDismiss.vue'),
           name: 'orderDismiss'
         },
+
         {
           path: '/orderUndone',
 
@@ -119,24 +126,34 @@ export default new Router({
     },
 
     {
-      path: '/notice',
-
-      component: () => import('@/component/Notice.vue'),
-      name: 'notice'
-    },
-
-    {
       path: '/show',
 
       component: () => import('@/component/ShowBlogs.vue'),
       name: 'show'
     },
+    {
+      path: '/orderDetail/:id',
 
+      component: () => import('@/component/orderDetail.vue'),
+      name: 'orderDetail'
+    },
     {
       path: '/blog/:id',
       component: () => import('@/component/SingBlogs.vue')
     },
 
+    {
+      path: '/origin',
+
+      component: () => import('@/component/origin.vue'),
+      name: 'origin'
+    },
+    {
+      path: '/notice',
+
+      component: () => import('@/component/Notice.vue'),
+      name: 'notice'
+    },
     {
       path: '/Index', // 首页
       name: 'Index',
@@ -156,28 +173,6 @@ export default new Router({
       path: '/SignUp', // 注册
       name: 'SignUp',
       component: SignUp
-      // children: [
-      //   {
-      //     path: '/',
-      //     name: 'index',
-      //     component: CheckPhone
-      //   },
-      //   {
-      //     path: 'checkPhone',
-      //     name: 'CheckPhone',
-      //     component: CheckPhone
-      //   },
-      //   {
-      //     path: 'inputInfo',
-      //     name: 'InputInfo',
-      //     component: InputInfo
-      //   },
-      //   {
-      //     path: 'signUpDone',
-      //     name: 'SignUpDone',
-      //     component: SignUpDone
-      //   }
-      // ]
     },
     {
       path: '/goodsList/:id/:ids', // 商品列表
@@ -193,6 +188,11 @@ export default new Router({
       path: '/goodsDetail/:id', // 商品详情
       name: 'GoodsDetail',
       component: GoodsDetail
+    },
+    {
+      path: '/originInfo/:id', // 商品详情
+      name: 'originInfo',
+      component: originInfo
     },
     {
       path: '/shoppingCart', // 商品详情

@@ -71,8 +71,6 @@ export default {
       }
       // 指向
       this.codeList = codeList
-      // 将当前数据派发出去
-      // console.log(codeList.map(item => item.code).join(''))
       this.$emit('input', codeList.map(item => item.code).join(''))
     },
     getStyle (data) {

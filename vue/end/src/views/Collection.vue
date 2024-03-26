@@ -29,9 +29,10 @@
         </template>
           </el-table-column>
           <el-table-column prop="productName" label="商品名称" width="200"/>
-          <el-table-column prop="productColor" label="商品颜色" width="75"/>
+          <el-table-column prop="productColor" label="商品货源号" width="75"/>
           <el-table-column prop="productPrice" label="商品价格" width="80"/>
           <el-table-column prop="productNum" label="商品数量" width="75"/>
+          <el-table-column prop="discount" label="订单折扣(%)" width="75"></el-table-column>
           <el-table-column prop="paymentMethod" label="付款方式" width="90"/>
            <el-table-column prop="shippingUser" label="收货人" width="90"/>
           <el-table-column prop="address" label="收货人地址" width="90"/>
@@ -43,7 +44,6 @@
         </el-table>
       </el-col>
     </el-row>
-
     <!-- 分页 -->
     <el-row :gutter="20" class="userindex-list">
       <el-col :span="20" class="userindex-page-box">
@@ -53,8 +53,6 @@
       </el-pagination>
       </el-col>
     </el-row>
-
-
   </div>
 </template>
 

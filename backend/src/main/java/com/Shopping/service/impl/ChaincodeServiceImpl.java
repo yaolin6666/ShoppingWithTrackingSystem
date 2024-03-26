@@ -39,19 +39,19 @@ public class ChaincodeServiceImpl implements ChaincodeService {
 
     @Override
     public ArginfoOriginVo convertOriginToArg(OriginInfo originInfo) {
-        ArginfoOriginVo arginfoOriginVo = JSON.parseObject(originInfo.getOriginInfo(), ArginfoOriginVo.class);
+        ArginfoOriginVo arginfoOriginVo = JSON.parseObject(JSON.parseObject(originInfo.getOriginInfo()).get("originInfo").toString(), ArginfoOriginVo.class);
         return arginfoOriginVo;
     }
 
     @Override
     public DeliverinfoOriginVo convertOriginToDel(OriginInfo originInfo) {
-        DeliverinfoOriginVo deliverinfoOriginVo = JSON.parseObject(originInfo.getOriginInfo(), DeliverinfoOriginVo.class);
+        DeliverinfoOriginVo deliverinfoOriginVo = JSON.parseObject(JSON.parseObject(originInfo.getOriginInfo()).get("originInfo").toString(), DeliverinfoOriginVo.class);
         return deliverinfoOriginVo;
     }
 
     @Override
     public OrderOriginVo convertOriginToOrd(OriginInfo originInfo) {
-        OrderOriginVo orderOriginVo = JSON.parseObject(originInfo.getOriginInfo(), OrderOriginVo.class);
+        OrderOriginVo orderOriginVo = JSON.parseObject(JSON.parseObject(originInfo.getOriginInfo()).get("originInfo").toString(), OrderOriginVo.class);
         return orderOriginVo;
     }
 
@@ -59,7 +59,7 @@ public class ChaincodeServiceImpl implements ChaincodeService {
     public List<ArginfoOriginVo> convertOriginToArgList(List<OriginInfo> originInfos) {
         List<ArginfoOriginVo> arginfoOriginVoList=new ArrayList<>();
         for(int i=0;i<originInfos.size();i++){
-            ArginfoOriginVo arginfoOriginVo = JSON.parseObject(originInfos.get(i).getOriginInfo(), ArginfoOriginVo.class);
+            ArginfoOriginVo arginfoOriginVo = JSON.parseObject(JSON.parseObject(originInfos.get(i).getOriginInfo()).get("originInfo").toString(), ArginfoOriginVo.class);
             arginfoOriginVoList.add(arginfoOriginVo);
         }
         return arginfoOriginVoList;
@@ -69,7 +69,7 @@ public class ChaincodeServiceImpl implements ChaincodeService {
     public List<DeliverinfoOriginVo> convertOriginToDelList(List<OriginInfo> originInfos) {
         List<DeliverinfoOriginVo> deliverinfoOriginVoList=new ArrayList<>();
         for(int i=0;i<originInfos.size();i++){
-            DeliverinfoOriginVo deliverinfoOriginVo = JSON.parseObject(originInfos.get(i).getOriginInfo(), DeliverinfoOriginVo.class);
+            DeliverinfoOriginVo deliverinfoOriginVo = JSON.parseObject(JSON.parseObject(originInfos.get(i).getOriginInfo()).get("originInfo").toString(), DeliverinfoOriginVo.class);
             deliverinfoOriginVoList.add(deliverinfoOriginVo);
         }
         return deliverinfoOriginVoList;
@@ -79,7 +79,7 @@ public class ChaincodeServiceImpl implements ChaincodeService {
     public List<OrderOriginVo> convertOriginToOrdList(List<OriginInfo> originInfos) {
         List<OrderOriginVo> originVoList=new ArrayList<>();
         for(int i=0;i<originInfos.size();i++){
-            OrderOriginVo orderOriginVo = JSON.parseObject(originInfos.get(i).getOriginInfo(), OrderOriginVo.class);
+            OrderOriginVo orderOriginVo = JSON.parseObject(JSON.parseObject(originInfos.get(i).getOriginInfo()).get("originInfo").toString(), OrderOriginVo.class);
             originVoList.add(orderOriginVo);
         }
         return originVoList;

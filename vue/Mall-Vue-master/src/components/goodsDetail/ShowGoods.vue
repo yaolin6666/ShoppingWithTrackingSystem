@@ -42,17 +42,60 @@
         </div>
         <div class="item-select">
           <div class="item-select-title">
-            <p>选择颜色</p>
+            <p>选择货源号</p>
           </div>
           <div class="item-select-column">
-            <el-radio-group v-model="admin.productColor" size="medium">
-              <el-radio-button v-show="admin.productCs" :label="admin.productCs" style="border: 1px solid silver;"></el-radio-button>
-              <el-radio-button v-show="admin.productCd" style="margin-left:30px;border: 1px solid silver;" :label="admin.productCd"></el-radio-button>
-              <el-radio-button v-show="admin.productCf" style="margin-left:31px;border: 1px solid silver;" :label="admin.productCf"></el-radio-button>
-              <el-radio-button v-show="admin.productCg" style="margin-left:30px;border: 1px solid silver;" :label="admin.productCg"></el-radio-button>
+            <div v-if="argList.length==0">暂时无货</div>
+            <el-radio-group v-if="argList.length!=0&&argList.length<3" v-model="admin.productColor" size="medium">
+              <el-radio-button style="margin-left:30px;border: 1px solid silver;"
+                v-for="item in argList"
+                :key="item.arginfoId"
+                :label="item.arginfoId"
+                :value="item.arginfoId">
+              </el-radio-button>
             </el-radio-group>
+              <el-select v-if="argList.length>=3" v-model="admin.productColor" filterable placeholder="请选择货源">
+                <el-option
+                  v-for="item in argList"
+                  :key="item.arginfoId"
+                  :label="item.arginfoId"
+                  :value="item.arginfoId">
+                </el-option>
+              </el-select>
           </div>
         </div>
+        <br>
+        <br>
+        <div class="item-select-title">
+          <p>选择购买方式</p>
+          <el-form>
+          <el-select v-model="selectedOption1">
+            <el-option
+              v-for="item in optionsStatus"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-select v-if="this.selectedOption1==2" v-model="selectedOption2" style="width: 300px">
+            <el-option
+              v-for="item in optionsTeam"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-select v-if="this.selectedOption1==3" v-model="selectedOption2" style="width: 300px">
+            <el-option
+              v-for="item in optionsTemplate"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          </el-form>
+        </div>
+        <br>
         <p style="margin-top: 21px;"><span style="color: rgb(155, 154, 154);">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</span>
           <sapn style="margin-left:27px">
             <el-input-number v-model="admin.productNum" @change="handleChange" :min="1" :max="admin.productMnum"></el-input-number>
@@ -61,7 +104,10 @@
         <br/>
         <div class="add-buy-car-box">
           <div class="add-buy-car">
+            <Button type="error" size="large" @click="onBuy('fruitRules')">购买</Button>
+            <span style="margin-left: 30px;">
             <Button type="error" size="large" @click="onSubmit('fruitRules')">加入购物车</Button>
+            </span>
             <span style="margin-left: 30px;">
             <Button type="error" size="large" @click="onSubmits('fruitRules')">收藏</Button>
             </span>
@@ -78,7 +124,7 @@
             <el-form-item label="商品总数量" prop="productMnum">
               <el-input v-model="admin.productMnum">{{admin.productMnum}}</el-input>
             </el-form-item>
-            <el-form-item label="颜色">
+            <el-form-item label="货源号">
               <el-radio-group v-model="admin.productColor" size="medium">
                 <el-radio border :label="admin.productCs"></el-radio>
                 <el-radio border :label="admin.productCd"></el-radio>
@@ -113,15 +159,22 @@
 
 import store from '@/store/index';
 import {mapState} from 'vuex';
+import request from '@/utils/request';
 
 export default {
   name: 'ShowGoods',
   data () {
     return {
       inject: ['reload'],
+      argList: {},
+      teamList: {},
+      templateList: {},
       total: 0,
       blogs: [],
+      detailId: '',
       admin: [],
+      selectedOption1: '',
+      selectedOption2: '',
       price: 0,
       admins: [],
       count: 1,
@@ -129,8 +182,24 @@ export default {
       imgIndex: 0,
       search: '',
       id: this.$route.params.id,
-      ids: this.$store.state.userInfo.id
-
+      ids: this.$store.state.userInfo.id,
+      selectTeam: {},
+      selectTemplate: {},
+      optionsTeam: [],
+      optionsTemplate: [],
+      optionsStatus: [{
+        value: 1,
+        label: '单独购买'
+      },
+      {
+        value: 2,
+        label: '参加团购'
+      },
+      {
+        value: 3,
+        label: '创建新团购'
+      }
+      ]
     };
   },
   computed: {
@@ -148,17 +217,117 @@ export default {
       axios
         .get('http://localhost:8888/comment/find/' + this.id, {})
         .then((res) => {
-          console.log(res);
           this.admins = res.data.data.records;
           this.total = res.data.data.total;
+          // eslint-disable-next-line no-undef
+          axios.get('http://localhost:8888/argInfo/findAll', {
+            params: {productId: this.id}
+          }).then((res) => {
+            this.argList = res.data;
+            // eslint-disable-next-line no-undef
+            axios
+              .get('http://localhost:8888/teamInfo/findAll', {
+                params: {
+                  productId: this.id
+                }
+              })
+              .then((res) => {
+                this.teamList = res.data;
+                // eslint-disable-next-line no-undef
+                axios
+                  .get('http://localhost:8888/template/findAllUser', {
+                    params: {
+                      productId: this.id
+                    }
+                  })
+                  .then((res) => {
+                    this.templateList = res.data;
+                    this.createOptions();
+                  });
+              });
+          });
         });
     },
 
+    createOptions () {
+      for (var i = 0; i < this.templateList.length; i++) {
+        // eslint-disable-next-line camelcase
+        var option_2 = {};
+        option_2.label = '拼单团 需求人数:' + this.templateList[i].teamNeed + ' 折扣率:' + this.templateList[i].discount;
+        option_2.value = this.templateList[i].templateId;
+        this.optionsTemplate.push(option_2);
+      }
+      for (i = 0; i < this.teamList.length; i++) {
+        // eslint-disable-next-line camelcase
+        var option_3 = {};
+        option_3.label = '拼单团 人数:' + this.teamList[i].teamNow + '/' + this.teamList[i].teamNeed + ' 折扣率:' + this.teamList[i].discount;
+        option_3.value = this.teamList[i].teamId;
+        this.optionsTeam.push(option_3);
+      }
+      console.info(this.optionsTemplate[i].label);
+      console.info(this.optionsTeam);
+    },
     handleChange (value) {
-      console.log(value);
     },
 
+    onBuy (fromName) {
+      this.admin.customerId = this.ids;
+      // eslint-disable-next-line eqeqeq
+      if (this.selectedOption1 == 1) {
+        request.post('/shopping/addData',
+          this.admin
+        ).then(res => {
+          this.$router.push({ path: '/order', query: { orderDetailId: res } });
+        });
+      }
+      // eslint-disable-next-line eqeqeq
+      if (this.selectedOption1 == 2) {
+        for (let i = 0; i < this.teamList.length; i++) {
+          // eslint-disable-next-line eqeqeq
+          if (this.selectedOption2 == this.teamList[i].teamId) {
+            this.admin.discount = this.teamList[i].discount;
+          }
+        }
+        request.put('/teamInfo/attend', {
+          teamId: this.selectedOption2,
+          userId: this.ids
+        }).then(res => {
+          this.admin.teamId = this.selectedOption2;
+          request.post('/shopping/addData',
+            this.admin
+          ).then(res => {
+            this.$router.push({ path: '/order', query: { orderDetailId: res } });
+          });
+        });
+        // 参加团购
+      }
+      // eslint-disable-next-line eqeqeq
+      if (this.selectedOption1 == 3) {
+        for (let i = 0; i < this.templateList.length; i++) {
+          // eslint-disable-next-line eqeqeq
+          if (this.selectedOption2 == this.templateList[i].teamId) {
+            this.admin.discount = this.templateList[i].discount;
+          }
+        }
+        request.post('/teamInfo/add',
+          {
+            templateId: this.selectedOption2,
+            userId: this.ids,
+            productId: this.id
+          }
+        ).then(res => {
+          this.admin.teamId = res.data.teamId;
+          request.post('/shopping/addData',
+            this.admin
+          ).then(res => {
+            this.$router.push({ path: '/order', query: { orderDetailId: res } });
+          });
+        });
+        // 创建团购
+      }
+    },
     onSubmit (formName) {
+      console.info(this.selectedOption);
       this.admin.customerId = this.ids;
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -233,21 +402,16 @@ export default {
     }, 300);
   },
   created () {
-    console.log(this.ids);
     this.lode();
     const _this = this;
     this.$axios
       .get('http://jsonplaceholder.typicode.com/posts')
       .then(function (resp) {
         _this.blogs = resp.data.slice(0, 10);
-
-        console.log(resp);
       });
 
     this.$axios.get('http://localhost:8888/product/find/' + this.id).then(function (resp) {
       _this.admin = resp.data;
-
-      console.log(resp);
     });
   },
 

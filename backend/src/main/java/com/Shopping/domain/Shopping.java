@@ -33,6 +33,7 @@ public class Shopping implements Serializable {
 
     private Integer productPrice;
 
+    @TableField(value = "product_origin")
     private String productColor;
 
     private String productErm;
@@ -56,6 +57,8 @@ public class Shopping implements Serializable {
     private Integer paymentMoney;
 
     private String shippingCompName;
+    private Integer discount;
+    private Integer teamId;
 
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;

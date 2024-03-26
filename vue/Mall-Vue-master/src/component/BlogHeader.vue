@@ -68,18 +68,14 @@ export default {
     lode () {
       // eslint-disable-next-line no-undef
       axios.get('http://localhost:8888/master/finds/' + this.id, {}).then(res => {
-        console.log(res);
-
         this.total = res.data.data.total;
       });
       // eslint-disable-next-line no-undef
       axios.get('http://localhost:8888/master/findDismiss/' + this.id, {}).then(res => {
-        console.log(res);
         this.totalsssss = res.data.data.total;
       });
       // eslint-disable-next-line no-undef
       axios.get('http://localhost:8888/master/findUndone/' + this.id, {}).then(res => {
-        console.log(res);
         this.totalssssss = res.data.data.total;
       });
     },
@@ -87,8 +83,6 @@ export default {
     lodess () {
       // eslint-disable-next-line no-undef
       axios.get('http://localhost:8888/confirm/finds/' + this.id, {}).then(res => {
-        console.log(res);
-
         this.totals = res.data.data.total;
       });
     },
@@ -96,16 +90,12 @@ export default {
     lodes () {
       // eslint-disable-next-line no-undef
       axios.get('http://localhost:8888/receipt/finds/' + this.id, {}).then(res => {
-        console.log(res);
-
         this.totalss = res.data.data.total;
       });
     },
     lodesss () {
       // eslint-disable-next-line no-undef
       axios.get('http://localhost:8888/assess/finds/' + this.id, {}).then(res => {
-        console.log(res);
-
         this.totalsss = res.data.data.total;
       });
     },
@@ -113,8 +103,6 @@ export default {
     lodessss () {
       // eslint-disable-next-line no-undef
       axios.get('http://localhost:8888/refund/finds/' + this.id, {}).then(res => {
-        console.log(res);
-
         this.totalssss = res.data.data.total;
       });
     },

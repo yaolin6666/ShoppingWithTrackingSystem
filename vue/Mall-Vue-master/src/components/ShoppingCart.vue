@@ -16,7 +16,7 @@
             </div>
             <div class="add-product-intro">
               <p>{{newShoppingCart.title}} {{newShoppingCart.package.intro}}...</p>
-              <p class="add-product-intro-detail">颜色：{{newShoppingCart.package.intro}}/ 数量：{{newShoppingCart.count}}</p>
+              <p class="add-product-intro-detail">货源号：{{newShoppingCart.package.intro}}/ 数量：{{newShoppingCart.count}}</p>
             </div>
           </div>
         </div>

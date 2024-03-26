@@ -54,7 +54,7 @@ public class RefundController {
     @PostMapping("/add")
     public Result<?> insert(@RequestBody Refund refund) {
         refundMapper.insert(refund);
-        return Result.success();
+        return Result.success(refund);
     }
 
     @PostMapping("/deleteBatch")

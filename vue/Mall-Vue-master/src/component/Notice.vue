@@ -42,7 +42,9 @@
       </el-table-column>
        <el-table-column prop="productName" label="商品名称" width="200" >
           </el-table-column>
-          <el-table-column prop="productColor" label="颜色" width="150" >
+          <el-table-column label="" width="150" >
+          </el-table-column>
+          <el-table-column prop="productColor" label="货源号" width="100" >
           </el-table-column>
           <el-table-column prop="productPrice" label="价格" width="150" >
           </el-table-column>
@@ -113,7 +115,6 @@ export default {
 
   created () {
     this.lode();
-    console.log(this.idss);
   },
 
   methods: {
@@ -124,7 +125,6 @@ export default {
       axios
         .post('http://localhost:8888/img/add', this.product)
         .then(function (response) {
-          console.log(this.product);
         });
     },
 
