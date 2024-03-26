@@ -79,6 +79,7 @@ export default new Router({
           component: () => import('@/component/orderDismiss.vue'),
           name: 'orderDismiss'
         },
+
         {
           path: '/orderUndone',
 
@@ -125,7 +126,12 @@ export default new Router({
       component: () => import('@/component/ShowBlogs.vue'),
       name: 'show'
     },
+    {
+      path: '/orderDetail/:id',
 
+      component: () => import('@/component/orderDetail.vue'),
+      name: 'orderDetail'
+    },
     {
       path: '/blog/:id',
       component: () => import('@/component/SingBlogs.vue')

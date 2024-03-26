@@ -7,9 +7,16 @@ import com.Shopping.domain.DeliverinfoOrigin;
 import com.Shopping.domain.Master;
 import com.Shopping.mapper.DeliverinfoOriginMapper;
 import com.Shopping.mapper.MasterMapper;
+import com.Shopping.service.ChaincodeService;
+import com.Shopping.vo.DeliverinfoOriginVo;
+import com.Shopping.vo.OriginInfo;
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.AllArgsConstructor;
+import org.hyperledger.fabric.client.Contract;
+import org.hyperledger.fabric.client.Gateway;
 import org.joda.time.LocalDateTime;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +26,17 @@ import java.util.stream.Collectors;
 
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/confirm")
 public class ConfirmController {
+    final Gateway gateway;
+    final Contract contract;
     @Resource
     private MasterMapper masterMapper;
     @Resource
     DeliverinfoOriginMapper deliverinfoOriginMapper;
+    @Resource
+    ChaincodeService chaincodeService;
 
     @GetMapping("/findAll")
     public List<Master> findAll() {
@@ -32,6 +44,7 @@ public class ConfirmController {
         masters = masters.stream().filter(e -> (e.getStatus() >= 200 && e.getStatus() < 300)).collect(Collectors.toList());
         return masters;
     }
+
 
     @GetMapping("/finds/{customerId}")
     public Result<?> findCustomerId(@RequestParam(defaultValue = "1") Integer pageNum,
@@ -61,19 +74,26 @@ public class ConfirmController {
         return Result.success();
     }
 
+    private void createOriginInfo(OriginInfo originInfo) throws Exception{
+        contract.submitTransaction("createOriginInfo", originInfo.getOriginInfoId(), JSON.toJSONString(originInfo));
+    }
     @PostMapping("/add")
-    public Result insert(@RequestBody Master master) {
+    public Result insert(@RequestBody Master master) throws Exception {
         master.setStatus(200);
         master.setShippingTime(LocalDateTime.now().toDate());
         DeliverinfoOrigin deliverinfoOrigin=new DeliverinfoOrigin();
         deliverinfoOrigin.setDeliverInfoOriginId(new SnowflakeGenerator().next().toString());
         deliverinfoOrigin.setShippingSn(master.getShippingSn());
         deliverinfoOriginMapper.insert(deliverinfoOrigin);
-        /**
-         * 区块链
-         * */
         masterMapper.updateById(master);
-        return Result.success();
+        DeliverinfoOriginVo deliverinfoOriginVo=new DeliverinfoOriginVo();
+        deliverinfoOriginVo.setId(deliverinfoOrigin.getDeliverInfoOriginId());
+        String content=master.getOrderId().toString()+"发货 物流编号"+master.getShippingSn()+"使用快递名称"+master.getShippingCompName();
+        deliverinfoOriginVo.setDeliverInfo(content);
+        deliverinfoOriginVo.setCreateTime(java.time.LocalDateTime.now());
+        deliverinfoOriginVo.setUpdateTime(java.time.LocalDateTime.now());
+        this.createOriginInfo(chaincodeService.convertDeliverInfo(deliverinfoOriginVo));
+        return Result.success(deliverinfoOrigin);
     }
 
     @PostMapping("/deleteBatch")

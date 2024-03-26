@@ -59,10 +59,13 @@
 <p style="margin-left: 20px;margin-top: 5px;">({{user.paymentMethod}})</p>
 </td>
 <td class="kk2"><p style="margin-left: 26px;">付款成功</p>
-<p style="margin-left: 26px;margin-top: 5px;">订单详情</p>
+<p style="margin-left: 26px;margin-top: 5px;">
+</p>
+
 </td>
 <td class="kk2">
 <p style="margin-left: 12px;margin-top: 9px;">等待卖家发货</p>
+  <el-button  @click="getDetail(user.orderId)">订单详情</el-button>
 <router-link v-bind:to="'/ordersss/'+user.orderId"><p style="margin-left: 21px;margin-top: 18px;color:red">退款/退货</p></router-link>
 </td>
 </tr>
@@ -95,6 +98,9 @@ import { mapState } from 'vuex';
 export default {
   name: 'orders',
   methods: {
+    getDetail (orderId) {
+      window.open('/orderDetail/' + orderId);
+    },
 
     onSubmits (admin) {
       admin.customerId = this.id;

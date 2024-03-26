@@ -19,13 +19,13 @@
 
 ~~完成 修改商品数据库 绑定商家~~ 
 
-fabric应用层编写
+~~fabric应用层编写~~
 
 confrimController
 
 DeliverInfoController
 
-ArgInfoController
+~~ArgInfoController~~
 
 order相关controller
 
@@ -51,7 +51,7 @@ order相关controller
 
 ~~后端管理~~
 
-前端处理
+~~前端处理~~
 
 ## 代码Dao Done
 
@@ -67,7 +67,7 @@ order相关controller
 
 订单详情
 
-创建订单 选择货源号
+~~创建订单 选择货源号~~
 
 ---
 

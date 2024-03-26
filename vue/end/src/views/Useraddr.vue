@@ -31,6 +31,8 @@
           </el-table-column>
           <el-table-column prop="productNum" label="商品数量" width="75">
           </el-table-column>
+          <el-table-column prop="discount" label="订单折扣(%)" width="75">
+          </el-table-column>
           <el-table-column prop="paymentMethod" label="付款方式" width="90">
           </el-table-column>
           <el-table-column prop="shippingUser" label="收货人" width="90">
@@ -83,6 +85,9 @@
         </el-form-item>
         <el-form-item label="价格">
           <el-input v-model="form.productPrice" :disabled="true" style="width: 100px;"/>
+        </el-form-item>
+        <el-form-item label="订单折扣(%)">
+          <el-input v-model="form.discount" :disabled="true" style="width: 100px;"/>
         </el-form-item>
         <el-form-item label="付款方式">
           <el-input v-model="form.paymentMethod" :disabled="true"/>
