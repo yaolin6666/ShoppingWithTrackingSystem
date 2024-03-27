@@ -4,74 +4,12 @@
 
 一款带有溯源系统的农产品销售/团购网站
 
----
-# 开发计划
+# 不足之处
+信息录入使用手动方式录入 应结合物联网设备进行上传或者其他形式进行
 
-
----
-### 溯源系统修改 WIP
-
-~~fabric网络搭建 智能合约的建立~~
-
-~~货源数据库添加 状态管理 数量管理~~
-
-区块链浏览器
-
-~~完成 修改商品数据库 绑定商家~~ 
-
-~~fabric应用层编写~~
-
-~~confrimController~~
-
-~~DeliverInfoController~~
-
-~~ArgInfoController~~
-
-~~order相关controller~~
-
-### 商家审核机制 Done
-
-~~页面添加~~
-
-~~权限判定~~
-
-~~判定~~
-
-~~申请页面~~
-
-~~数据库~~
-
-### 团购功能 Done
-
-~~购物流程优化~~
-
-~~schedule进行自动清理订单~~
-
-~~数据库~~
-
-~~后端管理~~
-
-~~前端处理~~
-
-## 代码Dao Done
-
-~~arginfo arginfoorigin~~
-
-~~deliverinfoorigin~~~
-
-~~orderorigin~~
-
-~~team template~~
-
-### 订单 Done
-
-~~订单详情~~
-
-~~创建订单 选择货源号~~
+用户操作便捷度不够 购物车与整个系统功能并不是很融洽 没有建立区块链浏览器
 
 ---
-
-### ~~支付宝沙箱支付~~ Done
 
 ~~~
 支付宝沙箱账号
@@ -85,7 +23,7 @@
 支付密码: 111111
 ~~~
 
-### 服务器状态
+### docker部署情况
 ~~~
 CONTAINER ID   IMAGE                                                                                                                                                                                   COMMAND                   CREATED          STATUS          PORTS                                                                                                                             NAMES
 41c7f47ef920   dev-peer0.org2.example.com-fabrictrackingcontractv1-7ab1b9e70b4a1396fcbebd72ecc218df36cabac350217f8d5107045f8b2ca8c2-d98b45ed671f16eed7dae773b4935b73844d570dc00365be4f30923598303e56   "/__cacert_entrypoin…"   56 minutes ago   Up 56 minutes                                                                                                                                     dev-peer0.org2.example.com-fabricTrackingContractv1-7ab1b9e70b4a1396fcbebd72ecc218df36cabac350217f8d5107045f8b2ca8c2
@@ -98,8 +36,3 @@ c932cdda5e74   mysql                                                            
 a81bc76c5f28   postgres                                                                                                                                                                                "docker-entrypoint.s…"   4 weeks ago      Up 2 days       0.0.0.0:5432->5432/tcp, :::5432->5432/tcp                                                                                         condescending_noether
 f380bf5b2247   redis                                                                                                                                                                                   "docker-entrypoint.s…"   4 weeks ago      Up 2 days       0.0.0.0:6379->6379/tcp, :::6379->6379/tcp                                                                                         zen_chatterjee
 ~~~
-
-# 不足之处
-信息录入使用手动方式录入 应结合物联网设备进行上传或者其他形式进行
-
-用户操作便捷度不够 购物车与整个系统功能并不是很融洽
