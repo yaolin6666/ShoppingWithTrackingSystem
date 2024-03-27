@@ -16,11 +16,11 @@ import java.util.UUID;
 @Component
 public class TencentCOSUtil {
 
-    private static String secretId = "AKIDMsXYVNDLRdlpz8UmGnMGJF3mLnfR8iAW";
-    private static String secretKey = "HLFvOdeWowuiLrGWgdNvJWWacklfWIxj";
-    private static String rootSrc = "https://shopping-1254803835.cos.ap-shanghai.myqcloud.com/";
-    private static String bucketAddr = "ap-shanghai";
-    private static String bucketName = "shopping-1254803835";
+    private static String secretId = "W";
+    private static String secretKey = "";
+    private static String rootSrc = "";
+    private static String bucketAddr = "";
+    private static String bucketName = "s";
 
     private static COSClient getCosClient() {
         // 1 初始化用户身份信息（secretId, secretKey）。
