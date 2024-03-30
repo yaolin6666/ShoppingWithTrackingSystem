@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/img")
-public class HistoryController {
+public class ImgController {
 
     @Resource
     private HistoryMapper historyMapper;
