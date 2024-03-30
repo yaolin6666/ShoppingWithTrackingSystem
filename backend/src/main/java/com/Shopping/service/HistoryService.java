@@ -2,9 +2,9 @@ package com.Shopping.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import com.Shopping.domain.Img;
+import com.Shopping.domain.History;
 
 
-public interface ImgService extends IService<Img> {
+public interface HistoryService extends IService<History> {
 
 }
