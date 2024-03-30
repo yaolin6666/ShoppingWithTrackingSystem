@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Img implements Serializable {
+public class History implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @TableId(value = "img_id", type = IdType.AUTO)
