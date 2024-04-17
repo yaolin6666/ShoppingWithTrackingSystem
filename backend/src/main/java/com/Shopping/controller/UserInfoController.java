@@ -2,16 +2,13 @@ package com.Shopping.controller;
 
 
 import cn.hutool.core.util.StrUtil;
-
+import com.Shopping.common.lang.Result;
 import com.Shopping.domain.Account;
+import com.Shopping.mapper.AccountMapper;
+import com.Shopping.service.AccountSerivce;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
-
-import com.Shopping.common.lang.Result;
-import com.Shopping.mapper.AccountMapper;
-import com.Shopping.service.AccountSerivce;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +38,11 @@ public class UserInfoController {
     @PutMapping("/update")
     public Result<?> update(@Validated @RequestBody Account account){
         accountSerivce.updateById(account);
+        return Result.success();
+    }
+    @PutMapping("/{customerId}")
+    public Result<?> banUser(@PathVariable Integer customerId){
+        accountSerivce.update(null,Wrappers.<Account>lambdaUpdate().set(Account::getRole,2).eq(Account::getAccountId,customerId));
         return Result.success();
     }
     @GetMapping("/findAll")

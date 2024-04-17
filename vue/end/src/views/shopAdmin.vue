@@ -22,12 +22,12 @@
       <el-table-column prop="updateTime" label="修改时间"/>
       <el-table-column label="操作" align="center">
         <template #default="scope">
-          <el-popconfirm v-if="scope.row.role==3" title="确认封禁吗?" @confirm="handleEdit(scope.row.customerId)">
+          <el-popconfirm v-if="scope.row.role==3" title="确认封禁吗?" @confirm="handleEdit(scope.row.accountId)">
             <template #reference>
               <el-button type="danger"  circle>封禁账号</el-button>
             </template>
           </el-popconfirm>
-          <el-popconfirm v-if="scope.row.role==2" title="确认删除吗?" @confirm="handleDelete(scope.row.customerId)">
+          <el-popconfirm v-if="scope.row.role==2" title="确认删除吗?" @confirm="handleDelete(scope.row.accountId)">
             <template #reference>
               <el-button type="danger"  circle>删除账号</el-button>
             </template>
@@ -178,9 +178,22 @@ export default {
       }
 
     },
-    handleEdit(row) {
-      this.form = JSON.parse(JSON.stringify(row))
-      this.dialogVisible = true
+    handleEdit(customerId) {
+      request.put("/account/" + customerId).then(res => {
+        console.log(customerId);
+        if (res.code === 200) {
+          ElMessage({
+            type: 'success',
+            message: '删除成功',
+          })
+        } else {
+          ElMessage({
+            type: 'error',
+            message: res.msg
+          })
+        }
+        this.lode()
+      })
 
     },
     handleDelete(customerId) {
