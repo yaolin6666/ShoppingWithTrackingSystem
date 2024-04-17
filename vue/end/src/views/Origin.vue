@@ -164,7 +164,7 @@ export default {
         this.productList = res
         this.productList.forEach(item=>{
           this.productMap[item.productId]={
-            productImg:item.productImg,
+            productImg:item.productImage,
             productName:item.productName
           }
         })

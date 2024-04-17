@@ -36,29 +36,6 @@ public class ProductController {
         List<Product> products = productMapper.selectList(Wrappers.<Product>lambdaQuery().eq(Product::getCustomerId,accountId));
         return products;
     }
-    @GetMapping("/{cid}")
-    public Result<?> find(@RequestParam(defaultValue = "1") Integer pageNum,
-                          @RequestParam(defaultValue = "10") Integer pageSize,
-                          @PathVariable Integer cid){
-        Page<Product> page = productMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Product>lambdaQuery().eq(Product::getTwoCategoryId, cid).or().eq(Product::getOneCategoryId,cid));
-        return Result.success(page);
-    }
-    @GetMapping("/{cid}/{bid}")
-    public Result<?> findBrand(@RequestParam(defaultValue = "1") Integer pageNum,
-                          @RequestParam(defaultValue = "10") Integer pageSize,
-                          @PathVariable Integer cid,@PathVariable Integer bid){
-        Page<Product> page = productMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Product>lambdaQuery().eq(Product::getTwoCategoryId, cid).eq(Product::getBrandId,bid).or().eq(Product::getOneCategoryId,cid).eq(Product::getBrandId,bid));
-        return Result.success(page);
-    }
-
-    @GetMapping("/find/{oid}/{tid}")
-    public Result<?> findId(@RequestParam(defaultValue = "1") Integer pageNum,
-                          @RequestParam(defaultValue = "10") Integer pageSize,
-                          @PathVariable Integer oid,@PathVariable Integer tid){
-        Page<Product> page = productMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Product>lambdaQuery().eq(Product::getOneCategoryId, oid).eq(Product::getThreeCategoryId,tid));
-        return Result.success(page);
-    }
-
     @DeleteMapping("/delete/{id}")
     public Result<?> delete(@PathVariable("id") Integer id){
         productMapper.deleteById(id);

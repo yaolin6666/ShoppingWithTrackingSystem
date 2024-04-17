@@ -35,12 +35,6 @@ public class Product implements Serializable {
 
     private Integer customerId;
 
-    private Integer oneCategoryId;
-
-    private Integer twoCategoryId;
-
-    private Integer threeCategoryId;
-
     private  Integer productPrice;
 
     private String weight;
@@ -49,26 +43,11 @@ public class Product implements Serializable {
 
     private String productHome;
 
-    private Integer productMnum;
-
     private String productColor;
 
     private String productNum;
 
     private String productImage;
-//货源号
-    private String productCs;
-    private String productCd;
-    private String productCf;
-    private String productCg;
-//商品图片
-    private String productIm;
-    private String productImd;
-    private String productImf;
-    private String productImg;
-//生产日期
-    private Integer validityDate;
-    private Date productionDate;
 
     /**
      * 修改时间

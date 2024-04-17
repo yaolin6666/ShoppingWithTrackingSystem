@@ -2,7 +2,6 @@
   <div>
     <el-menu
         style="width:1057px;margin-left: 349px;"
-
         :default-active="activeIndex2"
         class="el-menu-demo"
         mode="horizontal"

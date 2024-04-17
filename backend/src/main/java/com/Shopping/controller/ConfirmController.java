@@ -99,7 +99,6 @@ public class ConfirmController {
         deliverinfoOriginVo.setCreateTime(java.time.LocalDateTime.now());
         deliverinfoOriginVo.setUpdateTime(java.time.LocalDateTime.now());
         this.createOriginInfo(chaincodeService.convertDeliverInfo(deliverinfoOriginVo));
-
         OrderOrigin orderOrigin=new OrderOrigin();
         orderOrigin.setOrderId(master.getOrderId());
         orderOrigin.setOrderOriginId(new SnowflakeGenerator().next().toString());
