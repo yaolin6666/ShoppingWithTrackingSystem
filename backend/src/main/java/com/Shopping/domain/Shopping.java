@@ -49,9 +49,6 @@ public class Shopping implements Serializable {
     private String shippingUser;
 
     private Integer orderMoney;
-
-    private Integer productMnum;
-
     private Integer shippingMoney;
 
     private Integer paymentMoney;

@@ -150,7 +150,7 @@
       <div class="fuu1">
         <span class="fuu2" style="font-size:14px;font-weight:bold;">实付款：</span>
         <span style="font-size:27px;font-weight:bold;color: darkgray;">￥</span>
-        <span style="word-wrap:break-word;word-break:break-all;width:400px;font-size:28px;font-weight:bold;color: red;">{{notice.productNum * notice.productPrice + notice.shippingMoney}}.00</span>
+        <span style="word-wrap:break-word;word-break:break-all;width:400px;font-size:28px;font-weight:bold;color: red;">{{notice.productNum * notice.productPrice*(100-notice.discount)/100 + notice.shippingMoney}}.00</span>
       </div>
       <div class="fm1" style="word-wrap:break-word;word-break:break-all;width:300px;">
 

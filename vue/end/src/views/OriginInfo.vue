@@ -1,5 +1,6 @@
 <template>
   <div class="userindex">
+    <el-button type="primary" @click="adds">新增</el-button>
     <el-dialog title="添加货源号详细" v-model="dialogVisible">
       <el-form
           ref="fruitRules"
@@ -8,7 +9,7 @@
         <el-form-item label="溯源信息">
           <el-input v-model="admins.originInfo"></el-input>
         </el-form-item>
-        <el-form-item label="溯源信息视频" prop="extraArgInfo">
+        <el-form-item label="额外溯源信息" prop="extraArgInfo">
           <el-upload class="upload-demo" action="http://localhost:8888/files/uplode" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :on-success="filesUplodeSuccess" list-type="video">
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">不超过1gb</div>
