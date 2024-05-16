@@ -60,6 +60,7 @@ peer lifecycle chaincode queryinstalled
 Package ID: fabricTrackingContractv1:7ab1b9e70b4a1396fcbebd72ecc218df36cabac350217f8d5107045f8b2ca8c2, Label: fabricTrackingContractv1
 
 
+
 export CC_PACKAGE_ID=fabricTrackingContractv1:7ab1b9e70b4a1396fcbebd72ecc218df36cabac350217f8d5107045f8b2ca8c2
 
 peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name fabricTrackingContract --version 1.0 --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile ${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem

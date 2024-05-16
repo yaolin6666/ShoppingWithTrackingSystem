@@ -83,12 +83,14 @@ public class ProductController {
         new Page<>(pageNum, pageSize);
         Page<Product> infoPage;
         if(customerId==0){
-            List<Integer> accountIds=accountMapper.selectList(Wrappers.<Account>lambdaQuery().eq(Account::getRole,3))
+            List<Integer> accountIds=accountMapper.selectList(Wrappers.<Account>lambdaQuery()
+                            .eq(Account::getRole,3))
                     .stream()
                     .map(e->e.getAccountId())
                     .collect(Collectors.toList());
             infoPage = productMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Product>lambdaQuery()
-                    .like(Product::getProductName, search).in(Product::getCustomerId,accountIds));
+                    .like(Product::getProductName, search)
+                    .in(Product::getCustomerId,accountIds));
         }else{
             infoPage = productMapper.selectPage(new Page<>(pageNum, pageSize), Wrappers.<Product>lambdaQuery()
                     .like(Product::getProductName, search)
